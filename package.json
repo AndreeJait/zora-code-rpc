@@ -1,0 +1,33 @@
+{
+  "name": "@zora-code/zora-code-rpc",
+  "version": "0.1.0",
+  "description": "Generated TypeScript gRPC stubs for the Zora Code platform",
+  "private": true,
+  "type": "module",
+  "main": "./generated/nodejs/index.js",
+  "module": "./generated/nodejs/index.js",
+  "types": "./generated/nodejs/index.d.ts",
+  "files": [
+    "generated/",
+    "proto/"
+  ],
+  "scripts": {
+    "generate:proto": "node scripts/generate-proto.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.10.2",
+    "@grpc/grpc-js": "^1.12.0",
+    "long": "^5.2.3",
+    "protobufjs": "^7.4.0"
+  },
+  "devDependencies": {
+    "grpc-tools": "^1.12.4",
+    "ts-proto": "^2.6.1",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

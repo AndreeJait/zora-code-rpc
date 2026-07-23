@@ -25,7 +25,7 @@ proto/
 ## Package Plan
 
 - **Go:** tag releases as `github.com/zora-code/zora-code-rpc@vX.Y.Z`; generated clients import `proto/`.
-- **Node.js:** publish generated types to `https://npm.pkg.github.com/@zora-code/zora-code-rpc`.
+- **Node.js:** generated TypeScript gRPC stubs are committed under `generated/` and consumed locally as `file:../zora-code-rpc` by `zora-code-core` and `zora-code-gql` during MVP B. Publishing to `https://npm.pkg.github.com/@zora-code/zora-code-rpc` is scheduled as a follow-up task.
 
 ## Generating Clients
 
@@ -50,7 +50,7 @@ protoc \
   proto/**/*.proto
 ```
 
-> Code generation is intentionally not committed to this repository in MVP B. Each service generates clients from these `.proto` files during its own build.
+> During MVP B, Node.js stubs are committed to this repository under `generated/` so sibling services can depend on the package locally. Each service may still generate Go clients from `proto/` during its own build.
 
 ## Versioning
 

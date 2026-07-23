@@ -1,5 +1,6 @@
-# Generated code (kept out of the source repo; generated per service)
-generated/
+# Generated code is committed in MVP B so local file dependency works.
+# Revisit when publishing to npm.pkg.github.com.
+# generated/
 
 # OS
 .DS_Store
