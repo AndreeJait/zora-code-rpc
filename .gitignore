@@ -1,0 +1,14 @@
+# Generated code (kept out of the source repo; generated per service)
+generated/
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log

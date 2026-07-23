@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package core.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/core/v1;corev1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Core.V1";
+
+import "common/v1/types.proto";
+
+// Project is a workspace that groups tasks, environment variables, and deployment configs.
+message Project {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string runtime_id = 4;
+  repeated common.v1.EnvVar env_vars = 5;
+  string prompt = 6;
+  string init_prompt = 7;
+  common.v1.Status status = 8;
+  string last_task_id = 9;
+  common.v1.Timestamps timestamps = 10;
+}
+
+message ListProjectsRequest {
+  common.v1.Pagination pagination = 1;
+  common.v1.Sort sort = 2;
+}
+
+message ListProjectsResponse {
+  repeated Project projects = 1;
+  common.v1.PageInfo page_info = 2;
+}
+
+message GetProjectRequest {
+  string id = 1;
+}
+
+message CreateProjectRequest {
+  string name = 1;
+  string description = 2;
+  string runtime_id = 3;
+  repeated common.v1.EnvVar env_vars = 4;
+  string prompt = 5;
+  string init_prompt = 6;
+}
+
+message UpdateProjectRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional string runtime_id = 4;
+  repeated common.v1.EnvVar env_vars = 5;
+  optional string prompt = 6;
+  optional string init_prompt = 7;
+}
+
+message DeleteProjectRequest {
+  string id = 1;
+}
+
+service ProjectService {
+  rpc ListProjects(ListProjectsRequest) returns (ListProjectsResponse);
+  rpc GetProject(GetProjectRequest) returns (Project);
+  rpc CreateProject(CreateProjectRequest) returns (Project);
+  rpc UpdateProject(UpdateProjectRequest) returns (Project);
+  rpc DeleteProject(DeleteProjectRequest) returns (common.v1.DeleteResponse);
+}

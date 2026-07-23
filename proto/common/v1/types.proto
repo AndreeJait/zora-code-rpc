@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package common.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/common/v1;commonv1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Common.V1";
+
+import "google/protobuf/timestamp.proto";
+
+// Reusable status enum used across task, deployment, and runtime build states.
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_PENDING = 1;
+  STATUS_QUEUED = 2;
+  STATUS_RUNNING = 3;
+  STATUS_COMPLETED = 4;
+  STATUS_FAILED = 5;
+  STATUS_CANCELLED = 6;
+  STATUS_STOPPED = 7;
+  STATUS_BUILDING = 8;
+  STATUS_ERROR = 9;
+}
+
+// A key/value environment variable. Masked values are encrypted by the owning service.
+message EnvVar {
+  string key = 1;
+  string value = 2;
+  bool masked = 3;
+}
+
+// Pagination request fields.
+message Pagination {
+  int32 first = 1;       // page size
+  string after = 2;      // opaque cursor
+}
+
+// Pagination response fields.
+message PageInfo {
+  bool has_next_page = 1;
+  string end_cursor = 2;
+  int32 total_count = 3;
+}
+
+// Sort direction.
+enum SortDirection {
+  SORT_DIRECTION_UNSPECIFIED = 0;
+  SORT_DIRECTION_ASC = 1;
+  SORT_DIRECTION_DESC = 2;
+}
+
+message Sort {
+  string field = 1;
+  SortDirection direction = 2;
+}
+
+// Empty body helper.
+message Empty {}
+
+// Standard delete response.
+message DeleteResponse {
+  bool success = 1;
+}
+
+// Health status for a downstream service.
+message HealthStatus {
+  string service = 1;
+  bool healthy = 2;
+  int32 latency_ms = 3;
+  string error = 4;
+}
+
+// Standard timestamp wrapper used in entities.
+message Timestamps {
+  google.protobuf.Timestamp created_at = 1;
+  google.protobuf.Timestamp updated_at = 2;
+}

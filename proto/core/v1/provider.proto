@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package core.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/core/v1;corev1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Core.V1";
+
+import "common/v1/types.proto";
+
+// Provider connects Zora Code to an AI model host.
+message Provider {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string url = 4;
+  string api_key = 5;            // encrypted at rest
+  repeated string allowed_models = 6;
+  bool is_healthy = 7;
+  common.v1.Timestamps timestamps = 8;
+}
+
+message ListProvidersRequest {}
+
+message ListProvidersResponse {
+  repeated Provider providers = 1;
+}
+
+message GetProviderRequest {
+  string id = 1;
+}
+
+message CreateProviderRequest {
+  string name = 1;
+  string description = 2;
+  string url = 3;
+  string api_key = 4;
+  repeated string allowed_models = 5;
+}
+
+message UpdateProviderRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional string url = 4;
+  optional string api_key = 5;
+  repeated string allowed_models = 6;
+}
+
+message DeleteProviderRequest {
+  string id = 1;
+}
+
+service ProviderService {
+  rpc ListProviders(ListProvidersRequest) returns (ListProvidersResponse);
+  rpc GetProvider(GetProviderRequest) returns (Provider);
+  rpc CreateProvider(CreateProviderRequest) returns (Provider);
+  rpc UpdateProvider(UpdateProviderRequest) returns (Provider);
+  rpc DeleteProvider(DeleteProviderRequest) returns (common.v1.DeleteResponse);
+}

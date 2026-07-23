@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package core.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/core/v1;corev1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Core.V1";
+
+import "common/v1/types.proto";
+
+// Global key/value configuration.
+message SystemConfig {
+  string id = 1;
+  string key = 2;
+  string value = 3;
+  string category = 4;
+  string description = 5;
+  common.v1.Timestamps timestamps = 6;
+}
+
+// Encrypted integration secret.
+message Secret {
+  string id = 1;
+  SecretProvider provider = 2;
+  optional string username = 3;
+  optional string token = 4;        // encrypted at rest
+  optional string app_id = 5;
+  common.v1.Timestamps timestamps = 6;
+}
+
+enum SecretProvider {
+  SECRET_PROVIDER_UNSPECIFIED = 0;
+  SECRET_PROVIDER_GITHUB = 1;
+  SECRET_PROVIDER_CLOUDFLARE = 2;
+}
+
+message ListConfigsRequest {}
+
+message ListConfigsResponse {
+  repeated SystemConfig configs = 1;
+}
+
+message UpdateConfigRequest {
+  string id = 1;
+  string value = 2;
+}
+
+message ListSecretsRequest {}
+
+message ListSecretsResponse {
+  repeated Secret secrets = 1;
+}
+
+message GetSecretRequest {
+  SecretProvider provider = 1;
+}
+
+message UpdateSecretRequest {
+  SecretProvider provider = 1;
+  optional string username = 2;
+  optional string token = 3;
+  optional string app_id = 4;
+}
+
+service SystemConfigService {
+  rpc ListConfigs(ListConfigsRequest) returns (ListConfigsResponse);
+  rpc UpdateConfig(UpdateConfigRequest) returns (SystemConfig);
+
+  rpc ListSecrets(ListSecretsRequest) returns (ListSecretsResponse);
+  rpc GetSecret(GetSecretRequest) returns (Secret);
+  rpc UpdateSecret(UpdateSecretRequest) returns (Secret);
+}

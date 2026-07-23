@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package core.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/core/v1;corev1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Core.V1";
+
+import "common/v1/types.proto";
+
+// Deployment exposes a project container to the internet.
+message Deployment {
+  string id = 1;
+  string project_id = 2;
+  string tunnel_id = 3;
+  string subdomain = 4;
+  string dns = 5;
+  int32 port = 6;
+  string container_id = 7;
+  common.v1.Status status = 8;
+  bool create_new_container_if_not_exists = 9;
+  common.v1.Timestamps timestamps = 10;
+}
+
+message ListDeploymentsRequest {
+  string project_id = 1;
+}
+
+message ListDeploymentsResponse {
+  repeated Deployment deployments = 1;
+}
+
+message GetDeploymentRequest {
+  string id = 1;
+}
+
+message CreateDeploymentRequest {
+  string project_id = 1;
+  string tunnel_id = 2;
+  string subdomain = 3;
+  int32 port = 4;
+  bool create_new_container_if_not_exists = 5;
+}
+
+message UpdateDeploymentRequest {
+  string id = 1;
+  optional string tunnel_id = 2;
+  optional string subdomain = 3;
+  optional int32 port = 4;
+  optional bool create_new_container_if_not_exists = 5;
+}
+
+message DeleteDeploymentRequest {
+  string id = 1;
+}
+
+message RedeployRequest {
+  string id = 1;
+}
+
+message StopDeploymentRequest {
+  string id = 1;
+}
+
+service DeploymentService {
+  rpc ListDeployments(ListDeploymentsRequest) returns (ListDeploymentsResponse);
+  rpc GetDeployment(GetDeploymentRequest) returns (Deployment);
+  rpc CreateDeployment(CreateDeploymentRequest) returns (Deployment);
+  rpc UpdateDeployment(UpdateDeploymentRequest) returns (Deployment);
+  rpc DeleteDeployment(DeleteDeploymentRequest) returns (common.v1.DeleteResponse);
+  rpc Redeploy(RedeployRequest) returns (Deployment);
+  rpc StopDeployment(StopDeploymentRequest) returns (Deployment);
+}

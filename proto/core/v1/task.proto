@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package core.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/core/v1;corev1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Core.V1";
+
+import "common/v1/types.proto";
+import "google/protobuf/timestamp.proto";
+
+// Task is a prompt executed within a project.
+message Task {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string project_id = 4;
+  string prompt = 5;
+  string model = 6;
+  string linked_task_id = 7;
+  common.v1.Status status = 8;
+  string output = 9;
+  google.protobuf.Timestamp started_at = 10;
+  google.protobuf.Timestamp completed_at = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
+}
+
+message ListTasksRequest {
+  string project_id = 1;
+  common.v1.Pagination pagination = 2;
+}
+
+message ListTasksResponse {
+  repeated Task tasks = 1;
+  common.v1.PageInfo page_info = 2;
+}
+
+message GetTaskRequest {
+  string id = 1;
+}
+
+message CreateTaskRequest {
+  string name = 1;
+  string description = 2;
+  string project_id = 3;
+  string prompt = 4;
+  string model = 5;
+  string linked_task_id = 6;
+}
+
+message UpdateTaskRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional string prompt = 4;
+  optional string model = 5;
+}
+
+message DeleteTaskRequest {
+  string id = 1;
+}
+
+message CloneTaskRequest {
+  string id = 1;
+}
+
+service TaskService {
+  rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
+  rpc GetTask(GetTaskRequest) returns (Task);
+  rpc CreateTask(CreateTaskRequest) returns (Task);
+  rpc UpdateTask(UpdateTaskRequest) returns (Task);
+  rpc DeleteTask(DeleteTaskRequest) returns (common.v1.DeleteResponse);
+  rpc CloneTask(CloneTaskRequest) returns (Task);
+}

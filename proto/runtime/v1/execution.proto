@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+package runtime.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/runtime/v1;runtimev1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Runtime.V1";
+
+import "common/v1/types.proto";
+
+// Log line produced by a running task or runtime build.
+message LogLine {
+  string timestamp = 1;          // RFC3339
+  LogStream stream = 2;
+  LogLevel level = 3;
+  string message = 4;
+}
+
+enum LogStream {
+  LOG_STREAM_UNSPECIFIED = 0;
+  LOG_STREAM_STDOUT = 1;
+  LOG_STREAM_STDERR = 2;
+  LOG_STREAM_SYSTEM = 3;
+}
+
+enum LogLevel {
+  LOG_LEVEL_UNSPECIFIED = 0;
+  LOG_LEVEL_DEBUG = 1;
+  LOG_LEVEL_INFO = 2;
+  LOG_LEVEL_WARN = 3;
+  LOG_LEVEL_ERROR = 4;
+}
+
+// Task execution commands.
+message StartTaskRequest {
+  string task_id = 1;
+  string project_id = 2;
+  string runtime_id = 3;
+}
+
+message StartTaskResponse {
+  string task_id = 1;
+  common.v1.Status status = 2;
+}
+
+message CancelTaskRequest {
+  string task_id = 1;
+}
+
+message CancelTaskResponse {
+  string task_id = 1;
+  common.v1.Status status = 2;
+}
+
+message StreamTaskLogsRequest {
+  string task_id = 1;
+}
+
+message WatchStatusRequest {
+  string task_id = 1;
+}
+
+message StatusEvent {
+  string task_id = 1;
+  common.v1.Status status = 2;
+}
+
+// Runtime build/install commands.
+message BuildRuntimeRequest {
+  string runtime_id = 1;
+}
+
+message BuildRuntimeResponse {
+  string runtime_id = 1;
+  common.v1.Status status = 2;
+  string log_stream_id = 3;
+}
+
+message StreamRuntimeLogsRequest {
+  string runtime_id = 1;
+}
+
+// Project init commands.
+message RunInitPromptRequest {
+  string project_id = 1;
+}
+
+message RunInitPromptResponse {
+  string project_id = 1;
+  string task_id = 2;
+  common.v1.Status status = 3;
+}
+
+// Interactive terminal.
+message AttachTerminalRequest {
+  string resource_id = 1;        // task or runtime id
+  string resource_type = 2;        // "task" | "runtime"
+}
+
+message TerminalInput {
+  string resource_id = 1;
+  string resource_type = 2;
+  bytes data = 3;
+}
+
+message TerminalOutput {
+  string resource_id = 1;
+  string resource_type = 2;
+  bytes data = 3;
+}
+
+message ResizeTerminalRequest {
+  string resource_id = 1;
+  string resource_type = 2;
+  int32 cols = 3;
+  int32 rows = 4;
+}
+
+service ExecutionService {
+  // Task execution
+  rpc StartTask(StartTaskRequest) returns (StartTaskResponse);
+  rpc CancelTask(CancelTaskRequest) returns (CancelTaskResponse);
+  rpc StreamTaskLogs(StreamTaskLogsRequest) returns (stream LogLine);
+  rpc WatchStatus(WatchStatusRequest) returns (stream StatusEvent);
+
+  // Runtime build/install
+  rpc BuildRuntime(BuildRuntimeRequest) returns (BuildRuntimeResponse);
+  rpc StreamRuntimeLogs(StreamRuntimeLogsRequest) returns (stream LogLine);
+
+  // Project init
+  rpc RunInitPrompt(RunInitPromptRequest) returns (RunInitPromptResponse);
+
+  // Interactive terminal (bidirectional stream)
+  rpc AttachTerminal(stream TerminalInput) returns (stream TerminalOutput);
+  rpc ResizeTerminal(ResizeTerminalRequest) returns (common.v1.Empty);
+}

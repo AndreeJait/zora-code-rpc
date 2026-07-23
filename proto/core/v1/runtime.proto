@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package core.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/core/v1;corev1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Core.V1";
+
+import "common/v1/types.proto";
+
+// Runtime defines an execution environment for the claude-code agent.
+message Runtime {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string provider_id = 4;
+  repeated string allowed_models = 5;
+  string default_model = 6;
+  string container_image = 7;
+  string install_command = 8;
+  repeated common.v1.EnvVar env_vars = 9;
+  string agent = 10;               // "claude-code" in MVP B
+  common.v1.Timestamps timestamps = 11;
+}
+
+message ListRuntimesRequest {}
+
+message ListRuntimesResponse {
+  repeated Runtime runtimes = 1;
+}
+
+message GetRuntimeRequest {
+  string id = 1;
+}
+
+message CreateRuntimeRequest {
+  string name = 1;
+  string description = 2;
+  string provider_id = 3;
+  repeated string allowed_models = 4;
+  string default_model = 5;
+  string container_image = 6;
+  string install_command = 7;
+  repeated common.v1.EnvVar env_vars = 8;
+}
+
+message UpdateRuntimeRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional string provider_id = 4;
+  repeated string allowed_models = 5;
+  optional string default_model = 6;
+  optional string container_image = 7;
+  optional string install_command = 8;
+  repeated common.v1.EnvVar env_vars = 9;
+}
+
+message DeleteRuntimeRequest {
+  string id = 1;
+}
+
+service RuntimeService {
+  rpc ListRuntimes(ListRuntimesRequest) returns (ListRuntimesResponse);
+  rpc GetRuntime(GetRuntimeRequest) returns (Runtime);
+  rpc CreateRuntime(CreateRuntimeRequest) returns (Runtime);
+  rpc UpdateRuntime(UpdateRuntimeRequest) returns (Runtime);
+  rpc DeleteRuntime(DeleteRuntimeRequest) returns (common.v1.DeleteResponse);
+}

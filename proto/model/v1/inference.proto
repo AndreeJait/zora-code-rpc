@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package model.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/model/v1;modelv1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Model.V1";
+
+import "common/v1/types.proto";
+
+// Request to list models available on a provider.
+message ListModelsRequest {
+  string provider_id = 1;
+}
+
+message ListModelsResponse {
+  repeated string models = 1;
+}
+
+// Health check for a provider endpoint.
+message HealthCheckRequest {
+  string provider_id = 1;
+}
+
+message HealthCheckResponse {
+  string provider_id = 1;
+  bool healthy = 2;
+  int32 latency_ms = 3;
+  string error = 4;
+}
+
+service InferenceService {
+  rpc ListModels(ListModelsRequest) returns (ListModelsResponse);
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+}
