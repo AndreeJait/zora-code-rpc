@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package core.v1;
+
+option go_package = "github.com/zora-code/zora-code-rpc/proto/core/v1;corev1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Core.V1";
+
+import "common/v1/types.proto";
+
+// UserRole defines authorization level in the dashboard.
+enum UserRole {
+  USER_ROLE_UNSPECIFIED = 0;
+  USER_ROLE_ADMIN = 1;
+  USER_ROLE_VIEWER = 2;
+}
+
+// User is the authenticated identity returned by AuthService.
+message User {
+  string id = 1;
+  string username = 2;
+  UserRole role = 3;
+  common.v1.Timestamps timestamps = 4;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+  User user = 2;
+}
+
+message LogoutRequest {
+  string token = 1;
+}
+
+message LogoutResponse {}
+
+message VerifyTokenRequest {
+  string token = 1;
+}
+
+message VerifyTokenResponse {
+  bool valid = 1;
+  User user = 2;
+}
+
+message MeRequest {}
+
+message MeResponse {
+  User user = 1;
+}
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+  rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
+  rpc Me(MeRequest) returns (MeResponse);
+}
