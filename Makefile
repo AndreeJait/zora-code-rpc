@@ -2,7 +2,6 @@
 
 PROTO_FILES := \
 	proto/common/v1/types.proto \
-	proto/core/v1/provider.proto \
 	proto/core/v1/runtime.proto \
 	proto/core/v1/project.proto \
 	proto/core/v1/task.proto \
@@ -10,6 +9,7 @@ PROTO_FILES := \
 	proto/core/v1/system_config.proto \
 	proto/core/v1/auth.proto \
 	proto/runtime/v1/execution.proto \
+	proto/model/v1/provider.proto \
 	proto/model/v1/inference.proto
 
 # Generate Go protobuf stubs under generated/go/.

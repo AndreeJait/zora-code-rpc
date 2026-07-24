@@ -7,7 +7,6 @@
 package modelv1
 
 import (
-	_ "github.com/zora-code/zora-code-rpc/generated/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -228,7 +227,7 @@ var File_model_v1_inference_proto protoreflect.FileDescriptor
 
 const file_model_v1_inference_proto_rawDesc = "" +
 	"\n" +
-	"\x18model/v1/inference.proto\x12\bmodel.v1\x1a\x15common/v1/types.proto\"4\n" +
+	"\x18model/v1/inference.proto\x12\bmodel.v1\"4\n" +
 	"\x11ListModelsRequest\x12\x1f\n" +
 	"\vprovider_id\x18\x01 \x01(\tR\n" +
 	"providerId\",\n" +

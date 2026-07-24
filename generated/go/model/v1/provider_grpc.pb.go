@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v7.35.1
-// source: core/v1/provider.proto
+// source: model/v1/provider.proto
 
-package corev1
+package modelv1
 
 import (
 	context "context"
@@ -20,11 +20,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ProviderService_ListProviders_FullMethodName  = "/core.v1.ProviderService/ListProviders"
-	ProviderService_GetProvider_FullMethodName    = "/core.v1.ProviderService/GetProvider"
-	ProviderService_CreateProvider_FullMethodName = "/core.v1.ProviderService/CreateProvider"
-	ProviderService_UpdateProvider_FullMethodName = "/core.v1.ProviderService/UpdateProvider"
-	ProviderService_DeleteProvider_FullMethodName = "/core.v1.ProviderService/DeleteProvider"
+	ProviderService_ListProviders_FullMethodName  = "/model.v1.ProviderService/ListProviders"
+	ProviderService_GetProvider_FullMethodName    = "/model.v1.ProviderService/GetProvider"
+	ProviderService_CreateProvider_FullMethodName = "/model.v1.ProviderService/CreateProvider"
+	ProviderService_UpdateProvider_FullMethodName = "/model.v1.ProviderService/UpdateProvider"
+	ProviderService_DeleteProvider_FullMethodName = "/model.v1.ProviderService/DeleteProvider"
 )
 
 // ProviderServiceClient is the client API for ProviderService service.
@@ -245,7 +245,7 @@ func _ProviderService_DeleteProvider_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProviderService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "core.v1.ProviderService",
+	ServiceName: "model.v1.ProviderService",
 	HandlerType: (*ProviderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -270,5 +270,5 @@ var ProviderService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "core/v1/provider.proto",
+	Metadata: "model/v1/provider.proto",
 }

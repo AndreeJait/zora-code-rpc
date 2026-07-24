@@ -2,12 +2,12 @@
 // versions:
 //   protoc-gen-ts_proto  v2.12.0
 //   protoc               v3.19.1
-// source: core/v1/provider.proto
+// source: model/v1/provider.proto
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import { makeGenericClientConstructor, } from "@grpc/grpc-js";
 import { DeleteResponse, Timestamps } from "../../common/v1/types.js";
-export const protobufPackage = "core.v1";
+export const protobufPackage = "model.v1";
 function createBaseProvider() {
     return {
         id: "",
@@ -569,7 +569,7 @@ export const DeleteProviderRequest = {
 };
 export const ProviderServiceService = {
     listProviders: {
-        path: "/core.v1.ProviderService/ListProviders",
+        path: "/model.v1.ProviderService/ListProviders",
         requestStream: false,
         responseStream: false,
         requestSerialize: (value) => Buffer.from(ListProvidersRequest.encode(value).finish()),
@@ -578,7 +578,7 @@ export const ProviderServiceService = {
         responseDeserialize: (value) => ListProvidersResponse.decode(value),
     },
     getProvider: {
-        path: "/core.v1.ProviderService/GetProvider",
+        path: "/model.v1.ProviderService/GetProvider",
         requestStream: false,
         responseStream: false,
         requestSerialize: (value) => Buffer.from(GetProviderRequest.encode(value).finish()),
@@ -587,7 +587,7 @@ export const ProviderServiceService = {
         responseDeserialize: (value) => Provider.decode(value),
     },
     createProvider: {
-        path: "/core.v1.ProviderService/CreateProvider",
+        path: "/model.v1.ProviderService/CreateProvider",
         requestStream: false,
         responseStream: false,
         requestSerialize: (value) => Buffer.from(CreateProviderRequest.encode(value).finish()),
@@ -596,7 +596,7 @@ export const ProviderServiceService = {
         responseDeserialize: (value) => Provider.decode(value),
     },
     updateProvider: {
-        path: "/core.v1.ProviderService/UpdateProvider",
+        path: "/model.v1.ProviderService/UpdateProvider",
         requestStream: false,
         responseStream: false,
         requestSerialize: (value) => Buffer.from(UpdateProviderRequest.encode(value).finish()),
@@ -605,7 +605,7 @@ export const ProviderServiceService = {
         responseDeserialize: (value) => Provider.decode(value),
     },
     deleteProvider: {
-        path: "/core.v1.ProviderService/DeleteProvider",
+        path: "/model.v1.ProviderService/DeleteProvider",
         requestStream: false,
         responseStream: false,
         requestSerialize: (value) => Buffer.from(DeleteProviderRequest.encode(value).finish()),
@@ -614,7 +614,7 @@ export const ProviderServiceService = {
         responseDeserialize: (value) => DeleteResponse.decode(value),
     },
 };
-export const ProviderServiceClient = makeGenericClientConstructor(ProviderServiceService, "core.v1.ProviderService");
+export const ProviderServiceClient = makeGenericClientConstructor(ProviderServiceService, "model.v1.ProviderService");
 function isSet(value) {
     return value !== null && value !== undefined;
 }

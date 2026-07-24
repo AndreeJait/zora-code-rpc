@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v7.35.1
-// source: core/v1/provider.proto
+// source: model/v1/provider.proto
 
-package corev1
+package modelv1
 
 import (
 	v1 "github.com/zora-code/zora-code-rpc/generated/go/common/v1"
@@ -39,7 +39,7 @@ type Provider struct {
 
 func (x *Provider) Reset() {
 	*x = Provider{}
-	mi := &file_core_v1_provider_proto_msgTypes[0]
+	mi := &file_model_v1_provider_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -51,7 +51,7 @@ func (x *Provider) String() string {
 func (*Provider) ProtoMessage() {}
 
 func (x *Provider) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_provider_proto_msgTypes[0]
+	mi := &file_model_v1_provider_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -64,7 +64,7 @@ func (x *Provider) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Provider.ProtoReflect.Descriptor instead.
 func (*Provider) Descriptor() ([]byte, []int) {
-	return file_core_v1_provider_proto_rawDescGZIP(), []int{0}
+	return file_model_v1_provider_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Provider) GetId() string {
@@ -131,7 +131,7 @@ type ListProvidersRequest struct {
 
 func (x *ListProvidersRequest) Reset() {
 	*x = ListProvidersRequest{}
-	mi := &file_core_v1_provider_proto_msgTypes[1]
+	mi := &file_model_v1_provider_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -143,7 +143,7 @@ func (x *ListProvidersRequest) String() string {
 func (*ListProvidersRequest) ProtoMessage() {}
 
 func (x *ListProvidersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_provider_proto_msgTypes[1]
+	mi := &file_model_v1_provider_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -156,7 +156,7 @@ func (x *ListProvidersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProvidersRequest.ProtoReflect.Descriptor instead.
 func (*ListProvidersRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_provider_proto_rawDescGZIP(), []int{1}
+	return file_model_v1_provider_proto_rawDescGZIP(), []int{1}
 }
 
 type ListProvidersResponse struct {
@@ -168,7 +168,7 @@ type ListProvidersResponse struct {
 
 func (x *ListProvidersResponse) Reset() {
 	*x = ListProvidersResponse{}
-	mi := &file_core_v1_provider_proto_msgTypes[2]
+	mi := &file_model_v1_provider_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -180,7 +180,7 @@ func (x *ListProvidersResponse) String() string {
 func (*ListProvidersResponse) ProtoMessage() {}
 
 func (x *ListProvidersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_provider_proto_msgTypes[2]
+	mi := &file_model_v1_provider_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -193,7 +193,7 @@ func (x *ListProvidersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProvidersResponse.ProtoReflect.Descriptor instead.
 func (*ListProvidersResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_provider_proto_rawDescGZIP(), []int{2}
+	return file_model_v1_provider_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListProvidersResponse) GetProviders() []*Provider {
@@ -212,7 +212,7 @@ type GetProviderRequest struct {
 
 func (x *GetProviderRequest) Reset() {
 	*x = GetProviderRequest{}
-	mi := &file_core_v1_provider_proto_msgTypes[3]
+	mi := &file_model_v1_provider_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -224,7 +224,7 @@ func (x *GetProviderRequest) String() string {
 func (*GetProviderRequest) ProtoMessage() {}
 
 func (x *GetProviderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_provider_proto_msgTypes[3]
+	mi := &file_model_v1_provider_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -237,7 +237,7 @@ func (x *GetProviderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProviderRequest.ProtoReflect.Descriptor instead.
 func (*GetProviderRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_provider_proto_rawDescGZIP(), []int{3}
+	return file_model_v1_provider_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetProviderRequest) GetId() string {
@@ -260,7 +260,7 @@ type CreateProviderRequest struct {
 
 func (x *CreateProviderRequest) Reset() {
 	*x = CreateProviderRequest{}
-	mi := &file_core_v1_provider_proto_msgTypes[4]
+	mi := &file_model_v1_provider_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -272,7 +272,7 @@ func (x *CreateProviderRequest) String() string {
 func (*CreateProviderRequest) ProtoMessage() {}
 
 func (x *CreateProviderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_provider_proto_msgTypes[4]
+	mi := &file_model_v1_provider_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -285,7 +285,7 @@ func (x *CreateProviderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateProviderRequest.ProtoReflect.Descriptor instead.
 func (*CreateProviderRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_provider_proto_rawDescGZIP(), []int{4}
+	return file_model_v1_provider_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateProviderRequest) GetName() string {
@@ -337,7 +337,7 @@ type UpdateProviderRequest struct {
 
 func (x *UpdateProviderRequest) Reset() {
 	*x = UpdateProviderRequest{}
-	mi := &file_core_v1_provider_proto_msgTypes[5]
+	mi := &file_model_v1_provider_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -349,7 +349,7 @@ func (x *UpdateProviderRequest) String() string {
 func (*UpdateProviderRequest) ProtoMessage() {}
 
 func (x *UpdateProviderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_provider_proto_msgTypes[5]
+	mi := &file_model_v1_provider_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -362,7 +362,7 @@ func (x *UpdateProviderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProviderRequest.ProtoReflect.Descriptor instead.
 func (*UpdateProviderRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_provider_proto_rawDescGZIP(), []int{5}
+	return file_model_v1_provider_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UpdateProviderRequest) GetId() string {
@@ -416,7 +416,7 @@ type DeleteProviderRequest struct {
 
 func (x *DeleteProviderRequest) Reset() {
 	*x = DeleteProviderRequest{}
-	mi := &file_core_v1_provider_proto_msgTypes[6]
+	mi := &file_model_v1_provider_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -428,7 +428,7 @@ func (x *DeleteProviderRequest) String() string {
 func (*DeleteProviderRequest) ProtoMessage() {}
 
 func (x *DeleteProviderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_provider_proto_msgTypes[6]
+	mi := &file_model_v1_provider_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -441,7 +441,7 @@ func (x *DeleteProviderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteProviderRequest.ProtoReflect.Descriptor instead.
 func (*DeleteProviderRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_provider_proto_rawDescGZIP(), []int{6}
+	return file_model_v1_provider_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeleteProviderRequest) GetId() string {
@@ -451,11 +451,11 @@ func (x *DeleteProviderRequest) GetId() string {
 	return ""
 }
 
-var File_core_v1_provider_proto protoreflect.FileDescriptor
+var File_model_v1_provider_proto protoreflect.FileDescriptor
 
-const file_core_v1_provider_proto_rawDesc = "" +
+const file_model_v1_provider_proto_rawDesc = "" +
 	"\n" +
-	"\x16core/v1/provider.proto\x12\acore.v1\x1a\x15common/v1/types.proto\"\xf8\x01\n" +
+	"\x17model/v1/provider.proto\x12\bmodel.v1\x1a\x15common/v1/types.proto\"\xf8\x01\n" +
 	"\bProvider\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -468,9 +468,9 @@ const file_core_v1_provider_proto_rawDesc = "" +
 	"\n" +
 	"timestamps\x18\b \x01(\v2\x15.common.v1.TimestampsR\n" +
 	"timestamps\"\x16\n" +
-	"\x14ListProvidersRequest\"H\n" +
-	"\x15ListProvidersResponse\x12/\n" +
-	"\tproviders\x18\x01 \x03(\v2\x11.core.v1.ProviderR\tproviders\"$\n" +
+	"\x14ListProvidersRequest\"I\n" +
+	"\x15ListProvidersResponse\x120\n" +
+	"\tproviders\x18\x01 \x03(\v2\x12.model.v1.ProviderR\tproviders\"$\n" +
 	"\x12GetProviderRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\x9f\x01\n" +
 	"\x15CreateProviderRequest\x12\x12\n" +
@@ -492,51 +492,51 @@ const file_core_v1_provider_proto_rawDesc = "" +
 	"\n" +
 	"\b_api_key\"'\n" +
 	"\x15DeleteProviderRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id2\xf7\x02\n" +
-	"\x0fProviderService\x12N\n" +
-	"\rListProviders\x12\x1d.core.v1.ListProvidersRequest\x1a\x1e.core.v1.ListProvidersResponse\x12=\n" +
-	"\vGetProvider\x12\x1b.core.v1.GetProviderRequest\x1a\x11.core.v1.Provider\x12C\n" +
-	"\x0eCreateProvider\x12\x1e.core.v1.CreateProviderRequest\x1a\x11.core.v1.Provider\x12C\n" +
-	"\x0eUpdateProvider\x12\x1e.core.v1.UpdateProviderRequest\x1a\x11.core.v1.Provider\x12K\n" +
-	"\x0eDeleteProvider\x12\x1e.core.v1.DeleteProviderRequest\x1a\x19.common.v1.DeleteResponseBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\x02id\x18\x01 \x01(\tR\x02id2\x80\x03\n" +
+	"\x0fProviderService\x12P\n" +
+	"\rListProviders\x12\x1e.model.v1.ListProvidersRequest\x1a\x1f.model.v1.ListProvidersResponse\x12?\n" +
+	"\vGetProvider\x12\x1c.model.v1.GetProviderRequest\x1a\x12.model.v1.Provider\x12E\n" +
+	"\x0eCreateProvider\x12\x1f.model.v1.CreateProviderRequest\x1a\x12.model.v1.Provider\x12E\n" +
+	"\x0eUpdateProvider\x12\x1f.model.v1.UpdateProviderRequest\x1a\x12.model.v1.Provider\x12L\n" +
+	"\x0eDeleteProvider\x12\x1f.model.v1.DeleteProviderRequest\x1a\x19.common.v1.DeleteResponseB\\P\x01Z@github.com/zora-code/zora-code-rpc/generated/go/model/v1;modelv1\xaa\x02\x15ZoraCode.Rpc.Model.V1b\x06proto3"
 
 var (
-	file_core_v1_provider_proto_rawDescOnce sync.Once
-	file_core_v1_provider_proto_rawDescData []byte
+	file_model_v1_provider_proto_rawDescOnce sync.Once
+	file_model_v1_provider_proto_rawDescData []byte
 )
 
-func file_core_v1_provider_proto_rawDescGZIP() []byte {
-	file_core_v1_provider_proto_rawDescOnce.Do(func() {
-		file_core_v1_provider_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_core_v1_provider_proto_rawDesc), len(file_core_v1_provider_proto_rawDesc)))
+func file_model_v1_provider_proto_rawDescGZIP() []byte {
+	file_model_v1_provider_proto_rawDescOnce.Do(func() {
+		file_model_v1_provider_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_model_v1_provider_proto_rawDesc), len(file_model_v1_provider_proto_rawDesc)))
 	})
-	return file_core_v1_provider_proto_rawDescData
+	return file_model_v1_provider_proto_rawDescData
 }
 
-var file_core_v1_provider_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_core_v1_provider_proto_goTypes = []any{
-	(*Provider)(nil),              // 0: core.v1.Provider
-	(*ListProvidersRequest)(nil),  // 1: core.v1.ListProvidersRequest
-	(*ListProvidersResponse)(nil), // 2: core.v1.ListProvidersResponse
-	(*GetProviderRequest)(nil),    // 3: core.v1.GetProviderRequest
-	(*CreateProviderRequest)(nil), // 4: core.v1.CreateProviderRequest
-	(*UpdateProviderRequest)(nil), // 5: core.v1.UpdateProviderRequest
-	(*DeleteProviderRequest)(nil), // 6: core.v1.DeleteProviderRequest
+var file_model_v1_provider_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_model_v1_provider_proto_goTypes = []any{
+	(*Provider)(nil),              // 0: model.v1.Provider
+	(*ListProvidersRequest)(nil),  // 1: model.v1.ListProvidersRequest
+	(*ListProvidersResponse)(nil), // 2: model.v1.ListProvidersResponse
+	(*GetProviderRequest)(nil),    // 3: model.v1.GetProviderRequest
+	(*CreateProviderRequest)(nil), // 4: model.v1.CreateProviderRequest
+	(*UpdateProviderRequest)(nil), // 5: model.v1.UpdateProviderRequest
+	(*DeleteProviderRequest)(nil), // 6: model.v1.DeleteProviderRequest
 	(*v1.Timestamps)(nil),         // 7: common.v1.Timestamps
 	(*v1.DeleteResponse)(nil),     // 8: common.v1.DeleteResponse
 }
-var file_core_v1_provider_proto_depIdxs = []int32{
-	7, // 0: core.v1.Provider.timestamps:type_name -> common.v1.Timestamps
-	0, // 1: core.v1.ListProvidersResponse.providers:type_name -> core.v1.Provider
-	1, // 2: core.v1.ProviderService.ListProviders:input_type -> core.v1.ListProvidersRequest
-	3, // 3: core.v1.ProviderService.GetProvider:input_type -> core.v1.GetProviderRequest
-	4, // 4: core.v1.ProviderService.CreateProvider:input_type -> core.v1.CreateProviderRequest
-	5, // 5: core.v1.ProviderService.UpdateProvider:input_type -> core.v1.UpdateProviderRequest
-	6, // 6: core.v1.ProviderService.DeleteProvider:input_type -> core.v1.DeleteProviderRequest
-	2, // 7: core.v1.ProviderService.ListProviders:output_type -> core.v1.ListProvidersResponse
-	0, // 8: core.v1.ProviderService.GetProvider:output_type -> core.v1.Provider
-	0, // 9: core.v1.ProviderService.CreateProvider:output_type -> core.v1.Provider
-	0, // 10: core.v1.ProviderService.UpdateProvider:output_type -> core.v1.Provider
-	8, // 11: core.v1.ProviderService.DeleteProvider:output_type -> common.v1.DeleteResponse
+var file_model_v1_provider_proto_depIdxs = []int32{
+	7, // 0: model.v1.Provider.timestamps:type_name -> common.v1.Timestamps
+	0, // 1: model.v1.ListProvidersResponse.providers:type_name -> model.v1.Provider
+	1, // 2: model.v1.ProviderService.ListProviders:input_type -> model.v1.ListProvidersRequest
+	3, // 3: model.v1.ProviderService.GetProvider:input_type -> model.v1.GetProviderRequest
+	4, // 4: model.v1.ProviderService.CreateProvider:input_type -> model.v1.CreateProviderRequest
+	5, // 5: model.v1.ProviderService.UpdateProvider:input_type -> model.v1.UpdateProviderRequest
+	6, // 6: model.v1.ProviderService.DeleteProvider:input_type -> model.v1.DeleteProviderRequest
+	2, // 7: model.v1.ProviderService.ListProviders:output_type -> model.v1.ListProvidersResponse
+	0, // 8: model.v1.ProviderService.GetProvider:output_type -> model.v1.Provider
+	0, // 9: model.v1.ProviderService.CreateProvider:output_type -> model.v1.Provider
+	0, // 10: model.v1.ProviderService.UpdateProvider:output_type -> model.v1.Provider
+	8, // 11: model.v1.ProviderService.DeleteProvider:output_type -> common.v1.DeleteResponse
 	7, // [7:12] is the sub-list for method output_type
 	2, // [2:7] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -544,27 +544,27 @@ var file_core_v1_provider_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_core_v1_provider_proto_init() }
-func file_core_v1_provider_proto_init() {
-	if File_core_v1_provider_proto != nil {
+func init() { file_model_v1_provider_proto_init() }
+func file_model_v1_provider_proto_init() {
+	if File_model_v1_provider_proto != nil {
 		return
 	}
-	file_core_v1_provider_proto_msgTypes[5].OneofWrappers = []any{}
+	file_model_v1_provider_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_provider_proto_rawDesc), len(file_core_v1_provider_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_model_v1_provider_proto_rawDesc), len(file_model_v1_provider_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_core_v1_provider_proto_goTypes,
-		DependencyIndexes: file_core_v1_provider_proto_depIdxs,
-		MessageInfos:      file_core_v1_provider_proto_msgTypes,
+		GoTypes:           file_model_v1_provider_proto_goTypes,
+		DependencyIndexes: file_model_v1_provider_proto_depIdxs,
+		MessageInfos:      file_model_v1_provider_proto_msgTypes,
 	}.Build()
-	File_core_v1_provider_proto = out.File
-	file_core_v1_provider_proto_goTypes = nil
-	file_core_v1_provider_proto_depIdxs = nil
+	File_model_v1_provider_proto = out.File
+	file_model_v1_provider_proto_goTypes = nil
+	file_model_v1_provider_proto_depIdxs = nil
 }

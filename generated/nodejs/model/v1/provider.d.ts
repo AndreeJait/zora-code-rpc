@@ -1,7 +1,7 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import { type CallOptions, type ChannelCredentials, Client, type ClientOptions, type ClientUnaryCall, type handleUnaryCall, type Metadata, type ServiceError, type UntypedServiceImplementation } from "@grpc/grpc-js";
 import { DeleteResponse, Timestamps } from "../../common/v1/types.js";
-export declare const protobufPackage = "core.v1";
+export declare const protobufPackage = "model.v1";
 /** Provider connects Zora Code to an AI model host. */
 export interface Provider {
     id: string;
@@ -50,7 +50,7 @@ export declare const DeleteProviderRequest: MessageFns<DeleteProviderRequest>;
 export type ProviderServiceService = typeof ProviderServiceService;
 export declare const ProviderServiceService: {
     readonly listProviders: {
-        readonly path: "/core.v1.ProviderService/ListProviders";
+        readonly path: "/model.v1.ProviderService/ListProviders";
         readonly requestStream: false;
         readonly responseStream: false;
         readonly requestSerialize: (value: ListProvidersRequest) => Buffer;
@@ -59,7 +59,7 @@ export declare const ProviderServiceService: {
         readonly responseDeserialize: (value: Buffer) => ListProvidersResponse;
     };
     readonly getProvider: {
-        readonly path: "/core.v1.ProviderService/GetProvider";
+        readonly path: "/model.v1.ProviderService/GetProvider";
         readonly requestStream: false;
         readonly responseStream: false;
         readonly requestSerialize: (value: GetProviderRequest) => Buffer;
@@ -68,7 +68,7 @@ export declare const ProviderServiceService: {
         readonly responseDeserialize: (value: Buffer) => Provider;
     };
     readonly createProvider: {
-        readonly path: "/core.v1.ProviderService/CreateProvider";
+        readonly path: "/model.v1.ProviderService/CreateProvider";
         readonly requestStream: false;
         readonly responseStream: false;
         readonly requestSerialize: (value: CreateProviderRequest) => Buffer;
@@ -77,7 +77,7 @@ export declare const ProviderServiceService: {
         readonly responseDeserialize: (value: Buffer) => Provider;
     };
     readonly updateProvider: {
-        readonly path: "/core.v1.ProviderService/UpdateProvider";
+        readonly path: "/model.v1.ProviderService/UpdateProvider";
         readonly requestStream: false;
         readonly responseStream: false;
         readonly requestSerialize: (value: UpdateProviderRequest) => Buffer;
@@ -86,7 +86,7 @@ export declare const ProviderServiceService: {
         readonly responseDeserialize: (value: Buffer) => Provider;
     };
     readonly deleteProvider: {
-        readonly path: "/core.v1.ProviderService/DeleteProvider";
+        readonly path: "/model.v1.ProviderService/DeleteProvider";
         readonly requestStream: false;
         readonly responseStream: false;
         readonly requestSerialize: (value: DeleteProviderRequest) => Buffer;

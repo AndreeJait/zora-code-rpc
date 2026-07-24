@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package core.v1;
+package model.v1;
 
-option go_package = "github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1";
+option go_package = "github.com/zora-code/zora-code-rpc/generated/go/model/v1;modelv1";
 option java_multiple_files = true;
-option csharp_namespace = "ZoraCode.Rpc.Core.V1";
+option csharp_namespace = "ZoraCode.Rpc.Model.V1";
 
 import "common/v1/types.proto";
 

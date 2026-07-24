@@ -2,7 +2,7 @@
 // versions:
 //   protoc-gen-ts_proto  v2.12.0
 //   protoc               v3.19.1
-// source: core/v1/provider.proto
+// source: model/v1/provider.proto
 
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
@@ -20,7 +20,7 @@ import {
 } from "@grpc/grpc-js";
 import { DeleteResponse, Timestamps } from "../../common/v1/types.js";
 
-export const protobufPackage = "core.v1";
+export const protobufPackage = "model.v1";
 
 /** Provider connects Zora Code to an AI model host. */
 export interface Provider {
@@ -686,7 +686,7 @@ export const DeleteProviderRequest: MessageFns<DeleteProviderRequest> = {
 export type ProviderServiceService = typeof ProviderServiceService;
 export const ProviderServiceService = {
   listProviders: {
-    path: "/core.v1.ProviderService/ListProviders" as const,
+    path: "/model.v1.ProviderService/ListProviders" as const,
     requestStream: false as const,
     responseStream: false as const,
     requestSerialize: (value: ListProvidersRequest): Buffer => Buffer.from(ListProvidersRequest.encode(value).finish()),
@@ -696,7 +696,7 @@ export const ProviderServiceService = {
     responseDeserialize: (value: Buffer): ListProvidersResponse => ListProvidersResponse.decode(value),
   },
   getProvider: {
-    path: "/core.v1.ProviderService/GetProvider" as const,
+    path: "/model.v1.ProviderService/GetProvider" as const,
     requestStream: false as const,
     responseStream: false as const,
     requestSerialize: (value: GetProviderRequest): Buffer => Buffer.from(GetProviderRequest.encode(value).finish()),
@@ -705,7 +705,7 @@ export const ProviderServiceService = {
     responseDeserialize: (value: Buffer): Provider => Provider.decode(value),
   },
   createProvider: {
-    path: "/core.v1.ProviderService/CreateProvider" as const,
+    path: "/model.v1.ProviderService/CreateProvider" as const,
     requestStream: false as const,
     responseStream: false as const,
     requestSerialize: (value: CreateProviderRequest): Buffer =>
@@ -715,7 +715,7 @@ export const ProviderServiceService = {
     responseDeserialize: (value: Buffer): Provider => Provider.decode(value),
   },
   updateProvider: {
-    path: "/core.v1.ProviderService/UpdateProvider" as const,
+    path: "/model.v1.ProviderService/UpdateProvider" as const,
     requestStream: false as const,
     responseStream: false as const,
     requestSerialize: (value: UpdateProviderRequest): Buffer =>
@@ -725,7 +725,7 @@ export const ProviderServiceService = {
     responseDeserialize: (value: Buffer): Provider => Provider.decode(value),
   },
   deleteProvider: {
-    path: "/core.v1.ProviderService/DeleteProvider" as const,
+    path: "/model.v1.ProviderService/DeleteProvider" as const,
     requestStream: false as const,
     responseStream: false as const,
     requestSerialize: (value: DeleteProviderRequest): Buffer =>
@@ -824,7 +824,7 @@ export interface ProviderServiceClient extends Client {
 
 export const ProviderServiceClient = makeGenericClientConstructor(
   ProviderServiceService,
-  "core.v1.ProviderService",
+  "model.v1.ProviderService",
 ) as unknown as {
   new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): ProviderServiceClient;
   service: typeof ProviderServiceService;

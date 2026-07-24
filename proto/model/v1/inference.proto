@@ -6,8 +6,6 @@ option go_package = "github.com/zora-code/zora-code-rpc/generated/go/model/v1;mo
 option java_multiple_files = true;
 option csharp_namespace = "ZoraCode.Rpc.Model.V1";
 
-import "common/v1/types.proto";
-
 // Request to list models available on a provider.
 message ListModelsRequest {
   string provider_id = 1;

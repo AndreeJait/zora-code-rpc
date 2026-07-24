@@ -3,7 +3,7 @@
 // Namespaced to avoid collisions between shared helper symbols (e.g. MessageFns, protobufPackage).
 export * as common from "./common/v1/types.js";
 export * as auth from "./core/v1/auth.js";
-export * as provider from "./core/v1/provider.js";
+export * as provider from "./model/v1/provider.js";
 export * as runtime from "./core/v1/runtime.js";
 export * as project from "./core/v1/project.js";
 export * as task from "./core/v1/task.js";
