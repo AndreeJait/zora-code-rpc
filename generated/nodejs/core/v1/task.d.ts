@@ -50,6 +50,18 @@ export interface DeleteTaskRequest {
 export interface CloneTaskRequest {
     id: string;
 }
+export interface CancelTaskRequest {
+    id: string;
+}
+export interface CancelTaskResponse {
+    task?: Task | undefined;
+}
+export interface RerunTaskRequest {
+    id: string;
+}
+export interface RerunTaskResponse {
+    task?: Task | undefined;
+}
 export declare const Task: MessageFns<Task>;
 export declare const ListTasksRequest: MessageFns<ListTasksRequest>;
 export declare const ListTasksResponse: MessageFns<ListTasksResponse>;
@@ -58,6 +70,10 @@ export declare const CreateTaskRequest: MessageFns<CreateTaskRequest>;
 export declare const UpdateTaskRequest: MessageFns<UpdateTaskRequest>;
 export declare const DeleteTaskRequest: MessageFns<DeleteTaskRequest>;
 export declare const CloneTaskRequest: MessageFns<CloneTaskRequest>;
+export declare const CancelTaskRequest: MessageFns<CancelTaskRequest>;
+export declare const CancelTaskResponse: MessageFns<CancelTaskResponse>;
+export declare const RerunTaskRequest: MessageFns<RerunTaskRequest>;
+export declare const RerunTaskResponse: MessageFns<RerunTaskResponse>;
 export type TaskServiceService = typeof TaskServiceService;
 export declare const TaskServiceService: {
     readonly listTasks: {
@@ -114,6 +130,24 @@ export declare const TaskServiceService: {
         readonly responseSerialize: (value: Task) => Buffer;
         readonly responseDeserialize: (value: Buffer) => Task;
     };
+    readonly cancelTask: {
+        readonly path: "/core.v1.TaskService/CancelTask";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: CancelTaskRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => CancelTaskRequest;
+        readonly responseSerialize: (value: CancelTaskResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => CancelTaskResponse;
+    };
+    readonly rerunTask: {
+        readonly path: "/core.v1.TaskService/RerunTask";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: RerunTaskRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => RerunTaskRequest;
+        readonly responseSerialize: (value: RerunTaskResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => RerunTaskResponse;
+    };
 };
 export interface TaskServiceServer extends UntypedServiceImplementation {
     listTasks: handleUnaryCall<ListTasksRequest, ListTasksResponse>;
@@ -122,6 +156,8 @@ export interface TaskServiceServer extends UntypedServiceImplementation {
     updateTask: handleUnaryCall<UpdateTaskRequest, Task>;
     deleteTask: handleUnaryCall<DeleteTaskRequest, DeleteResponse>;
     cloneTask: handleUnaryCall<CloneTaskRequest, Task>;
+    cancelTask: handleUnaryCall<CancelTaskRequest, CancelTaskResponse>;
+    rerunTask: handleUnaryCall<RerunTaskRequest, RerunTaskResponse>;
 }
 export interface TaskServiceClient extends Client {
     listTasks(request: ListTasksRequest, callback: (error: ServiceError | null, response: ListTasksResponse) => void): ClientUnaryCall;
@@ -142,6 +178,12 @@ export interface TaskServiceClient extends Client {
     cloneTask(request: CloneTaskRequest, callback: (error: ServiceError | null, response: Task) => void): ClientUnaryCall;
     cloneTask(request: CloneTaskRequest, metadata: Metadata, callback: (error: ServiceError | null, response: Task) => void): ClientUnaryCall;
     cloneTask(request: CloneTaskRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: Task) => void): ClientUnaryCall;
+    cancelTask(request: CancelTaskRequest, callback: (error: ServiceError | null, response: CancelTaskResponse) => void): ClientUnaryCall;
+    cancelTask(request: CancelTaskRequest, metadata: Metadata, callback: (error: ServiceError | null, response: CancelTaskResponse) => void): ClientUnaryCall;
+    cancelTask(request: CancelTaskRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: CancelTaskResponse) => void): ClientUnaryCall;
+    rerunTask(request: RerunTaskRequest, callback: (error: ServiceError | null, response: RerunTaskResponse) => void): ClientUnaryCall;
+    rerunTask(request: RerunTaskRequest, metadata: Metadata, callback: (error: ServiceError | null, response: RerunTaskResponse) => void): ClientUnaryCall;
+    rerunTask(request: RerunTaskRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: RerunTaskResponse) => void): ClientUnaryCall;
 }
 export declare const TaskServiceClient: {
     new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): TaskServiceClient;

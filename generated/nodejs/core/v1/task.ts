@@ -79,6 +79,22 @@ export interface CloneTaskRequest {
   id: string;
 }
 
+export interface CancelTaskRequest {
+  id: string;
+}
+
+export interface CancelTaskResponse {
+  task?: Task | undefined;
+}
+
+export interface RerunTaskRequest {
+  id: string;
+}
+
+export interface RerunTaskResponse {
+  task?: Task | undefined;
+}
+
 function createBaseTask(): Task {
   return {
     id: "",
@@ -880,6 +896,202 @@ export const CloneTaskRequest: MessageFns<CloneTaskRequest> = {
   },
 };
 
+function createBaseCancelTaskRequest(): CancelTaskRequest {
+  return { id: "" };
+}
+
+export const CancelTaskRequest: MessageFns<CancelTaskRequest> = {
+  encode(message: CancelTaskRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CancelTaskRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCancelTaskRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CancelTaskRequest {
+    return { id: isSet(object.id) ? globalThis.String(object.id) : "" };
+  },
+
+  toJSON(message: CancelTaskRequest): unknown {
+    const obj: any = {};
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
+    return obj;
+  },
+};
+
+function createBaseCancelTaskResponse(): CancelTaskResponse {
+  return { task: undefined };
+}
+
+export const CancelTaskResponse: MessageFns<CancelTaskResponse> = {
+  encode(message: CancelTaskResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.task !== undefined) {
+      Task.encode(message.task, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CancelTaskResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCancelTaskResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.task = Task.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CancelTaskResponse {
+    return { task: isSet(object.task) ? Task.fromJSON(object.task) : undefined };
+  },
+
+  toJSON(message: CancelTaskResponse): unknown {
+    const obj: any = {};
+    if (message.task !== undefined) {
+      obj.task = Task.toJSON(message.task);
+    }
+    return obj;
+  },
+};
+
+function createBaseRerunTaskRequest(): RerunTaskRequest {
+  return { id: "" };
+}
+
+export const RerunTaskRequest: MessageFns<RerunTaskRequest> = {
+  encode(message: RerunTaskRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): RerunTaskRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRerunTaskRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): RerunTaskRequest {
+    return { id: isSet(object.id) ? globalThis.String(object.id) : "" };
+  },
+
+  toJSON(message: RerunTaskRequest): unknown {
+    const obj: any = {};
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
+    return obj;
+  },
+};
+
+function createBaseRerunTaskResponse(): RerunTaskResponse {
+  return { task: undefined };
+}
+
+export const RerunTaskResponse: MessageFns<RerunTaskResponse> = {
+  encode(message: RerunTaskResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.task !== undefined) {
+      Task.encode(message.task, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): RerunTaskResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRerunTaskResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.task = Task.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): RerunTaskResponse {
+    return { task: isSet(object.task) ? Task.fromJSON(object.task) : undefined };
+  },
+
+  toJSON(message: RerunTaskResponse): unknown {
+    const obj: any = {};
+    if (message.task !== undefined) {
+      obj.task = Task.toJSON(message.task);
+    }
+    return obj;
+  },
+};
+
 export type TaskServiceService = typeof TaskServiceService;
 export const TaskServiceService = {
   listTasks: {
@@ -936,6 +1148,24 @@ export const TaskServiceService = {
     responseSerialize: (value: Task): Buffer => Buffer.from(Task.encode(value).finish()),
     responseDeserialize: (value: Buffer): Task => Task.decode(value),
   },
+  cancelTask: {
+    path: "/core.v1.TaskService/CancelTask" as const,
+    requestStream: false as const,
+    responseStream: false as const,
+    requestSerialize: (value: CancelTaskRequest): Buffer => Buffer.from(CancelTaskRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): CancelTaskRequest => CancelTaskRequest.decode(value),
+    responseSerialize: (value: CancelTaskResponse): Buffer => Buffer.from(CancelTaskResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer): CancelTaskResponse => CancelTaskResponse.decode(value),
+  },
+  rerunTask: {
+    path: "/core.v1.TaskService/RerunTask" as const,
+    requestStream: false as const,
+    responseStream: false as const,
+    requestSerialize: (value: RerunTaskRequest): Buffer => Buffer.from(RerunTaskRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): RerunTaskRequest => RerunTaskRequest.decode(value),
+    responseSerialize: (value: RerunTaskResponse): Buffer => Buffer.from(RerunTaskResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer): RerunTaskResponse => RerunTaskResponse.decode(value),
+  },
 } as const;
 
 export interface TaskServiceServer extends UntypedServiceImplementation {
@@ -945,6 +1175,8 @@ export interface TaskServiceServer extends UntypedServiceImplementation {
   updateTask: handleUnaryCall<UpdateTaskRequest, Task>;
   deleteTask: handleUnaryCall<DeleteTaskRequest, DeleteResponse>;
   cloneTask: handleUnaryCall<CloneTaskRequest, Task>;
+  cancelTask: handleUnaryCall<CancelTaskRequest, CancelTaskResponse>;
+  rerunTask: handleUnaryCall<RerunTaskRequest, RerunTaskResponse>;
 }
 
 export interface TaskServiceClient extends Client {
@@ -1031,6 +1263,36 @@ export interface TaskServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: Task) => void,
+  ): ClientUnaryCall;
+  cancelTask(
+    request: CancelTaskRequest,
+    callback: (error: ServiceError | null, response: CancelTaskResponse) => void,
+  ): ClientUnaryCall;
+  cancelTask(
+    request: CancelTaskRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: CancelTaskResponse) => void,
+  ): ClientUnaryCall;
+  cancelTask(
+    request: CancelTaskRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: CancelTaskResponse) => void,
+  ): ClientUnaryCall;
+  rerunTask(
+    request: RerunTaskRequest,
+    callback: (error: ServiceError | null, response: RerunTaskResponse) => void,
+  ): ClientUnaryCall;
+  rerunTask(
+    request: RerunTaskRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: RerunTaskResponse) => void,
+  ): ClientUnaryCall;
+  rerunTask(
+    request: RerunTaskRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: RerunTaskResponse) => void,
   ): ClientUnaryCall;
 }
 

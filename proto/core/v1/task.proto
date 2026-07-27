@@ -65,6 +65,22 @@ message CloneTaskRequest {
   string id = 1;
 }
 
+message CancelTaskRequest {
+  string id = 1;
+}
+
+message CancelTaskResponse {
+  Task task = 1;
+}
+
+message RerunTaskRequest {
+  string id = 1;
+}
+
+message RerunTaskResponse {
+  Task task = 1;
+}
+
 service TaskService {
   rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
   rpc GetTask(GetTaskRequest) returns (Task);
@@ -72,4 +88,6 @@ service TaskService {
   rpc UpdateTask(UpdateTaskRequest) returns (Task);
   rpc DeleteTask(DeleteTaskRequest) returns (common.v1.DeleteResponse);
   rpc CloneTask(CloneTaskRequest) returns (Task);
+  rpc CancelTask(CancelTaskRequest) returns (CancelTaskResponse);
+  rpc RerunTask(RerunTaskRequest) returns (RerunTaskResponse);
 }

@@ -739,6 +739,178 @@ export const CloneTaskRequest = {
         return obj;
     },
 };
+function createBaseCancelTaskRequest() {
+    return { id: "" };
+}
+export const CancelTaskRequest = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.id !== "") {
+            writer.uint32(10).string(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseCancelTaskRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.id = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { id: isSet(object.id) ? globalThis.String(object.id) : "" };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.id !== "") {
+            obj.id = message.id;
+        }
+        return obj;
+    },
+};
+function createBaseCancelTaskResponse() {
+    return { task: undefined };
+}
+export const CancelTaskResponse = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.task !== undefined) {
+            Task.encode(message.task, writer.uint32(10).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseCancelTaskResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.task = Task.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { task: isSet(object.task) ? Task.fromJSON(object.task) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.task !== undefined) {
+            obj.task = Task.toJSON(message.task);
+        }
+        return obj;
+    },
+};
+function createBaseRerunTaskRequest() {
+    return { id: "" };
+}
+export const RerunTaskRequest = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.id !== "") {
+            writer.uint32(10).string(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseRerunTaskRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.id = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { id: isSet(object.id) ? globalThis.String(object.id) : "" };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.id !== "") {
+            obj.id = message.id;
+        }
+        return obj;
+    },
+};
+function createBaseRerunTaskResponse() {
+    return { task: undefined };
+}
+export const RerunTaskResponse = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.task !== undefined) {
+            Task.encode(message.task, writer.uint32(10).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseRerunTaskResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.task = Task.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { task: isSet(object.task) ? Task.fromJSON(object.task) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.task !== undefined) {
+            obj.task = Task.toJSON(message.task);
+        }
+        return obj;
+    },
+};
 export const TaskServiceService = {
     listTasks: {
         path: "/core.v1.TaskService/ListTasks",
@@ -793,6 +965,24 @@ export const TaskServiceService = {
         requestDeserialize: (value) => CloneTaskRequest.decode(value),
         responseSerialize: (value) => Buffer.from(Task.encode(value).finish()),
         responseDeserialize: (value) => Task.decode(value),
+    },
+    cancelTask: {
+        path: "/core.v1.TaskService/CancelTask",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(CancelTaskRequest.encode(value).finish()),
+        requestDeserialize: (value) => CancelTaskRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(CancelTaskResponse.encode(value).finish()),
+        responseDeserialize: (value) => CancelTaskResponse.decode(value),
+    },
+    rerunTask: {
+        path: "/core.v1.TaskService/RerunTask",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(RerunTaskRequest.encode(value).finish()),
+        requestDeserialize: (value) => RerunTaskRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(RerunTaskResponse.encode(value).finish()),
+        responseDeserialize: (value) => RerunTaskResponse.decode(value),
     },
 };
 export const TaskServiceClient = makeGenericClientConstructor(TaskServiceService, "core.v1.TaskService");
