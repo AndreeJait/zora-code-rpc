@@ -32,7 +32,7 @@ jobs:
       - name: Check if tag already exists
         id: check
         run: |
-          if git rev-parse "${{ steps.pkg.outputs.tag }}" >/dev/null 2>>1; then
+          if git rev-parse "${{ steps.pkg.outputs.tag }}" >/dev/null 2>&1; then
             echo "Tag ${{ steps.pkg.outputs.tag }} already exists. Skipping release."
             echo "should_release=false" >> "$GITHUB_OUTPUT"
           else
@@ -67,16 +67,24 @@ jobs:
           scope: '@AndreeJait'
           cache: 'npm'
 
-      - name: Install protoc
+      - name: Install pinned protoc
         run: |
-          sudo apt-get update
-          sudo apt-get install -y protobuf-compiler
+          PROTOC_VERSION=35.1
+          curl -LO "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip"
+          unzip -o "protoc-${PROTOC_VERSION}-linux-x86_64.zip" -d "$HOME/.local"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      - name: Install Go protoc plugins
+      - name: Install pinned Go protoc plugins
         run: |
-          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Print generator versions
+        run: |
+          protoc --version
+          protoc-gen-go --version
+          protoc-gen-go-grpc --version
 
       - name: Install Node.js dependencies
         run: npm ci
@@ -99,6 +107,7 @@ jobs:
           else
             echo "Generated stubs are out of date. Run 'make generate-go generate-node' and commit the changes."
             git diff --stat generated/
+            git diff generated/
             exit 1
           fi
 
