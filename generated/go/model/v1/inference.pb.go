@@ -246,7 +246,7 @@ const file_model_v1_inference_proto_rawDesc = "" +
 	"\x10InferenceService\x12G\n" +
 	"\n" +
 	"ListModels\x12\x1b.model.v1.ListModelsRequest\x1a\x1c.model.v1.ListModelsResponse\x12J\n" +
-	"\vHealthCheck\x12\x1c.model.v1.HealthCheckRequest\x1a\x1d.model.v1.HealthCheckResponseB\\P\x01Z@github.com/zora-code/zora-code-rpc/generated/go/model/v1;modelv1\xaa\x02\x15ZoraCode.Rpc.Model.V1b\x06proto3"
+	"\vHealthCheck\x12\x1c.model.v1.HealthCheckRequest\x1a\x1d.model.v1.HealthCheckResponseB]P\x01ZAgithub.com/AndreeJait/zora-code-rpc/generated/go/model/v1;modelv1\xaa\x02\x15ZoraCode.Rpc.Model.V1b\x06proto3"
 
 var (
 	file_model_v1_inference_proto_rawDescOnce sync.Once

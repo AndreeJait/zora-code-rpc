@@ -625,7 +625,7 @@ const file_common_v1_types_proto_rawDesc = "" +
 	"\rSortDirection\x12\x1e\n" +
 	"\x1aSORT_DIRECTION_UNSPECIFIED\x10\x00\x12\x16\n" +
 	"\x12SORT_DIRECTION_ASC\x10\x01\x12\x17\n" +
-	"\x13SORT_DIRECTION_DESC\x10\x02B_P\x01ZBgithub.com/zora-code/zora-code-rpc/generated/go/common/v1;commonv1\xaa\x02\x16ZoraCode.Rpc.Common.V1b\x06proto3"
+	"\x13SORT_DIRECTION_DESC\x10\x02B`P\x01ZCgithub.com/AndreeJait/zora-code-rpc/generated/go/common/v1;commonv1\xaa\x02\x16ZoraCode.Rpc.Common.V1b\x06proto3"
 
 var (
 	file_common_v1_types_proto_rawDescOnce sync.Once

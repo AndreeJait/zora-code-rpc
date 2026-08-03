@@ -7,7 +7,7 @@
 package modelv1
 
 import (
-	v1 "github.com/zora-code/zora-code-rpc/generated/go/common/v1"
+	v1 "github.com/AndreeJait/zora-code-rpc/generated/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -498,7 +498,7 @@ const file_model_v1_provider_proto_rawDesc = "" +
 	"\vGetProvider\x12\x1c.model.v1.GetProviderRequest\x1a\x12.model.v1.Provider\x12E\n" +
 	"\x0eCreateProvider\x12\x1f.model.v1.CreateProviderRequest\x1a\x12.model.v1.Provider\x12E\n" +
 	"\x0eUpdateProvider\x12\x1f.model.v1.UpdateProviderRequest\x1a\x12.model.v1.Provider\x12L\n" +
-	"\x0eDeleteProvider\x12\x1f.model.v1.DeleteProviderRequest\x1a\x19.common.v1.DeleteResponseB\\P\x01Z@github.com/zora-code/zora-code-rpc/generated/go/model/v1;modelv1\xaa\x02\x15ZoraCode.Rpc.Model.V1b\x06proto3"
+	"\x0eDeleteProvider\x12\x1f.model.v1.DeleteProviderRequest\x1a\x19.common.v1.DeleteResponseB]P\x01ZAgithub.com/AndreeJait/zora-code-rpc/generated/go/model/v1;modelv1\xaa\x02\x15ZoraCode.Rpc.Model.V1b\x06proto3"
 
 var (
 	file_model_v1_provider_proto_rawDescOnce sync.Once

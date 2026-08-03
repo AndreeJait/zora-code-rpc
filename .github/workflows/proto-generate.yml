@@ -1,0 +1,69 @@
+name: Proto Generate & Verify
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.2'
+          check-latest: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install protoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+
+      - name: Install Go protoc plugins
+        run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Generate Go stubs
+        run: make generate-go
+
+      - name: Generate Node.js stubs
+        run: make generate-node
+
+      - name: Build Go package
+        run: go build ./...
+
+      - name: Build Node.js package
+        run: npm run build
+
+      - name: Type check Node.js package
+        run: npm run typecheck
+
+      - name: Verify generated stubs are committed
+        run: |
+          if git diff --quiet generated/; then
+            echo "Generated stubs are up to date."
+          else
+            echo "Generated stubs are out of date. Run 'make generate-go generate-node' and commit the changes."
+            git diff --stat generated/
+            exit 1
+          fi

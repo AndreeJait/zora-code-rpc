@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package runtime.v1;
 
-option go_package = "github.com/zora-code/zora-code-rpc/generated/go/runtime/v1;runtimev1";
+option go_package = "github.com/AndreeJait/zora-code-rpc/generated/go/runtime/v1;runtimev1";
 option java_multiple_files = true;
 option csharp_namespace = "ZoraCode.Rpc.Runtime.V1";
 

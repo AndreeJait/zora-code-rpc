@@ -1,9 +1,15 @@
 {
-  "name": "@zora-code/zora-code-rpc",
+  "name": "@AndreeJait/zora-code-rpc",
   "version": "0.1.0",
   "description": "Generated TypeScript gRPC stubs for the Zora Code platform",
-  "private": true,
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreeJait/zora-code-rpc.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "main": "./generated/nodejs/index.js",
   "module": "./generated/nodejs/index.js",
   "types": "./generated/nodejs/index.d.ts",

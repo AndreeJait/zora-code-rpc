@@ -7,7 +7,7 @@
 package corev1
 
 import (
-	v1 "github.com/zora-code/zora-code-rpc/generated/go/common/v1"
+	v1 "github.com/AndreeJait/zora-code-rpc/generated/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -619,7 +619,7 @@ const file_core_v1_runtime_proto_rawDesc = "" +
 	"GetRuntime\x12\x1a.core.v1.GetRuntimeRequest\x1a\x10.core.v1.Runtime\x12@\n" +
 	"\rCreateRuntime\x12\x1d.core.v1.CreateRuntimeRequest\x1a\x10.core.v1.Runtime\x12@\n" +
 	"\rUpdateRuntime\x12\x1d.core.v1.UpdateRuntimeRequest\x1a\x10.core.v1.Runtime\x12I\n" +
-	"\rDeleteRuntime\x12\x1d.core.v1.DeleteRuntimeRequest\x1a\x19.common.v1.DeleteResponseBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\rDeleteRuntime\x12\x1d.core.v1.DeleteRuntimeRequest\x1a\x19.common.v1.DeleteResponseBZP\x01Z?github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_runtime_proto_rawDescOnce sync.Once

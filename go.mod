@@ -1,4 +1,4 @@
-module github.com/zora-code/zora-code-rpc
+module github.com/AndreeJait/zora-code-rpc
 
 go 1.26.2
 

@@ -1,5 +1,5 @@
 // Central barrel for generated Zora Code gRPC stubs.
-// Re-exported by package entry point so consumers can import from `@zora-code/zora-code-rpc`.
+// Re-exported by package entry point so consumers can import from `@AndreeJait/zora-code-rpc`.
 // Namespaced to avoid collisions between shared helper symbols (e.g. MessageFns, protobufPackage).
 
 export * as common from "./common/v1/types.js";

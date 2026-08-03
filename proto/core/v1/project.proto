@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package core.v1;
 
-option go_package = "github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1";
+option go_package = "github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1";
 option java_multiple_files = true;
 option csharp_namespace = "ZoraCode.Rpc.Core.V1";
 

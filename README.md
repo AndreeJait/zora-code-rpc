@@ -24,34 +24,56 @@ proto/
 
 ## Package Plan
 
-- **Go:** tag releases as `github.com/zora-code/zora-code-rpc@vX.Y.Z`; generated clients import `proto/`.
-- **Node.js:** generated TypeScript gRPC stubs are committed under `generated/` and consumed locally as `file:../zora-code-rpc` by `zora-code-core` and `zora-code-gql` during MVP B. Publishing to `https://npm.pkg.github.com/@zora-code/zora-code-rpc` is scheduled as a follow-up task.
+- **Go:** tag releases as `github.com/AndreeJait/zora-code-rpc@vX.Y.Z`; generated clients import `proto/`.
+- **Node.js:** generated TypeScript gRPC stubs are published to `https://npm.pkg.github.com/@AndreeJait/zora-code-rpc`. Sibling services still consume the package locally as `file:../zora-code-rpc` during active development and can switch to a pinned version after publishing.
 
 ## Generating Clients
 
-### Node.js
+Run the generators from the repository root:
 
 ```bash
-npx grpc_tools_node_protoc \
-  --js_out=import_style=commonjs,binary:./generated/nodejs \
-  --grpc_out=grpc_js:./generated/nodejs \
-  --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin \
-  proto/**/*.proto
+# Generate both Go and Node.js stubs
+make generate-go
+make generate-node
+
+# Verify committed stubs match the current .proto files
+make verify-generate
+```
+
+### Node.js
+
+The Node.js generator is driven by `scripts/generate-proto.js` and produces TypeScript stubs under `generated/nodejs/`:
+
+```bash
+npm run generate:proto
+npm run build
+npm run typecheck
 ```
 
 ### Go
 
+The Go generator produces `.pb.go` and `_grpc.pb.go` files under `generated/go/`:
+
 ```bash
-protoc \
-  --go_out=./generated/golang \
-  --go_opt=paths=source_relative \
-  --go-grpc_out=./generated/golang \
-  --go-grpc_opt=paths=source_relative \
-  proto/**/*.proto
+make generate-go
+go build ./...
 ```
 
-> During MVP B, Node.js stubs are committed to this repository under `generated/` so sibling services can depend on the package locally. Each service may still generate Go clients from `proto/` during its own build.
+## Continuous Integration
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `proto-generate.yml` | Every push and PR | Regenerates Go and Node.js stubs, runs builds and type checks, and fails if `generated/` is out of sync. |
+| `release.yml` | Push to `master` | Detects a `package.json` version bump, creates a `vX.Y.Z` git tag, publishes `@AndreeJait/zora-code-rpc` to `npm.pkg.github.com`, and creates a GitHub Release. |
 
 ## Versioning
 
-This repository follows [Semantic Versioning](https://semver.org/). Breaking changes to `.proto` definitions require a major version bump and coordinated migration across services.
+This repository follows [Semantic Versioning](https://semver.org/):
+
+- **Major** — breaking `.proto` changes (renamed fields, removed services, changed types).
+- **Minor** — additive changes (new services, new messages, new fields).
+- **Patch** — fixes, regenerations, or non-breaking tooling updates.
+
+The version in `package.json` is the single source of truth. The `release.yml` workflow converts it into a `v{version}` git tag, which is required for Go module resolution and also drives the npm publish step.
+
+Before publishing a **major** version, update the Go module path to include the major suffix (e.g., `github.com/AndreeJait/zora-code-rpc/v2`) and update all import paths accordingly.

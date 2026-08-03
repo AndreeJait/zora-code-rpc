@@ -7,7 +7,7 @@
 package corev1
 
 import (
-	v1 "github.com/zora-code/zora-code-rpc/generated/go/common/v1"
+	v1 "github.com/AndreeJait/zora-code-rpc/generated/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -813,7 +813,7 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\tCloneTask\x12\x19.core.v1.CloneTaskRequest\x1a\r.core.v1.Task\x12E\n" +
 	"\n" +
 	"CancelTask\x12\x1a.core.v1.CancelTaskRequest\x1a\x1b.core.v1.CancelTaskResponse\x12B\n" +
-	"\tRerunTask\x12\x19.core.v1.RerunTaskRequest\x1a\x1a.core.v1.RerunTaskResponseBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\tRerunTask\x12\x19.core.v1.RerunTaskRequest\x1a\x1a.core.v1.RerunTaskResponseBZP\x01Z?github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_task_proto_rawDescOnce sync.Once

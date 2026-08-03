@@ -7,7 +7,7 @@
 package corev1
 
 import (
-	v1 "github.com/zora-code/zora-code-rpc/generated/go/common/v1"
+	v1 "github.com/AndreeJait/zora-code-rpc/generated/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -674,7 +674,7 @@ const file_core_v1_project_proto_rawDesc = "" +
 	"\rCreateProject\x12\x1d.core.v1.CreateProjectRequest\x1a\x10.core.v1.Project\x12@\n" +
 	"\rUpdateProject\x12\x1d.core.v1.UpdateProjectRequest\x1a\x10.core.v1.Project\x12I\n" +
 	"\rDeleteProject\x12\x1d.core.v1.DeleteProjectRequest\x1a\x19.common.v1.DeleteResponse\x12B\n" +
-	"\x0eRunProjectInit\x12\x1e.core.v1.RunProjectInitRequest\x1a\x10.core.v1.ProjectBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\x0eRunProjectInit\x12\x1e.core.v1.RunProjectInitRequest\x1a\x10.core.v1.ProjectBZP\x01Z?github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_project_proto_rawDescOnce sync.Once

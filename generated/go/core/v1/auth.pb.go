@@ -7,7 +7,7 @@
 package corev1
 
 import (
-	v1 "github.com/zora-code/zora-code-rpc/generated/go/common/v1"
+	v1 "github.com/AndreeJait/zora-code-rpc/generated/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -539,7 +539,7 @@ const file_core_v1_auth_proto_rawDesc = "" +
 	"\x05Login\x12\x15.core.v1.LoginRequest\x1a\x16.core.v1.LoginResponse\x129\n" +
 	"\x06Logout\x12\x16.core.v1.LogoutRequest\x1a\x17.core.v1.LogoutResponse\x12H\n" +
 	"\vVerifyToken\x12\x1b.core.v1.VerifyTokenRequest\x1a\x1c.core.v1.VerifyTokenResponse\x12-\n" +
-	"\x02Me\x12\x12.core.v1.MeRequest\x1a\x13.core.v1.MeResponseBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\x02Me\x12\x12.core.v1.MeRequest\x1a\x13.core.v1.MeResponseBZP\x01Z?github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_auth_proto_rawDescOnce sync.Once

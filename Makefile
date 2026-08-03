@@ -1,4 +1,4 @@
-.PHONY: generate-go generate-node build-go build-node tidy test
+.PHONY: generate-go generate-node verify-generate build-go build-node tidy test
 
 PROTO_FILES := \
 	proto/common/v1/types.proto \
@@ -26,6 +26,16 @@ generate-go:
 # Generate Node.js protobuf stubs (existing script).
 generate-node:
 	npm run generate:proto
+
+# Regenerate both Go and Node.js stubs, then fail if generated/ still differs from the committed state.
+verify-generate: generate-go generate-node
+	@if git diff --quiet generated/; then \
+		echo "Generated stubs are up to date."; \
+	else \
+		echo "Generated stubs are out of date. Run 'make generate-go generate-node' and commit the changes."; \
+		git diff --stat generated/; \
+		exit 1; \
+	fi
 
 build-go:
 	go build ./...

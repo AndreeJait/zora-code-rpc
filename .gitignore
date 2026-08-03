@@ -1,5 +1,5 @@
-# Generated code is committed in MVP B so local file dependency works.
-# Revisit when publishing to npm.pkg.github.com.
+# Generated stubs are committed so Go module consumers and npm package consumers
+# receive the same compiled output without needing protoc in their build.
 # generated/
 
 node_modules/

@@ -7,7 +7,7 @@
 package runtimev1
 
 import (
-	v1 "github.com/zora-code/zora-code-rpc/generated/go/common/v1"
+	v1 "github.com/AndreeJait/zora-code-rpc/generated/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1134,7 +1134,7 @@ const file_runtime_v1_execution_proto_rawDesc = "" +
 	"\x11StreamRuntimeLogs\x12$.runtime.v1.StreamRuntimeLogsRequest\x1a\x13.runtime.v1.LogLine0\x01\x12T\n" +
 	"\rRunInitPrompt\x12 .runtime.v1.RunInitPromptRequest\x1a!.runtime.v1.RunInitPromptResponse\x12K\n" +
 	"\x0eAttachTerminal\x12\x19.runtime.v1.TerminalInput\x1a\x1a.runtime.v1.TerminalOutput(\x010\x01\x12E\n" +
-	"\x0eResizeTerminal\x12!.runtime.v1.ResizeTerminalRequest\x1a\x10.common.v1.EmptyBbP\x01ZDgithub.com/zora-code/zora-code-rpc/generated/go/runtime/v1;runtimev1\xaa\x02\x17ZoraCode.Rpc.Runtime.V1b\x06proto3"
+	"\x0eResizeTerminal\x12!.runtime.v1.ResizeTerminalRequest\x1a\x10.common.v1.EmptyBcP\x01ZEgithub.com/AndreeJait/zora-code-rpc/generated/go/runtime/v1;runtimev1\xaa\x02\x17ZoraCode.Rpc.Runtime.V1b\x06proto3"
 
 var (
 	file_runtime_v1_execution_proto_rawDescOnce sync.Once

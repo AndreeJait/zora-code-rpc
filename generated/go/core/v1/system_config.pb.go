@@ -7,7 +7,7 @@
 package corev1
 
 import (
-	v1 "github.com/zora-code/zora-code-rpc/generated/go/common/v1"
+	v1 "github.com/AndreeJait/zora-code-rpc/generated/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -940,7 +940,7 @@ const file_core_v1_system_config_proto_rawDesc = "" +
 	"\tGetSecret\x12\x19.core.v1.GetSecretRequest\x1a\x0f.core.v1.Secret\x12=\n" +
 	"\fUpdateSecret\x12\x1c.core.v1.UpdateSecretRequest\x1a\x0f.core.v1.Secret\x12f\n" +
 	"\x15ListCloudflareTunnels\x12%.core.v1.ListCloudflareTunnelsRequest\x1a&.core.v1.ListCloudflareTunnelsResponse\x12`\n" +
-	"\x13ListCloudflareZones\x12#.core.v1.ListCloudflareZonesRequest\x1a$.core.v1.ListCloudflareZonesResponseBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\x13ListCloudflareZones\x12#.core.v1.ListCloudflareZonesRequest\x1a$.core.v1.ListCloudflareZonesResponseBZP\x01Z?github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_system_config_proto_rawDescOnce sync.Once
