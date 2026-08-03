@@ -14,6 +14,7 @@ export interface Deployment {
     status: Status;
     createNewContainerIfNotExists: boolean;
     timestamps?: Timestamps | undefined;
+    zoneId: string;
 }
 export interface ListDeploymentsRequest {
     projectId: string;
@@ -30,6 +31,7 @@ export interface CreateDeploymentRequest {
     subdomain: string;
     port: number;
     createNewContainerIfNotExists: boolean;
+    zoneId: string;
 }
 export interface UpdateDeploymentRequest {
     id: string;
@@ -37,6 +39,7 @@ export interface UpdateDeploymentRequest {
     subdomain?: string | undefined;
     port?: number | undefined;
     createNewContainerIfNotExists?: boolean | undefined;
+    zoneId?: string | undefined;
 }
 export interface DeleteDeploymentRequest {
     id: string;

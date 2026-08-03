@@ -20,11 +20,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ProjectService_ListProjects_FullMethodName  = "/core.v1.ProjectService/ListProjects"
-	ProjectService_GetProject_FullMethodName    = "/core.v1.ProjectService/GetProject"
-	ProjectService_CreateProject_FullMethodName = "/core.v1.ProjectService/CreateProject"
-	ProjectService_UpdateProject_FullMethodName = "/core.v1.ProjectService/UpdateProject"
-	ProjectService_DeleteProject_FullMethodName = "/core.v1.ProjectService/DeleteProject"
+	ProjectService_ListProjects_FullMethodName   = "/core.v1.ProjectService/ListProjects"
+	ProjectService_GetProject_FullMethodName     = "/core.v1.ProjectService/GetProject"
+	ProjectService_CreateProject_FullMethodName  = "/core.v1.ProjectService/CreateProject"
+	ProjectService_UpdateProject_FullMethodName  = "/core.v1.ProjectService/UpdateProject"
+	ProjectService_DeleteProject_FullMethodName  = "/core.v1.ProjectService/DeleteProject"
+	ProjectService_RunProjectInit_FullMethodName = "/core.v1.ProjectService/RunProjectInit"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -36,6 +37,7 @@ type ProjectServiceClient interface {
 	CreateProject(ctx context.Context, in *CreateProjectRequest, opts ...grpc.CallOption) (*Project, error)
 	UpdateProject(ctx context.Context, in *UpdateProjectRequest, opts ...grpc.CallOption) (*Project, error)
 	DeleteProject(ctx context.Context, in *DeleteProjectRequest, opts ...grpc.CallOption) (*v1.DeleteResponse, error)
+	RunProjectInit(ctx context.Context, in *RunProjectInitRequest, opts ...grpc.CallOption) (*Project, error)
 }
 
 type projectServiceClient struct {
@@ -96,6 +98,16 @@ func (c *projectServiceClient) DeleteProject(ctx context.Context, in *DeleteProj
 	return out, nil
 }
 
+func (c *projectServiceClient) RunProjectInit(ctx context.Context, in *RunProjectInitRequest, opts ...grpc.CallOption) (*Project, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Project)
+	err := c.cc.Invoke(ctx, ProjectService_RunProjectInit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility.
@@ -105,6 +117,7 @@ type ProjectServiceServer interface {
 	CreateProject(context.Context, *CreateProjectRequest) (*Project, error)
 	UpdateProject(context.Context, *UpdateProjectRequest) (*Project, error)
 	DeleteProject(context.Context, *DeleteProjectRequest) (*v1.DeleteResponse, error)
+	RunProjectInit(context.Context, *RunProjectInitRequest) (*Project, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -129,6 +142,9 @@ func (UnimplementedProjectServiceServer) UpdateProject(context.Context, *UpdateP
 }
 func (UnimplementedProjectServiceServer) DeleteProject(context.Context, *DeleteProjectRequest) (*v1.DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteProject not implemented")
+}
+func (UnimplementedProjectServiceServer) RunProjectInit(context.Context, *RunProjectInitRequest) (*Project, error) {
+	return nil, status.Error(codes.Unimplemented, "method RunProjectInit not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 func (UnimplementedProjectServiceServer) testEmbeddedByValue()                        {}
@@ -241,6 +257,24 @@ func _ProjectService_DeleteProject_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_RunProjectInit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RunProjectInitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).RunProjectInit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_RunProjectInit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).RunProjectInit(ctx, req.(*RunProjectInitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -267,6 +301,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteProject",
 			Handler:    _ProjectService_DeleteProject_Handler,
+		},
+		{
+			MethodName: "RunProjectInit",
+			Handler:    _ProjectService_RunProjectInit_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

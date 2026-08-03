@@ -34,6 +34,7 @@ export interface Deployment {
   status: Status;
   createNewContainerIfNotExists: boolean;
   timestamps?: Timestamps | undefined;
+  zoneId: string;
 }
 
 export interface ListDeploymentsRequest {
@@ -54,6 +55,7 @@ export interface CreateDeploymentRequest {
   subdomain: string;
   port: number;
   createNewContainerIfNotExists: boolean;
+  zoneId: string;
 }
 
 export interface UpdateDeploymentRequest {
@@ -62,6 +64,7 @@ export interface UpdateDeploymentRequest {
   subdomain?: string | undefined;
   port?: number | undefined;
   createNewContainerIfNotExists?: boolean | undefined;
+  zoneId?: string | undefined;
 }
 
 export interface DeleteDeploymentRequest {
@@ -88,6 +91,7 @@ function createBaseDeployment(): Deployment {
     status: 0,
     createNewContainerIfNotExists: false,
     timestamps: undefined,
+    zoneId: "",
   };
 }
 
@@ -122,6 +126,9 @@ export const Deployment: MessageFns<Deployment> = {
     }
     if (message.timestamps !== undefined) {
       Timestamps.encode(message.timestamps, writer.uint32(82).fork()).join();
+    }
+    if (message.zoneId !== "") {
+      writer.uint32(90).string(message.zoneId);
     }
     return writer;
   },
@@ -213,6 +220,14 @@ export const Deployment: MessageFns<Deployment> = {
           message.timestamps = Timestamps.decode(reader, reader.uint32());
           continue;
         }
+        case 11: {
+          if (tag !== 90) {
+            break;
+          }
+
+          message.zoneId = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -250,6 +265,11 @@ export const Deployment: MessageFns<Deployment> = {
         ? globalThis.Boolean(object.create_new_container_if_not_exists)
         : false,
       timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+      zoneId: isSet(object.zoneId)
+        ? globalThis.String(object.zoneId)
+        : isSet(object.zone_id)
+        ? globalThis.String(object.zone_id)
+        : "",
     };
   },
 
@@ -284,6 +304,9 @@ export const Deployment: MessageFns<Deployment> = {
     }
     if (message.timestamps !== undefined) {
       obj.timestamps = Timestamps.toJSON(message.timestamps);
+    }
+    if (message.zoneId !== "") {
+      obj.zoneId = message.zoneId;
     }
     return obj;
   },
@@ -447,7 +470,7 @@ export const GetDeploymentRequest: MessageFns<GetDeploymentRequest> = {
 };
 
 function createBaseCreateDeploymentRequest(): CreateDeploymentRequest {
-  return { projectId: "", tunnelId: "", subdomain: "", port: 0, createNewContainerIfNotExists: false };
+  return { projectId: "", tunnelId: "", subdomain: "", port: 0, createNewContainerIfNotExists: false, zoneId: "" };
 }
 
 export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
@@ -466,6 +489,9 @@ export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
     }
     if (message.createNewContainerIfNotExists !== false) {
       writer.uint32(40).bool(message.createNewContainerIfNotExists);
+    }
+    if (message.zoneId !== "") {
+      writer.uint32(50).string(message.zoneId);
     }
     return writer;
   },
@@ -517,6 +543,14 @@ export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
           message.createNewContainerIfNotExists = reader.bool();
           continue;
         }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.zoneId = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -545,6 +579,11 @@ export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
         : isSet(object.create_new_container_if_not_exists)
         ? globalThis.Boolean(object.create_new_container_if_not_exists)
         : false,
+      zoneId: isSet(object.zoneId)
+        ? globalThis.String(object.zoneId)
+        : isSet(object.zone_id)
+        ? globalThis.String(object.zone_id)
+        : "",
     };
   },
 
@@ -565,6 +604,9 @@ export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
     if (message.createNewContainerIfNotExists !== false) {
       obj.createNewContainerIfNotExists = message.createNewContainerIfNotExists;
     }
+    if (message.zoneId !== "") {
+      obj.zoneId = message.zoneId;
+    }
     return obj;
   },
 };
@@ -576,6 +618,7 @@ function createBaseUpdateDeploymentRequest(): UpdateDeploymentRequest {
     subdomain: undefined,
     port: undefined,
     createNewContainerIfNotExists: undefined,
+    zoneId: undefined,
   };
 }
 
@@ -595,6 +638,9 @@ export const UpdateDeploymentRequest: MessageFns<UpdateDeploymentRequest> = {
     }
     if (message.createNewContainerIfNotExists !== undefined) {
       writer.uint32(40).bool(message.createNewContainerIfNotExists);
+    }
+    if (message.zoneId !== undefined) {
+      writer.uint32(50).string(message.zoneId);
     }
     return writer;
   },
@@ -646,6 +692,14 @@ export const UpdateDeploymentRequest: MessageFns<UpdateDeploymentRequest> = {
           message.createNewContainerIfNotExists = reader.bool();
           continue;
         }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.zoneId = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -670,6 +724,11 @@ export const UpdateDeploymentRequest: MessageFns<UpdateDeploymentRequest> = {
         : isSet(object.create_new_container_if_not_exists)
         ? globalThis.Boolean(object.create_new_container_if_not_exists)
         : undefined,
+      zoneId: isSet(object.zoneId)
+        ? globalThis.String(object.zoneId)
+        : isSet(object.zone_id)
+        ? globalThis.String(object.zone_id)
+        : undefined,
     };
   },
 
@@ -689,6 +748,9 @@ export const UpdateDeploymentRequest: MessageFns<UpdateDeploymentRequest> = {
     }
     if (message.createNewContainerIfNotExists !== undefined) {
       obj.createNewContainerIfNotExists = message.createNewContainerIfNotExists;
+    }
+    if (message.zoneId !== undefined) {
+      obj.zoneId = message.zoneId;
     }
     return obj;
   },

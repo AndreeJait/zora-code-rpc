@@ -26,7 +26,10 @@ export interface Secret {
     username?: string | undefined;
     /** encrypted at rest */
     token?: string | undefined;
-    appId?: string | undefined;
+    /** Cloudflare zone id used for DNS records */
+    zoneId?: string | undefined;
+    /** Cloudflare account id used to list tunnels/zones */
+    accountId?: string | undefined;
     timestamps?: Timestamps | undefined;
 }
 export interface ListConfigsRequest {
@@ -50,7 +53,28 @@ export interface UpdateSecretRequest {
     provider: SecretProvider;
     username?: string | undefined;
     token?: string | undefined;
-    appId?: string | undefined;
+    zoneId?: string | undefined;
+    accountId?: string | undefined;
+}
+export interface CloudflareTunnel {
+    id: string;
+    name: string;
+    accountId: string;
+    status: string;
+}
+export interface ListCloudflareTunnelsRequest {
+}
+export interface ListCloudflareTunnelsResponse {
+    tunnels: CloudflareTunnel[];
+}
+export interface CloudflareZone {
+    id: string;
+    name: string;
+}
+export interface ListCloudflareZonesRequest {
+}
+export interface ListCloudflareZonesResponse {
+    zones: CloudflareZone[];
 }
 export declare const SystemConfig: MessageFns<SystemConfig>;
 export declare const Secret: MessageFns<Secret>;
@@ -61,6 +85,12 @@ export declare const ListSecretsRequest: MessageFns<ListSecretsRequest>;
 export declare const ListSecretsResponse: MessageFns<ListSecretsResponse>;
 export declare const GetSecretRequest: MessageFns<GetSecretRequest>;
 export declare const UpdateSecretRequest: MessageFns<UpdateSecretRequest>;
+export declare const CloudflareTunnel: MessageFns<CloudflareTunnel>;
+export declare const ListCloudflareTunnelsRequest: MessageFns<ListCloudflareTunnelsRequest>;
+export declare const ListCloudflareTunnelsResponse: MessageFns<ListCloudflareTunnelsResponse>;
+export declare const CloudflareZone: MessageFns<CloudflareZone>;
+export declare const ListCloudflareZonesRequest: MessageFns<ListCloudflareZonesRequest>;
+export declare const ListCloudflareZonesResponse: MessageFns<ListCloudflareZonesResponse>;
 export type SystemConfigServiceService = typeof SystemConfigServiceService;
 export declare const SystemConfigServiceService: {
     readonly listConfigs: {
@@ -108,6 +138,24 @@ export declare const SystemConfigServiceService: {
         readonly responseSerialize: (value: Secret) => Buffer;
         readonly responseDeserialize: (value: Buffer) => Secret;
     };
+    readonly listCloudflareTunnels: {
+        readonly path: "/core.v1.SystemConfigService/ListCloudflareTunnels";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: ListCloudflareTunnelsRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => ListCloudflareTunnelsRequest;
+        readonly responseSerialize: (value: ListCloudflareTunnelsResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => ListCloudflareTunnelsResponse;
+    };
+    readonly listCloudflareZones: {
+        readonly path: "/core.v1.SystemConfigService/ListCloudflareZones";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: ListCloudflareZonesRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => ListCloudflareZonesRequest;
+        readonly responseSerialize: (value: ListCloudflareZonesResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => ListCloudflareZonesResponse;
+    };
 };
 export interface SystemConfigServiceServer extends UntypedServiceImplementation {
     listConfigs: handleUnaryCall<ListConfigsRequest, ListConfigsResponse>;
@@ -115,6 +163,8 @@ export interface SystemConfigServiceServer extends UntypedServiceImplementation 
     listSecrets: handleUnaryCall<ListSecretsRequest, ListSecretsResponse>;
     getSecret: handleUnaryCall<GetSecretRequest, Secret>;
     updateSecret: handleUnaryCall<UpdateSecretRequest, Secret>;
+    listCloudflareTunnels: handleUnaryCall<ListCloudflareTunnelsRequest, ListCloudflareTunnelsResponse>;
+    listCloudflareZones: handleUnaryCall<ListCloudflareZonesRequest, ListCloudflareZonesResponse>;
 }
 export interface SystemConfigServiceClient extends Client {
     listConfigs(request: ListConfigsRequest, callback: (error: ServiceError | null, response: ListConfigsResponse) => void): ClientUnaryCall;
@@ -132,6 +182,12 @@ export interface SystemConfigServiceClient extends Client {
     updateSecret(request: UpdateSecretRequest, callback: (error: ServiceError | null, response: Secret) => void): ClientUnaryCall;
     updateSecret(request: UpdateSecretRequest, metadata: Metadata, callback: (error: ServiceError | null, response: Secret) => void): ClientUnaryCall;
     updateSecret(request: UpdateSecretRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: Secret) => void): ClientUnaryCall;
+    listCloudflareTunnels(request: ListCloudflareTunnelsRequest, callback: (error: ServiceError | null, response: ListCloudflareTunnelsResponse) => void): ClientUnaryCall;
+    listCloudflareTunnels(request: ListCloudflareTunnelsRequest, metadata: Metadata, callback: (error: ServiceError | null, response: ListCloudflareTunnelsResponse) => void): ClientUnaryCall;
+    listCloudflareTunnels(request: ListCloudflareTunnelsRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: ListCloudflareTunnelsResponse) => void): ClientUnaryCall;
+    listCloudflareZones(request: ListCloudflareZonesRequest, callback: (error: ServiceError | null, response: ListCloudflareZonesResponse) => void): ClientUnaryCall;
+    listCloudflareZones(request: ListCloudflareZonesRequest, metadata: Metadata, callback: (error: ServiceError | null, response: ListCloudflareZonesResponse) => void): ClientUnaryCall;
+    listCloudflareZones(request: ListCloudflareZonesRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: ListCloudflareZonesResponse) => void): ClientUnaryCall;
 }
 export declare const SystemConfigServiceClient: {
     new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): SystemConfigServiceClient;

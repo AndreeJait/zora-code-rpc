@@ -162,9 +162,10 @@ type Secret struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Provider      SecretProvider         `protobuf:"varint,2,opt,name=provider,proto3,enum=core.v1.SecretProvider" json:"provider,omitempty"`
 	Username      *string                `protobuf:"bytes,3,opt,name=username,proto3,oneof" json:"username,omitempty"`
-	Token         *string                `protobuf:"bytes,4,opt,name=token,proto3,oneof" json:"token,omitempty"` // encrypted at rest
-	AppId         *string                `protobuf:"bytes,5,opt,name=app_id,json=appId,proto3,oneof" json:"app_id,omitempty"`
-	Timestamps    *v1.Timestamps         `protobuf:"bytes,6,opt,name=timestamps,proto3" json:"timestamps,omitempty"`
+	Token         *string                `protobuf:"bytes,4,opt,name=token,proto3,oneof" json:"token,omitempty"`                          // encrypted at rest
+	ZoneId        *string                `protobuf:"bytes,5,opt,name=zone_id,json=zoneId,proto3,oneof" json:"zone_id,omitempty"`          // Cloudflare zone id used for DNS records
+	AccountId     *string                `protobuf:"bytes,6,opt,name=account_id,json=accountId,proto3,oneof" json:"account_id,omitempty"` // Cloudflare account id used to list tunnels/zones
+	Timestamps    *v1.Timestamps         `protobuf:"bytes,7,opt,name=timestamps,proto3" json:"timestamps,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -227,9 +228,16 @@ func (x *Secret) GetToken() string {
 	return ""
 }
 
-func (x *Secret) GetAppId() string {
-	if x != nil && x.AppId != nil {
-		return *x.AppId
+func (x *Secret) GetZoneId() string {
+	if x != nil && x.ZoneId != nil {
+		return *x.ZoneId
+	}
+	return ""
+}
+
+func (x *Secret) GetAccountId() string {
+	if x != nil && x.AccountId != nil {
+		return *x.AccountId
 	}
 	return ""
 }
@@ -502,7 +510,8 @@ type UpdateSecretRequest struct {
 	Provider      SecretProvider         `protobuf:"varint,1,opt,name=provider,proto3,enum=core.v1.SecretProvider" json:"provider,omitempty"`
 	Username      *string                `protobuf:"bytes,2,opt,name=username,proto3,oneof" json:"username,omitempty"`
 	Token         *string                `protobuf:"bytes,3,opt,name=token,proto3,oneof" json:"token,omitempty"`
-	AppId         *string                `protobuf:"bytes,4,opt,name=app_id,json=appId,proto3,oneof" json:"app_id,omitempty"`
+	ZoneId        *string                `protobuf:"bytes,4,opt,name=zone_id,json=zoneId,proto3,oneof" json:"zone_id,omitempty"`
+	AccountId     *string                `protobuf:"bytes,5,opt,name=account_id,json=accountId,proto3,oneof" json:"account_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -558,11 +567,298 @@ func (x *UpdateSecretRequest) GetToken() string {
 	return ""
 }
 
-func (x *UpdateSecretRequest) GetAppId() string {
-	if x != nil && x.AppId != nil {
-		return *x.AppId
+func (x *UpdateSecretRequest) GetZoneId() string {
+	if x != nil && x.ZoneId != nil {
+		return *x.ZoneId
 	}
 	return ""
+}
+
+func (x *UpdateSecretRequest) GetAccountId() string {
+	if x != nil && x.AccountId != nil {
+		return *x.AccountId
+	}
+	return ""
+}
+
+type CloudflareTunnel struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	AccountId     string                 `protobuf:"bytes,3,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CloudflareTunnel) Reset() {
+	*x = CloudflareTunnel{}
+	mi := &file_core_v1_system_config_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CloudflareTunnel) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloudflareTunnel) ProtoMessage() {}
+
+func (x *CloudflareTunnel) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_system_config_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloudflareTunnel.ProtoReflect.Descriptor instead.
+func (*CloudflareTunnel) Descriptor() ([]byte, []int) {
+	return file_core_v1_system_config_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *CloudflareTunnel) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *CloudflareTunnel) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CloudflareTunnel) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *CloudflareTunnel) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type ListCloudflareTunnelsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCloudflareTunnelsRequest) Reset() {
+	*x = ListCloudflareTunnelsRequest{}
+	mi := &file_core_v1_system_config_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCloudflareTunnelsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCloudflareTunnelsRequest) ProtoMessage() {}
+
+func (x *ListCloudflareTunnelsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_system_config_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCloudflareTunnelsRequest.ProtoReflect.Descriptor instead.
+func (*ListCloudflareTunnelsRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_system_config_proto_rawDescGZIP(), []int{10}
+}
+
+type ListCloudflareTunnelsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Tunnels       []*CloudflareTunnel    `protobuf:"bytes,1,rep,name=tunnels,proto3" json:"tunnels,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCloudflareTunnelsResponse) Reset() {
+	*x = ListCloudflareTunnelsResponse{}
+	mi := &file_core_v1_system_config_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCloudflareTunnelsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCloudflareTunnelsResponse) ProtoMessage() {}
+
+func (x *ListCloudflareTunnelsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_system_config_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCloudflareTunnelsResponse.ProtoReflect.Descriptor instead.
+func (*ListCloudflareTunnelsResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_system_config_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ListCloudflareTunnelsResponse) GetTunnels() []*CloudflareTunnel {
+	if x != nil {
+		return x.Tunnels
+	}
+	return nil
+}
+
+type CloudflareZone struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CloudflareZone) Reset() {
+	*x = CloudflareZone{}
+	mi := &file_core_v1_system_config_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CloudflareZone) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloudflareZone) ProtoMessage() {}
+
+func (x *CloudflareZone) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_system_config_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloudflareZone.ProtoReflect.Descriptor instead.
+func (*CloudflareZone) Descriptor() ([]byte, []int) {
+	return file_core_v1_system_config_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *CloudflareZone) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *CloudflareZone) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type ListCloudflareZonesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCloudflareZonesRequest) Reset() {
+	*x = ListCloudflareZonesRequest{}
+	mi := &file_core_v1_system_config_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCloudflareZonesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCloudflareZonesRequest) ProtoMessage() {}
+
+func (x *ListCloudflareZonesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_system_config_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCloudflareZonesRequest.ProtoReflect.Descriptor instead.
+func (*ListCloudflareZonesRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_system_config_proto_rawDescGZIP(), []int{13}
+}
+
+type ListCloudflareZonesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Zones         []*CloudflareZone      `protobuf:"bytes,1,rep,name=zones,proto3" json:"zones,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCloudflareZonesResponse) Reset() {
+	*x = ListCloudflareZonesResponse{}
+	mi := &file_core_v1_system_config_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCloudflareZonesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCloudflareZonesResponse) ProtoMessage() {}
+
+func (x *ListCloudflareZonesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_system_config_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCloudflareZonesResponse.ProtoReflect.Descriptor instead.
+func (*ListCloudflareZonesResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_system_config_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ListCloudflareZonesResponse) GetZones() []*CloudflareZone {
+	if x != nil {
+		return x.Zones
+	}
+	return nil
 }
 
 var File_core_v1_system_config_proto protoreflect.FileDescriptor
@@ -578,19 +874,23 @@ const file_core_v1_system_config_proto_rawDesc = "" +
 	"\vdescription\x18\x05 \x01(\tR\vdescription\x125\n" +
 	"\n" +
 	"timestamps\x18\x06 \x01(\v2\x15.common.v1.TimestampsR\n" +
-	"timestamps\"\xfe\x01\n" +
+	"timestamps\"\xb4\x02\n" +
 	"\x06Secret\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x123\n" +
 	"\bprovider\x18\x02 \x01(\x0e2\x17.core.v1.SecretProviderR\bprovider\x12\x1f\n" +
 	"\busername\x18\x03 \x01(\tH\x00R\busername\x88\x01\x01\x12\x19\n" +
-	"\x05token\x18\x04 \x01(\tH\x01R\x05token\x88\x01\x01\x12\x1a\n" +
-	"\x06app_id\x18\x05 \x01(\tH\x02R\x05appId\x88\x01\x01\x125\n" +
+	"\x05token\x18\x04 \x01(\tH\x01R\x05token\x88\x01\x01\x12\x1c\n" +
+	"\azone_id\x18\x05 \x01(\tH\x02R\x06zoneId\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"timestamps\x18\x06 \x01(\v2\x15.common.v1.TimestampsR\n" +
+	"account_id\x18\x06 \x01(\tH\x03R\taccountId\x88\x01\x01\x125\n" +
+	"\n" +
+	"timestamps\x18\a \x01(\v2\x15.common.v1.TimestampsR\n" +
 	"timestampsB\v\n" +
 	"\t_usernameB\b\n" +
-	"\x06_tokenB\t\n" +
-	"\a_app_id\"\x14\n" +
+	"\x06_tokenB\n" +
+	"\n" +
+	"\b_zone_idB\r\n" +
+	"\v_account_id\"\x14\n" +
 	"\x12ListConfigsRequest\"F\n" +
 	"\x13ListConfigsResponse\x12/\n" +
 	"\aconfigs\x18\x01 \x03(\v2\x15.core.v1.SystemConfigR\aconfigs\";\n" +
@@ -601,25 +901,46 @@ const file_core_v1_system_config_proto_rawDesc = "" +
 	"\x13ListSecretsResponse\x12)\n" +
 	"\asecrets\x18\x01 \x03(\v2\x0f.core.v1.SecretR\asecrets\"G\n" +
 	"\x10GetSecretRequest\x123\n" +
-	"\bprovider\x18\x01 \x01(\x0e2\x17.core.v1.SecretProviderR\bprovider\"\xc4\x01\n" +
+	"\bprovider\x18\x01 \x01(\x0e2\x17.core.v1.SecretProviderR\bprovider\"\xfa\x01\n" +
 	"\x13UpdateSecretRequest\x123\n" +
 	"\bprovider\x18\x01 \x01(\x0e2\x17.core.v1.SecretProviderR\bprovider\x12\x1f\n" +
 	"\busername\x18\x02 \x01(\tH\x00R\busername\x88\x01\x01\x12\x19\n" +
-	"\x05token\x18\x03 \x01(\tH\x01R\x05token\x88\x01\x01\x12\x1a\n" +
-	"\x06app_id\x18\x04 \x01(\tH\x02R\x05appId\x88\x01\x01B\v\n" +
+	"\x05token\x18\x03 \x01(\tH\x01R\x05token\x88\x01\x01\x12\x1c\n" +
+	"\azone_id\x18\x04 \x01(\tH\x02R\x06zoneId\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"account_id\x18\x05 \x01(\tH\x03R\taccountId\x88\x01\x01B\v\n" +
 	"\t_usernameB\b\n" +
-	"\x06_tokenB\t\n" +
-	"\a_app_id*m\n" +
+	"\x06_tokenB\n" +
+	"\n" +
+	"\b_zone_idB\r\n" +
+	"\v_account_id\"m\n" +
+	"\x10CloudflareTunnel\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x03 \x01(\tR\taccountId\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\"\x1e\n" +
+	"\x1cListCloudflareTunnelsRequest\"T\n" +
+	"\x1dListCloudflareTunnelsResponse\x123\n" +
+	"\atunnels\x18\x01 \x03(\v2\x19.core.v1.CloudflareTunnelR\atunnels\"4\n" +
+	"\x0eCloudflareZone\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"\x1c\n" +
+	"\x1aListCloudflareZonesRequest\"L\n" +
+	"\x1bListCloudflareZonesResponse\x12-\n" +
+	"\x05zones\x18\x01 \x03(\v2\x17.core.v1.CloudflareZoneR\x05zones*m\n" +
 	"\x0eSecretProvider\x12\x1f\n" +
 	"\x1bSECRET_PROVIDER_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16SECRET_PROVIDER_GITHUB\x10\x01\x12\x1e\n" +
-	"\x1aSECRET_PROVIDER_CLOUDFLARE\x10\x022\xe6\x02\n" +
+	"\x1aSECRET_PROVIDER_CLOUDFLARE\x10\x022\xb0\x04\n" +
 	"\x13SystemConfigService\x12H\n" +
 	"\vListConfigs\x12\x1b.core.v1.ListConfigsRequest\x1a\x1c.core.v1.ListConfigsResponse\x12C\n" +
 	"\fUpdateConfig\x12\x1c.core.v1.UpdateConfigRequest\x1a\x15.core.v1.SystemConfig\x12H\n" +
 	"\vListSecrets\x12\x1b.core.v1.ListSecretsRequest\x1a\x1c.core.v1.ListSecretsResponse\x127\n" +
 	"\tGetSecret\x12\x19.core.v1.GetSecretRequest\x1a\x0f.core.v1.Secret\x12=\n" +
-	"\fUpdateSecret\x12\x1c.core.v1.UpdateSecretRequest\x1a\x0f.core.v1.SecretBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\fUpdateSecret\x12\x1c.core.v1.UpdateSecretRequest\x1a\x0f.core.v1.Secret\x12f\n" +
+	"\x15ListCloudflareTunnels\x12%.core.v1.ListCloudflareTunnelsRequest\x1a&.core.v1.ListCloudflareTunnelsResponse\x12`\n" +
+	"\x13ListCloudflareZones\x12#.core.v1.ListCloudflareZonesRequest\x1a$.core.v1.ListCloudflareZonesResponseBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_system_config_proto_rawDescOnce sync.Once
@@ -634,43 +955,55 @@ func file_core_v1_system_config_proto_rawDescGZIP() []byte {
 }
 
 var file_core_v1_system_config_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_core_v1_system_config_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_core_v1_system_config_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_core_v1_system_config_proto_goTypes = []any{
-	(SecretProvider)(0),         // 0: core.v1.SecretProvider
-	(*SystemConfig)(nil),        // 1: core.v1.SystemConfig
-	(*Secret)(nil),              // 2: core.v1.Secret
-	(*ListConfigsRequest)(nil),  // 3: core.v1.ListConfigsRequest
-	(*ListConfigsResponse)(nil), // 4: core.v1.ListConfigsResponse
-	(*UpdateConfigRequest)(nil), // 5: core.v1.UpdateConfigRequest
-	(*ListSecretsRequest)(nil),  // 6: core.v1.ListSecretsRequest
-	(*ListSecretsResponse)(nil), // 7: core.v1.ListSecretsResponse
-	(*GetSecretRequest)(nil),    // 8: core.v1.GetSecretRequest
-	(*UpdateSecretRequest)(nil), // 9: core.v1.UpdateSecretRequest
-	(*v1.Timestamps)(nil),       // 10: common.v1.Timestamps
+	(SecretProvider)(0),                   // 0: core.v1.SecretProvider
+	(*SystemConfig)(nil),                  // 1: core.v1.SystemConfig
+	(*Secret)(nil),                        // 2: core.v1.Secret
+	(*ListConfigsRequest)(nil),            // 3: core.v1.ListConfigsRequest
+	(*ListConfigsResponse)(nil),           // 4: core.v1.ListConfigsResponse
+	(*UpdateConfigRequest)(nil),           // 5: core.v1.UpdateConfigRequest
+	(*ListSecretsRequest)(nil),            // 6: core.v1.ListSecretsRequest
+	(*ListSecretsResponse)(nil),           // 7: core.v1.ListSecretsResponse
+	(*GetSecretRequest)(nil),              // 8: core.v1.GetSecretRequest
+	(*UpdateSecretRequest)(nil),           // 9: core.v1.UpdateSecretRequest
+	(*CloudflareTunnel)(nil),              // 10: core.v1.CloudflareTunnel
+	(*ListCloudflareTunnelsRequest)(nil),  // 11: core.v1.ListCloudflareTunnelsRequest
+	(*ListCloudflareTunnelsResponse)(nil), // 12: core.v1.ListCloudflareTunnelsResponse
+	(*CloudflareZone)(nil),                // 13: core.v1.CloudflareZone
+	(*ListCloudflareZonesRequest)(nil),    // 14: core.v1.ListCloudflareZonesRequest
+	(*ListCloudflareZonesResponse)(nil),   // 15: core.v1.ListCloudflareZonesResponse
+	(*v1.Timestamps)(nil),                 // 16: common.v1.Timestamps
 }
 var file_core_v1_system_config_proto_depIdxs = []int32{
-	10, // 0: core.v1.SystemConfig.timestamps:type_name -> common.v1.Timestamps
+	16, // 0: core.v1.SystemConfig.timestamps:type_name -> common.v1.Timestamps
 	0,  // 1: core.v1.Secret.provider:type_name -> core.v1.SecretProvider
-	10, // 2: core.v1.Secret.timestamps:type_name -> common.v1.Timestamps
+	16, // 2: core.v1.Secret.timestamps:type_name -> common.v1.Timestamps
 	1,  // 3: core.v1.ListConfigsResponse.configs:type_name -> core.v1.SystemConfig
 	2,  // 4: core.v1.ListSecretsResponse.secrets:type_name -> core.v1.Secret
 	0,  // 5: core.v1.GetSecretRequest.provider:type_name -> core.v1.SecretProvider
 	0,  // 6: core.v1.UpdateSecretRequest.provider:type_name -> core.v1.SecretProvider
-	3,  // 7: core.v1.SystemConfigService.ListConfigs:input_type -> core.v1.ListConfigsRequest
-	5,  // 8: core.v1.SystemConfigService.UpdateConfig:input_type -> core.v1.UpdateConfigRequest
-	6,  // 9: core.v1.SystemConfigService.ListSecrets:input_type -> core.v1.ListSecretsRequest
-	8,  // 10: core.v1.SystemConfigService.GetSecret:input_type -> core.v1.GetSecretRequest
-	9,  // 11: core.v1.SystemConfigService.UpdateSecret:input_type -> core.v1.UpdateSecretRequest
-	4,  // 12: core.v1.SystemConfigService.ListConfigs:output_type -> core.v1.ListConfigsResponse
-	1,  // 13: core.v1.SystemConfigService.UpdateConfig:output_type -> core.v1.SystemConfig
-	7,  // 14: core.v1.SystemConfigService.ListSecrets:output_type -> core.v1.ListSecretsResponse
-	2,  // 15: core.v1.SystemConfigService.GetSecret:output_type -> core.v1.Secret
-	2,  // 16: core.v1.SystemConfigService.UpdateSecret:output_type -> core.v1.Secret
-	12, // [12:17] is the sub-list for method output_type
-	7,  // [7:12] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	10, // 7: core.v1.ListCloudflareTunnelsResponse.tunnels:type_name -> core.v1.CloudflareTunnel
+	13, // 8: core.v1.ListCloudflareZonesResponse.zones:type_name -> core.v1.CloudflareZone
+	3,  // 9: core.v1.SystemConfigService.ListConfigs:input_type -> core.v1.ListConfigsRequest
+	5,  // 10: core.v1.SystemConfigService.UpdateConfig:input_type -> core.v1.UpdateConfigRequest
+	6,  // 11: core.v1.SystemConfigService.ListSecrets:input_type -> core.v1.ListSecretsRequest
+	8,  // 12: core.v1.SystemConfigService.GetSecret:input_type -> core.v1.GetSecretRequest
+	9,  // 13: core.v1.SystemConfigService.UpdateSecret:input_type -> core.v1.UpdateSecretRequest
+	11, // 14: core.v1.SystemConfigService.ListCloudflareTunnels:input_type -> core.v1.ListCloudflareTunnelsRequest
+	14, // 15: core.v1.SystemConfigService.ListCloudflareZones:input_type -> core.v1.ListCloudflareZonesRequest
+	4,  // 16: core.v1.SystemConfigService.ListConfigs:output_type -> core.v1.ListConfigsResponse
+	1,  // 17: core.v1.SystemConfigService.UpdateConfig:output_type -> core.v1.SystemConfig
+	7,  // 18: core.v1.SystemConfigService.ListSecrets:output_type -> core.v1.ListSecretsResponse
+	2,  // 19: core.v1.SystemConfigService.GetSecret:output_type -> core.v1.Secret
+	2,  // 20: core.v1.SystemConfigService.UpdateSecret:output_type -> core.v1.Secret
+	12, // 21: core.v1.SystemConfigService.ListCloudflareTunnels:output_type -> core.v1.ListCloudflareTunnelsResponse
+	15, // 22: core.v1.SystemConfigService.ListCloudflareZones:output_type -> core.v1.ListCloudflareZonesResponse
+	16, // [16:23] is the sub-list for method output_type
+	9,  // [9:16] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_system_config_proto_init() }
@@ -686,7 +1019,7 @@ func file_core_v1_system_config_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_system_config_proto_rawDesc), len(file_core_v1_system_config_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   9,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -35,7 +35,11 @@ export interface Runtime {
   envVars: EnvVar[];
   /** "claude-code" in MVP B */
   agent: string;
-  timestamps?: Timestamps | undefined;
+  timestamps?:
+    | Timestamps
+    | undefined;
+  /** verbatim Dockerfile instructions inserted after base setup */
+  dockerfile: string;
 }
 
 export interface ListRuntimesRequest {
@@ -58,6 +62,7 @@ export interface CreateRuntimeRequest {
   containerImage: string;
   installCommand: string;
   envVars: EnvVar[];
+  dockerfile: string;
 }
 
 export interface UpdateRuntimeRequest {
@@ -70,6 +75,7 @@ export interface UpdateRuntimeRequest {
   containerImage?: string | undefined;
   installCommand?: string | undefined;
   envVars: EnvVar[];
+  dockerfile?: string | undefined;
 }
 
 export interface DeleteRuntimeRequest {
@@ -89,6 +95,7 @@ function createBaseRuntime(): Runtime {
     envVars: [],
     agent: "",
     timestamps: undefined,
+    dockerfile: "",
   };
 }
 
@@ -126,6 +133,9 @@ export const Runtime: MessageFns<Runtime> = {
     }
     if (message.timestamps !== undefined) {
       Timestamps.encode(message.timestamps, writer.uint32(90).fork()).join();
+    }
+    if (message.dockerfile !== "") {
+      writer.uint32(98).string(message.dockerfile);
     }
     return writer;
   },
@@ -225,6 +235,14 @@ export const Runtime: MessageFns<Runtime> = {
           message.timestamps = Timestamps.decode(reader, reader.uint32());
           continue;
         }
+        case 12: {
+          if (tag !== 98) {
+            break;
+          }
+
+          message.dockerfile = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -271,6 +289,7 @@ export const Runtime: MessageFns<Runtime> = {
         : [],
       agent: isSet(object.agent) ? globalThis.String(object.agent) : "",
       timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+      dockerfile: isSet(object.dockerfile) ? globalThis.String(object.dockerfile) : "",
     };
   },
 
@@ -308,6 +327,9 @@ export const Runtime: MessageFns<Runtime> = {
     }
     if (message.timestamps !== undefined) {
       obj.timestamps = Timestamps.toJSON(message.timestamps);
+    }
+    if (message.dockerfile !== "") {
+      obj.dockerfile = message.dockerfile;
     }
     return obj;
   },
@@ -458,6 +480,7 @@ function createBaseCreateRuntimeRequest(): CreateRuntimeRequest {
     containerImage: "",
     installCommand: "",
     envVars: [],
+    dockerfile: "",
   };
 }
 
@@ -486,6 +509,9 @@ export const CreateRuntimeRequest: MessageFns<CreateRuntimeRequest> = {
     }
     for (const v of message.envVars) {
       EnvVar.encode(v!, writer.uint32(66).fork()).join();
+    }
+    if (message.dockerfile !== "") {
+      writer.uint32(74).string(message.dockerfile);
     }
     return writer;
   },
@@ -561,6 +587,14 @@ export const CreateRuntimeRequest: MessageFns<CreateRuntimeRequest> = {
           message.envVars.push(EnvVar.decode(reader, reader.uint32()));
           continue;
         }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.dockerfile = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -604,6 +638,7 @@ export const CreateRuntimeRequest: MessageFns<CreateRuntimeRequest> = {
         : globalThis.Array.isArray(object?.env_vars)
         ? object.env_vars.map((e: any) => EnvVar.fromJSON(e))
         : [],
+      dockerfile: isSet(object.dockerfile) ? globalThis.String(object.dockerfile) : "",
     };
   },
 
@@ -633,6 +668,9 @@ export const CreateRuntimeRequest: MessageFns<CreateRuntimeRequest> = {
     if (message.envVars?.length) {
       obj.envVars = message.envVars.map((e) => EnvVar.toJSON(e));
     }
+    if (message.dockerfile !== "") {
+      obj.dockerfile = message.dockerfile;
+    }
     return obj;
   },
 };
@@ -648,6 +686,7 @@ function createBaseUpdateRuntimeRequest(): UpdateRuntimeRequest {
     containerImage: undefined,
     installCommand: undefined,
     envVars: [],
+    dockerfile: undefined,
   };
 }
 
@@ -679,6 +718,9 @@ export const UpdateRuntimeRequest: MessageFns<UpdateRuntimeRequest> = {
     }
     for (const v of message.envVars) {
       EnvVar.encode(v!, writer.uint32(74).fork()).join();
+    }
+    if (message.dockerfile !== undefined) {
+      writer.uint32(82).string(message.dockerfile);
     }
     return writer;
   },
@@ -762,6 +804,14 @@ export const UpdateRuntimeRequest: MessageFns<UpdateRuntimeRequest> = {
           message.envVars.push(EnvVar.decode(reader, reader.uint32()));
           continue;
         }
+        case 10: {
+          if (tag !== 82) {
+            break;
+          }
+
+          message.dockerfile = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -806,6 +856,7 @@ export const UpdateRuntimeRequest: MessageFns<UpdateRuntimeRequest> = {
         : globalThis.Array.isArray(object?.env_vars)
         ? object.env_vars.map((e: any) => EnvVar.fromJSON(e))
         : [],
+      dockerfile: isSet(object.dockerfile) ? globalThis.String(object.dockerfile) : undefined,
     };
   },
 
@@ -837,6 +888,9 @@ export const UpdateRuntimeRequest: MessageFns<UpdateRuntimeRequest> = {
     }
     if (message.envVars?.length) {
       obj.envVars = message.envVars.map((e) => EnvVar.toJSON(e));
+    }
+    if (message.dockerfile !== undefined) {
+      obj.dockerfile = message.dockerfile;
     }
     return obj;
   },

@@ -20,6 +20,8 @@ message Project {
   common.v1.Status status = 8;
   string last_task_id = 9;
   common.v1.Timestamps timestamps = 10;
+  string workspace_folder = 11;
+  string git_remote_url = 12;
 }
 
 message ListProjectsRequest {
@@ -43,6 +45,8 @@ message CreateProjectRequest {
   repeated common.v1.EnvVar env_vars = 4;
   string prompt = 5;
   string init_prompt = 6;
+  string workspace_folder = 7;
+  string git_remote_url = 8;
 }
 
 message UpdateProjectRequest {
@@ -53,9 +57,15 @@ message UpdateProjectRequest {
   repeated common.v1.EnvVar env_vars = 5;
   optional string prompt = 6;
   optional string init_prompt = 7;
+  optional string workspace_folder = 8;
+  optional string git_remote_url = 9;
 }
 
 message DeleteProjectRequest {
+  string id = 1;
+}
+
+message RunProjectInitRequest {
   string id = 1;
 }
 
@@ -65,4 +75,5 @@ service ProjectService {
   rpc CreateProject(CreateProjectRequest) returns (Project);
   rpc UpdateProject(UpdateProjectRequest) returns (Project);
   rpc DeleteProject(DeleteProjectRequest) returns (common.v1.DeleteResponse);
+  rpc RunProjectInit(RunProjectInitRequest) returns (Project);
 }

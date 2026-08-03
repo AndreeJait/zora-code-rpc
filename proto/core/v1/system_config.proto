@@ -24,8 +24,9 @@ message Secret {
   SecretProvider provider = 2;
   optional string username = 3;
   optional string token = 4;        // encrypted at rest
-  optional string app_id = 5;
-  common.v1.Timestamps timestamps = 6;
+  optional string zone_id = 5;      // Cloudflare zone id used for DNS records
+  optional string account_id = 6;   // Cloudflare account id used to list tunnels/zones
+  common.v1.Timestamps timestamps = 7;
 }
 
 enum SecretProvider {
@@ -59,7 +60,32 @@ message UpdateSecretRequest {
   SecretProvider provider = 1;
   optional string username = 2;
   optional string token = 3;
-  optional string app_id = 4;
+  optional string zone_id = 4;
+  optional string account_id = 5;
+}
+
+message CloudflareTunnel {
+  string id = 1;
+  string name = 2;
+  string account_id = 3;
+  string status = 4;
+}
+
+message ListCloudflareTunnelsRequest {}
+
+message ListCloudflareTunnelsResponse {
+  repeated CloudflareTunnel tunnels = 1;
+}
+
+message CloudflareZone {
+  string id = 1;
+  string name = 2;
+}
+
+message ListCloudflareZonesRequest {}
+
+message ListCloudflareZonesResponse {
+  repeated CloudflareZone zones = 1;
 }
 
 service SystemConfigService {
@@ -69,4 +95,7 @@ service SystemConfigService {
   rpc ListSecrets(ListSecretsRequest) returns (ListSecretsResponse);
   rpc GetSecret(GetSecretRequest) returns (Secret);
   rpc UpdateSecret(UpdateSecretRequest) returns (Secret);
+
+  rpc ListCloudflareTunnels(ListCloudflareTunnelsRequest) returns (ListCloudflareTunnelsResponse);
+  rpc ListCloudflareZones(ListCloudflareZonesRequest) returns (ListCloudflareZonesResponse);
 }

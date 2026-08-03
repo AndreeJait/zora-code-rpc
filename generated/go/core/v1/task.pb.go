@@ -560,6 +560,182 @@ func (x *CloneTaskRequest) GetId() string {
 	return ""
 }
 
+type CancelTaskRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelTaskRequest) Reset() {
+	*x = CancelTaskRequest{}
+	mi := &file_core_v1_task_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelTaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelTaskRequest) ProtoMessage() {}
+
+func (x *CancelTaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_task_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelTaskRequest.ProtoReflect.Descriptor instead.
+func (*CancelTaskRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_task_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CancelTaskRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type CancelTaskResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Task          *Task                  `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelTaskResponse) Reset() {
+	*x = CancelTaskResponse{}
+	mi := &file_core_v1_task_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelTaskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelTaskResponse) ProtoMessage() {}
+
+func (x *CancelTaskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_task_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelTaskResponse.ProtoReflect.Descriptor instead.
+func (*CancelTaskResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_task_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *CancelTaskResponse) GetTask() *Task {
+	if x != nil {
+		return x.Task
+	}
+	return nil
+}
+
+type RerunTaskRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RerunTaskRequest) Reset() {
+	*x = RerunTaskRequest{}
+	mi := &file_core_v1_task_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RerunTaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RerunTaskRequest) ProtoMessage() {}
+
+func (x *RerunTaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_task_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RerunTaskRequest.ProtoReflect.Descriptor instead.
+func (*RerunTaskRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_task_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *RerunTaskRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type RerunTaskResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Task          *Task                  `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RerunTaskResponse) Reset() {
+	*x = RerunTaskResponse{}
+	mi := &file_core_v1_task_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RerunTaskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RerunTaskResponse) ProtoMessage() {}
+
+func (x *RerunTaskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_task_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RerunTaskResponse.ProtoReflect.Descriptor instead.
+func (*RerunTaskResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_task_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *RerunTaskResponse) GetTask() *Task {
+	if x != nil {
+		return x.Task
+	}
+	return nil
+}
+
 var File_core_v1_task_proto protoreflect.FileDescriptor
 
 const file_core_v1_task_proto_rawDesc = "" +
@@ -616,7 +792,15 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\x11DeleteTaskRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\"\n" +
 	"\x10CloneTaskRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id2\xf2\x02\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"#\n" +
+	"\x11CancelTaskRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"7\n" +
+	"\x12CancelTaskResponse\x12!\n" +
+	"\x04task\x18\x01 \x01(\v2\r.core.v1.TaskR\x04task\"\"\n" +
+	"\x10RerunTaskRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"6\n" +
+	"\x11RerunTaskResponse\x12!\n" +
+	"\x04task\x18\x01 \x01(\v2\r.core.v1.TaskR\x04task2\xfd\x03\n" +
 	"\vTaskService\x12B\n" +
 	"\tListTasks\x12\x19.core.v1.ListTasksRequest\x1a\x1a.core.v1.ListTasksResponse\x121\n" +
 	"\aGetTask\x12\x17.core.v1.GetTaskRequest\x1a\r.core.v1.Task\x127\n" +
@@ -626,7 +810,10 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"UpdateTask\x12\x1a.core.v1.UpdateTaskRequest\x1a\r.core.v1.Task\x12C\n" +
 	"\n" +
 	"DeleteTask\x12\x1a.core.v1.DeleteTaskRequest\x1a\x19.common.v1.DeleteResponse\x125\n" +
-	"\tCloneTask\x12\x19.core.v1.CloneTaskRequest\x1a\r.core.v1.TaskBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\tCloneTask\x12\x19.core.v1.CloneTaskRequest\x1a\r.core.v1.Task\x12E\n" +
+	"\n" +
+	"CancelTask\x12\x1a.core.v1.CancelTaskRequest\x1a\x1b.core.v1.CancelTaskResponse\x12B\n" +
+	"\tRerunTask\x12\x19.core.v1.RerunTaskRequest\x1a\x1a.core.v1.RerunTaskResponseBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_task_proto_rawDescOnce sync.Once
@@ -640,7 +827,7 @@ func file_core_v1_task_proto_rawDescGZIP() []byte {
 	return file_core_v1_task_proto_rawDescData
 }
 
-var file_core_v1_task_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_core_v1_task_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_core_v1_task_proto_goTypes = []any{
 	(*Task)(nil),                  // 0: core.v1.Task
 	(*ListTasksRequest)(nil),      // 1: core.v1.ListTasksRequest
@@ -650,38 +837,48 @@ var file_core_v1_task_proto_goTypes = []any{
 	(*UpdateTaskRequest)(nil),     // 5: core.v1.UpdateTaskRequest
 	(*DeleteTaskRequest)(nil),     // 6: core.v1.DeleteTaskRequest
 	(*CloneTaskRequest)(nil),      // 7: core.v1.CloneTaskRequest
-	(v1.Status)(0),                // 8: common.v1.Status
-	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
-	(*v1.Pagination)(nil),         // 10: common.v1.Pagination
-	(*v1.PageInfo)(nil),           // 11: common.v1.PageInfo
-	(*v1.DeleteResponse)(nil),     // 12: common.v1.DeleteResponse
+	(*CancelTaskRequest)(nil),     // 8: core.v1.CancelTaskRequest
+	(*CancelTaskResponse)(nil),    // 9: core.v1.CancelTaskResponse
+	(*RerunTaskRequest)(nil),      // 10: core.v1.RerunTaskRequest
+	(*RerunTaskResponse)(nil),     // 11: core.v1.RerunTaskResponse
+	(v1.Status)(0),                // 12: common.v1.Status
+	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
+	(*v1.Pagination)(nil),         // 14: common.v1.Pagination
+	(*v1.PageInfo)(nil),           // 15: common.v1.PageInfo
+	(*v1.DeleteResponse)(nil),     // 16: common.v1.DeleteResponse
 }
 var file_core_v1_task_proto_depIdxs = []int32{
-	8,  // 0: core.v1.Task.status:type_name -> common.v1.Status
-	9,  // 1: core.v1.Task.started_at:type_name -> google.protobuf.Timestamp
-	9,  // 2: core.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
-	9,  // 3: core.v1.Task.created_at:type_name -> google.protobuf.Timestamp
-	9,  // 4: core.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
-	10, // 5: core.v1.ListTasksRequest.pagination:type_name -> common.v1.Pagination
+	12, // 0: core.v1.Task.status:type_name -> common.v1.Status
+	13, // 1: core.v1.Task.started_at:type_name -> google.protobuf.Timestamp
+	13, // 2: core.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
+	13, // 3: core.v1.Task.created_at:type_name -> google.protobuf.Timestamp
+	13, // 4: core.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
+	14, // 5: core.v1.ListTasksRequest.pagination:type_name -> common.v1.Pagination
 	0,  // 6: core.v1.ListTasksResponse.tasks:type_name -> core.v1.Task
-	11, // 7: core.v1.ListTasksResponse.page_info:type_name -> common.v1.PageInfo
-	1,  // 8: core.v1.TaskService.ListTasks:input_type -> core.v1.ListTasksRequest
-	3,  // 9: core.v1.TaskService.GetTask:input_type -> core.v1.GetTaskRequest
-	4,  // 10: core.v1.TaskService.CreateTask:input_type -> core.v1.CreateTaskRequest
-	5,  // 11: core.v1.TaskService.UpdateTask:input_type -> core.v1.UpdateTaskRequest
-	6,  // 12: core.v1.TaskService.DeleteTask:input_type -> core.v1.DeleteTaskRequest
-	7,  // 13: core.v1.TaskService.CloneTask:input_type -> core.v1.CloneTaskRequest
-	2,  // 14: core.v1.TaskService.ListTasks:output_type -> core.v1.ListTasksResponse
-	0,  // 15: core.v1.TaskService.GetTask:output_type -> core.v1.Task
-	0,  // 16: core.v1.TaskService.CreateTask:output_type -> core.v1.Task
-	0,  // 17: core.v1.TaskService.UpdateTask:output_type -> core.v1.Task
-	12, // 18: core.v1.TaskService.DeleteTask:output_type -> common.v1.DeleteResponse
-	0,  // 19: core.v1.TaskService.CloneTask:output_type -> core.v1.Task
-	14, // [14:20] is the sub-list for method output_type
-	8,  // [8:14] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	15, // 7: core.v1.ListTasksResponse.page_info:type_name -> common.v1.PageInfo
+	0,  // 8: core.v1.CancelTaskResponse.task:type_name -> core.v1.Task
+	0,  // 9: core.v1.RerunTaskResponse.task:type_name -> core.v1.Task
+	1,  // 10: core.v1.TaskService.ListTasks:input_type -> core.v1.ListTasksRequest
+	3,  // 11: core.v1.TaskService.GetTask:input_type -> core.v1.GetTaskRequest
+	4,  // 12: core.v1.TaskService.CreateTask:input_type -> core.v1.CreateTaskRequest
+	5,  // 13: core.v1.TaskService.UpdateTask:input_type -> core.v1.UpdateTaskRequest
+	6,  // 14: core.v1.TaskService.DeleteTask:input_type -> core.v1.DeleteTaskRequest
+	7,  // 15: core.v1.TaskService.CloneTask:input_type -> core.v1.CloneTaskRequest
+	8,  // 16: core.v1.TaskService.CancelTask:input_type -> core.v1.CancelTaskRequest
+	10, // 17: core.v1.TaskService.RerunTask:input_type -> core.v1.RerunTaskRequest
+	2,  // 18: core.v1.TaskService.ListTasks:output_type -> core.v1.ListTasksResponse
+	0,  // 19: core.v1.TaskService.GetTask:output_type -> core.v1.Task
+	0,  // 20: core.v1.TaskService.CreateTask:output_type -> core.v1.Task
+	0,  // 21: core.v1.TaskService.UpdateTask:output_type -> core.v1.Task
+	16, // 22: core.v1.TaskService.DeleteTask:output_type -> common.v1.DeleteResponse
+	0,  // 23: core.v1.TaskService.CloneTask:output_type -> core.v1.Task
+	9,  // 24: core.v1.TaskService.CancelTask:output_type -> core.v1.CancelTaskResponse
+	11, // 25: core.v1.TaskService.RerunTask:output_type -> core.v1.RerunTaskResponse
+	18, // [18:26] is the sub-list for method output_type
+	10, // [10:18] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_task_proto_init() }
@@ -696,7 +893,7 @@ func file_core_v1_task_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_task_proto_rawDesc), len(file_core_v1_task_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

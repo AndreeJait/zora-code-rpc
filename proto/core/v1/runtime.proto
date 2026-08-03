@@ -21,6 +21,7 @@ message Runtime {
   repeated common.v1.EnvVar env_vars = 9;
   string agent = 10;               // "claude-code" in MVP B
   common.v1.Timestamps timestamps = 11;
+  string dockerfile = 12;          // verbatim Dockerfile instructions inserted after base setup
 }
 
 message ListRuntimesRequest {}
@@ -42,6 +43,7 @@ message CreateRuntimeRequest {
   string container_image = 6;
   string install_command = 7;
   repeated common.v1.EnvVar env_vars = 8;
+  string dockerfile = 9;
 }
 
 message UpdateRuntimeRequest {
@@ -54,6 +56,7 @@ message UpdateRuntimeRequest {
   optional string container_image = 7;
   optional string install_command = 8;
   repeated common.v1.EnvVar env_vars = 9;
+  optional string dockerfile = 10;
 }
 
 message DeleteRuntimeRequest {

@@ -20,6 +20,8 @@ function createBaseProject() {
         status: 0,
         lastTaskId: "",
         timestamps: undefined,
+        workspaceFolder: "",
+        gitRemoteUrl: "",
     };
 }
 export const Project = {
@@ -53,6 +55,12 @@ export const Project = {
         }
         if (message.timestamps !== undefined) {
             Timestamps.encode(message.timestamps, writer.uint32(82).fork()).join();
+        }
+        if (message.workspaceFolder !== "") {
+            writer.uint32(90).string(message.workspaceFolder);
+        }
+        if (message.gitRemoteUrl !== "") {
+            writer.uint32(98).string(message.gitRemoteUrl);
         }
         return writer;
     },
@@ -133,6 +141,20 @@ export const Project = {
                     message.timestamps = Timestamps.decode(reader, reader.uint32());
                     continue;
                 }
+                case 11: {
+                    if (tag !== 90) {
+                        break;
+                    }
+                    message.workspaceFolder = reader.string();
+                    continue;
+                }
+                case 12: {
+                    if (tag !== 98) {
+                        break;
+                    }
+                    message.gitRemoteUrl = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -169,6 +191,16 @@ export const Project = {
                     ? globalThis.String(object.last_task_id)
                     : "",
             timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+            workspaceFolder: isSet(object.workspaceFolder)
+                ? globalThis.String(object.workspaceFolder)
+                : isSet(object.workspace_folder)
+                    ? globalThis.String(object.workspace_folder)
+                    : "",
+            gitRemoteUrl: isSet(object.gitRemoteUrl)
+                ? globalThis.String(object.gitRemoteUrl)
+                : isSet(object.git_remote_url)
+                    ? globalThis.String(object.git_remote_url)
+                    : "",
         };
     },
     toJSON(message) {
@@ -202,6 +234,12 @@ export const Project = {
         }
         if (message.timestamps !== undefined) {
             obj.timestamps = Timestamps.toJSON(message.timestamps);
+        }
+        if (message.workspaceFolder !== "") {
+            obj.workspaceFolder = message.workspaceFolder;
+        }
+        if (message.gitRemoteUrl !== "") {
+            obj.gitRemoteUrl = message.gitRemoteUrl;
         }
         return obj;
     },
@@ -372,7 +410,16 @@ export const GetProjectRequest = {
     },
 };
 function createBaseCreateProjectRequest() {
-    return { name: "", description: "", runtimeId: "", envVars: [], prompt: "", initPrompt: "" };
+    return {
+        name: "",
+        description: "",
+        runtimeId: "",
+        envVars: [],
+        prompt: "",
+        initPrompt: "",
+        workspaceFolder: "",
+        gitRemoteUrl: "",
+    };
 }
 export const CreateProjectRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -393,6 +440,12 @@ export const CreateProjectRequest = {
         }
         if (message.initPrompt !== "") {
             writer.uint32(50).string(message.initPrompt);
+        }
+        if (message.workspaceFolder !== "") {
+            writer.uint32(58).string(message.workspaceFolder);
+        }
+        if (message.gitRemoteUrl !== "") {
+            writer.uint32(66).string(message.gitRemoteUrl);
         }
         return writer;
     },
@@ -445,6 +498,20 @@ export const CreateProjectRequest = {
                     message.initPrompt = reader.string();
                     continue;
                 }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.workspaceFolder = reader.string();
+                    continue;
+                }
+                case 8: {
+                    if (tag !== 66) {
+                        break;
+                    }
+                    message.gitRemoteUrl = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -473,6 +540,16 @@ export const CreateProjectRequest = {
                 : isSet(object.init_prompt)
                     ? globalThis.String(object.init_prompt)
                     : "",
+            workspaceFolder: isSet(object.workspaceFolder)
+                ? globalThis.String(object.workspaceFolder)
+                : isSet(object.workspace_folder)
+                    ? globalThis.String(object.workspace_folder)
+                    : "",
+            gitRemoteUrl: isSet(object.gitRemoteUrl)
+                ? globalThis.String(object.gitRemoteUrl)
+                : isSet(object.git_remote_url)
+                    ? globalThis.String(object.git_remote_url)
+                    : "",
         };
     },
     toJSON(message) {
@@ -495,6 +572,12 @@ export const CreateProjectRequest = {
         if (message.initPrompt !== "") {
             obj.initPrompt = message.initPrompt;
         }
+        if (message.workspaceFolder !== "") {
+            obj.workspaceFolder = message.workspaceFolder;
+        }
+        if (message.gitRemoteUrl !== "") {
+            obj.gitRemoteUrl = message.gitRemoteUrl;
+        }
         return obj;
     },
 };
@@ -507,6 +590,8 @@ function createBaseUpdateProjectRequest() {
         envVars: [],
         prompt: undefined,
         initPrompt: undefined,
+        workspaceFolder: undefined,
+        gitRemoteUrl: undefined,
     };
 }
 export const UpdateProjectRequest = {
@@ -531,6 +616,12 @@ export const UpdateProjectRequest = {
         }
         if (message.initPrompt !== undefined) {
             writer.uint32(58).string(message.initPrompt);
+        }
+        if (message.workspaceFolder !== undefined) {
+            writer.uint32(66).string(message.workspaceFolder);
+        }
+        if (message.gitRemoteUrl !== undefined) {
+            writer.uint32(74).string(message.gitRemoteUrl);
         }
         return writer;
     },
@@ -590,6 +681,20 @@ export const UpdateProjectRequest = {
                     message.initPrompt = reader.string();
                     continue;
                 }
+                case 8: {
+                    if (tag !== 66) {
+                        break;
+                    }
+                    message.workspaceFolder = reader.string();
+                    continue;
+                }
+                case 9: {
+                    if (tag !== 74) {
+                        break;
+                    }
+                    message.gitRemoteUrl = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -619,6 +724,16 @@ export const UpdateProjectRequest = {
                 : isSet(object.init_prompt)
                     ? globalThis.String(object.init_prompt)
                     : undefined,
+            workspaceFolder: isSet(object.workspaceFolder)
+                ? globalThis.String(object.workspaceFolder)
+                : isSet(object.workspace_folder)
+                    ? globalThis.String(object.workspace_folder)
+                    : undefined,
+            gitRemoteUrl: isSet(object.gitRemoteUrl)
+                ? globalThis.String(object.gitRemoteUrl)
+                : isSet(object.git_remote_url)
+                    ? globalThis.String(object.git_remote_url)
+                    : undefined,
         };
     },
     toJSON(message) {
@@ -644,6 +759,12 @@ export const UpdateProjectRequest = {
         if (message.initPrompt !== undefined) {
             obj.initPrompt = message.initPrompt;
         }
+        if (message.workspaceFolder !== undefined) {
+            obj.workspaceFolder = message.workspaceFolder;
+        }
+        if (message.gitRemoteUrl !== undefined) {
+            obj.gitRemoteUrl = message.gitRemoteUrl;
+        }
         return obj;
     },
 };
@@ -661,6 +782,49 @@ export const DeleteProjectRequest = {
         const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
         const end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseDeleteProjectRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.id = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { id: isSet(object.id) ? globalThis.String(object.id) : "" };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.id !== "") {
+            obj.id = message.id;
+        }
+        return obj;
+    },
+};
+function createBaseRunProjectInitRequest() {
+    return { id: "" };
+}
+export const RunProjectInitRequest = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.id !== "") {
+            writer.uint32(10).string(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseRunProjectInitRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -735,6 +899,15 @@ export const ProjectServiceService = {
         requestDeserialize: (value) => DeleteProjectRequest.decode(value),
         responseSerialize: (value) => Buffer.from(DeleteResponse.encode(value).finish()),
         responseDeserialize: (value) => DeleteResponse.decode(value),
+    },
+    runProjectInit: {
+        path: "/core.v1.ProjectService/RunProjectInit",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(RunProjectInitRequest.encode(value).finish()),
+        requestDeserialize: (value) => RunProjectInitRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(Project.encode(value).finish()),
+        responseDeserialize: (value) => Project.decode(value),
     },
 };
 export const ProjectServiceClient = makeGenericClientConstructor(ProjectServiceService, "core.v1.ProjectService");

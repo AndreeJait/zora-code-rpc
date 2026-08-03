@@ -35,6 +35,7 @@ type Deployment struct {
 	Status                        v1.Status              `protobuf:"varint,8,opt,name=status,proto3,enum=common.v1.Status" json:"status,omitempty"`
 	CreateNewContainerIfNotExists bool                   `protobuf:"varint,9,opt,name=create_new_container_if_not_exists,json=createNewContainerIfNotExists,proto3" json:"create_new_container_if_not_exists,omitempty"`
 	Timestamps                    *v1.Timestamps         `protobuf:"bytes,10,opt,name=timestamps,proto3" json:"timestamps,omitempty"`
+	ZoneId                        string                 `protobuf:"bytes,11,opt,name=zone_id,json=zoneId,proto3" json:"zone_id,omitempty"`
 	unknownFields                 protoimpl.UnknownFields
 	sizeCache                     protoimpl.SizeCache
 }
@@ -137,6 +138,13 @@ func (x *Deployment) GetTimestamps() *v1.Timestamps {
 		return x.Timestamps
 	}
 	return nil
+}
+
+func (x *Deployment) GetZoneId() string {
+	if x != nil {
+		return x.ZoneId
+	}
+	return ""
 }
 
 type ListDeploymentsRequest struct {
@@ -278,6 +286,7 @@ type CreateDeploymentRequest struct {
 	Subdomain                     string                 `protobuf:"bytes,3,opt,name=subdomain,proto3" json:"subdomain,omitempty"`
 	Port                          int32                  `protobuf:"varint,4,opt,name=port,proto3" json:"port,omitempty"`
 	CreateNewContainerIfNotExists bool                   `protobuf:"varint,5,opt,name=create_new_container_if_not_exists,json=createNewContainerIfNotExists,proto3" json:"create_new_container_if_not_exists,omitempty"`
+	ZoneId                        string                 `protobuf:"bytes,6,opt,name=zone_id,json=zoneId,proto3" json:"zone_id,omitempty"`
 	unknownFields                 protoimpl.UnknownFields
 	sizeCache                     protoimpl.SizeCache
 }
@@ -347,6 +356,13 @@ func (x *CreateDeploymentRequest) GetCreateNewContainerIfNotExists() bool {
 	return false
 }
 
+func (x *CreateDeploymentRequest) GetZoneId() string {
+	if x != nil {
+		return x.ZoneId
+	}
+	return ""
+}
+
 type UpdateDeploymentRequest struct {
 	state                         protoimpl.MessageState `protogen:"open.v1"`
 	Id                            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -354,6 +370,7 @@ type UpdateDeploymentRequest struct {
 	Subdomain                     *string                `protobuf:"bytes,3,opt,name=subdomain,proto3,oneof" json:"subdomain,omitempty"`
 	Port                          *int32                 `protobuf:"varint,4,opt,name=port,proto3,oneof" json:"port,omitempty"`
 	CreateNewContainerIfNotExists *bool                  `protobuf:"varint,5,opt,name=create_new_container_if_not_exists,json=createNewContainerIfNotExists,proto3,oneof" json:"create_new_container_if_not_exists,omitempty"`
+	ZoneId                        *string                `protobuf:"bytes,6,opt,name=zone_id,json=zoneId,proto3,oneof" json:"zone_id,omitempty"`
 	unknownFields                 protoimpl.UnknownFields
 	sizeCache                     protoimpl.SizeCache
 }
@@ -421,6 +438,13 @@ func (x *UpdateDeploymentRequest) GetCreateNewContainerIfNotExists() bool {
 		return *x.CreateNewContainerIfNotExists
 	}
 	return false
+}
+
+func (x *UpdateDeploymentRequest) GetZoneId() string {
+	if x != nil && x.ZoneId != nil {
+		return *x.ZoneId
+	}
+	return ""
 }
 
 type DeleteDeploymentRequest struct {
@@ -559,7 +583,7 @@ var File_core_v1_deployment_proto protoreflect.FileDescriptor
 
 const file_core_v1_deployment_proto_rawDesc = "" +
 	"\n" +
-	"\x18core/v1/deployment.proto\x12\acore.v1\x1a\x15common/v1/types.proto\"\xec\x02\n" +
+	"\x18core/v1/deployment.proto\x12\acore.v1\x1a\x15common/v1/types.proto\"\x85\x03\n" +
 	"\n" +
 	"Deployment\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
@@ -575,33 +599,38 @@ const file_core_v1_deployment_proto_rawDesc = "" +
 	"\n" +
 	"timestamps\x18\n" +
 	" \x01(\v2\x15.common.v1.TimestampsR\n" +
-	"timestamps\"7\n" +
+	"timestamps\x12\x17\n" +
+	"\azone_id\x18\v \x01(\tR\x06zoneId\"7\n" +
 	"\x16ListDeploymentsRequest\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\"P\n" +
 	"\x17ListDeploymentsResponse\x125\n" +
 	"\vdeployments\x18\x01 \x03(\v2\x13.core.v1.DeploymentR\vdeployments\"&\n" +
 	"\x14GetDeploymentRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xd2\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xeb\x01\n" +
 	"\x17CreateDeploymentRequest\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1b\n" +
 	"\ttunnel_id\x18\x02 \x01(\tR\btunnelId\x12\x1c\n" +
 	"\tsubdomain\x18\x03 \x01(\tR\tsubdomain\x12\x12\n" +
 	"\x04port\x18\x04 \x01(\x05R\x04port\x12I\n" +
-	"\"create_new_container_if_not_exists\x18\x05 \x01(\bR\x1dcreateNewContainerIfNotExists\"\xa3\x02\n" +
+	"\"create_new_container_if_not_exists\x18\x05 \x01(\bR\x1dcreateNewContainerIfNotExists\x12\x17\n" +
+	"\azone_id\x18\x06 \x01(\tR\x06zoneId\"\xcd\x02\n" +
 	"\x17UpdateDeploymentRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12 \n" +
 	"\ttunnel_id\x18\x02 \x01(\tH\x00R\btunnelId\x88\x01\x01\x12!\n" +
 	"\tsubdomain\x18\x03 \x01(\tH\x01R\tsubdomain\x88\x01\x01\x12\x17\n" +
 	"\x04port\x18\x04 \x01(\x05H\x02R\x04port\x88\x01\x01\x12N\n" +
-	"\"create_new_container_if_not_exists\x18\x05 \x01(\bH\x03R\x1dcreateNewContainerIfNotExists\x88\x01\x01B\f\n" +
+	"\"create_new_container_if_not_exists\x18\x05 \x01(\bH\x03R\x1dcreateNewContainerIfNotExists\x88\x01\x01\x12\x1c\n" +
+	"\azone_id\x18\x06 \x01(\tH\x04R\x06zoneId\x88\x01\x01B\f\n" +
 	"\n" +
 	"_tunnel_idB\f\n" +
 	"\n" +
 	"_subdomainB\a\n" +
 	"\x05_portB%\n" +
-	"#_create_new_container_if_not_exists\")\n" +
+	"#_create_new_container_if_not_existsB\n" +
+	"\n" +
+	"\b_zone_id\")\n" +
 	"\x17DeleteDeploymentRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"!\n" +
 	"\x0fRedeployRequest\x12\x0e\n" +

@@ -36,6 +36,7 @@ type Runtime struct {
 	EnvVars        []*v1.EnvVar           `protobuf:"bytes,9,rep,name=env_vars,json=envVars,proto3" json:"env_vars,omitempty"`
 	Agent          string                 `protobuf:"bytes,10,opt,name=agent,proto3" json:"agent,omitempty"` // "claude-code" in MVP B
 	Timestamps     *v1.Timestamps         `protobuf:"bytes,11,opt,name=timestamps,proto3" json:"timestamps,omitempty"`
+	Dockerfile     string                 `protobuf:"bytes,12,opt,name=dockerfile,proto3" json:"dockerfile,omitempty"` // verbatim Dockerfile instructions inserted after base setup
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -145,6 +146,13 @@ func (x *Runtime) GetTimestamps() *v1.Timestamps {
 		return x.Timestamps
 	}
 	return nil
+}
+
+func (x *Runtime) GetDockerfile() string {
+	if x != nil {
+		return x.Dockerfile
+	}
+	return ""
 }
 
 type ListRuntimesRequest struct {
@@ -281,6 +289,7 @@ type CreateRuntimeRequest struct {
 	ContainerImage string                 `protobuf:"bytes,6,opt,name=container_image,json=containerImage,proto3" json:"container_image,omitempty"`
 	InstallCommand string                 `protobuf:"bytes,7,opt,name=install_command,json=installCommand,proto3" json:"install_command,omitempty"`
 	EnvVars        []*v1.EnvVar           `protobuf:"bytes,8,rep,name=env_vars,json=envVars,proto3" json:"env_vars,omitempty"`
+	Dockerfile     string                 `protobuf:"bytes,9,opt,name=dockerfile,proto3" json:"dockerfile,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -371,6 +380,13 @@ func (x *CreateRuntimeRequest) GetEnvVars() []*v1.EnvVar {
 	return nil
 }
 
+func (x *CreateRuntimeRequest) GetDockerfile() string {
+	if x != nil {
+		return x.Dockerfile
+	}
+	return ""
+}
+
 type UpdateRuntimeRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -382,6 +398,7 @@ type UpdateRuntimeRequest struct {
 	ContainerImage *string                `protobuf:"bytes,7,opt,name=container_image,json=containerImage,proto3,oneof" json:"container_image,omitempty"`
 	InstallCommand *string                `protobuf:"bytes,8,opt,name=install_command,json=installCommand,proto3,oneof" json:"install_command,omitempty"`
 	EnvVars        []*v1.EnvVar           `protobuf:"bytes,9,rep,name=env_vars,json=envVars,proto3" json:"env_vars,omitempty"`
+	Dockerfile     *string                `protobuf:"bytes,10,opt,name=dockerfile,proto3,oneof" json:"dockerfile,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -479,6 +496,13 @@ func (x *UpdateRuntimeRequest) GetEnvVars() []*v1.EnvVar {
 	return nil
 }
 
+func (x *UpdateRuntimeRequest) GetDockerfile() string {
+	if x != nil && x.Dockerfile != nil {
+		return *x.Dockerfile
+	}
+	return ""
+}
+
 type DeleteRuntimeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -527,7 +551,7 @@ var File_core_v1_runtime_proto protoreflect.FileDescriptor
 
 const file_core_v1_runtime_proto_rawDesc = "" +
 	"\n" +
-	"\x15core/v1/runtime.proto\x12\acore.v1\x1a\x15common/v1/types.proto\"\x89\x03\n" +
+	"\x15core/v1/runtime.proto\x12\acore.v1\x1a\x15common/v1/types.proto\"\xa9\x03\n" +
 	"\aRuntime\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -543,12 +567,15 @@ const file_core_v1_runtime_proto_rawDesc = "" +
 	" \x01(\tR\x05agent\x125\n" +
 	"\n" +
 	"timestamps\x18\v \x01(\v2\x15.common.v1.TimestampsR\n" +
-	"timestamps\"\x15\n" +
+	"timestamps\x12\x1e\n" +
+	"\n" +
+	"dockerfile\x18\f \x01(\tR\n" +
+	"dockerfile\"\x15\n" +
 	"\x13ListRuntimesRequest\"D\n" +
 	"\x14ListRuntimesResponse\x12,\n" +
 	"\bruntimes\x18\x01 \x03(\v2\x10.core.v1.RuntimeR\bruntimes\"#\n" +
 	"\x11GetRuntimeRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xb9\x02\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xd9\x02\n" +
 	"\x14CreateRuntimeRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
@@ -558,7 +585,10 @@ const file_core_v1_runtime_proto_rawDesc = "" +
 	"\rdefault_model\x18\x05 \x01(\tR\fdefaultModel\x12'\n" +
 	"\x0fcontainer_image\x18\x06 \x01(\tR\x0econtainerImage\x12'\n" +
 	"\x0finstall_command\x18\a \x01(\tR\x0einstallCommand\x12,\n" +
-	"\benv_vars\x18\b \x03(\v2\x11.common.v1.EnvVarR\aenvVars\"\xca\x03\n" +
+	"\benv_vars\x18\b \x03(\v2\x11.common.v1.EnvVarR\aenvVars\x12\x1e\n" +
+	"\n" +
+	"dockerfile\x18\t \x01(\tR\n" +
+	"dockerfile\"\xfe\x03\n" +
 	"\x14UpdateRuntimeRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12%\n" +
@@ -569,13 +599,18 @@ const file_core_v1_runtime_proto_rawDesc = "" +
 	"\rdefault_model\x18\x06 \x01(\tH\x03R\fdefaultModel\x88\x01\x01\x12,\n" +
 	"\x0fcontainer_image\x18\a \x01(\tH\x04R\x0econtainerImage\x88\x01\x01\x12,\n" +
 	"\x0finstall_command\x18\b \x01(\tH\x05R\x0einstallCommand\x88\x01\x01\x12,\n" +
-	"\benv_vars\x18\t \x03(\v2\x11.common.v1.EnvVarR\aenvVarsB\a\n" +
+	"\benv_vars\x18\t \x03(\v2\x11.common.v1.EnvVarR\aenvVars\x12#\n" +
+	"\n" +
+	"dockerfile\x18\n" +
+	" \x01(\tH\x06R\n" +
+	"dockerfile\x88\x01\x01B\a\n" +
 	"\x05_nameB\x0e\n" +
 	"\f_descriptionB\x0e\n" +
 	"\f_provider_idB\x10\n" +
 	"\x0e_default_modelB\x12\n" +
 	"\x10_container_imageB\x12\n" +
-	"\x10_install_command\"&\n" +
+	"\x10_install_commandB\r\n" +
+	"\v_dockerfile\"&\n" +
 	"\x14DeleteRuntimeRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id2\xe8\x02\n" +
 	"\x0eRuntimeService\x12K\n" +

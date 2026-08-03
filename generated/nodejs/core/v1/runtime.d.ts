@@ -16,6 +16,8 @@ export interface Runtime {
     /** "claude-code" in MVP B */
     agent: string;
     timestamps?: Timestamps | undefined;
+    /** verbatim Dockerfile instructions inserted after base setup */
+    dockerfile: string;
 }
 export interface ListRuntimesRequest {
 }
@@ -34,6 +36,7 @@ export interface CreateRuntimeRequest {
     containerImage: string;
     installCommand: string;
     envVars: EnvVar[];
+    dockerfile: string;
 }
 export interface UpdateRuntimeRequest {
     id: string;
@@ -45,6 +48,7 @@ export interface UpdateRuntimeRequest {
     containerImage?: string | undefined;
     installCommand?: string | undefined;
     envVars: EnvVar[];
+    dockerfile?: string | undefined;
 }
 export interface DeleteRuntimeRequest {
     id: string;

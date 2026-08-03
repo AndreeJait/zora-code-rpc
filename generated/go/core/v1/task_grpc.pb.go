@@ -26,6 +26,8 @@ const (
 	TaskService_UpdateTask_FullMethodName = "/core.v1.TaskService/UpdateTask"
 	TaskService_DeleteTask_FullMethodName = "/core.v1.TaskService/DeleteTask"
 	TaskService_CloneTask_FullMethodName  = "/core.v1.TaskService/CloneTask"
+	TaskService_CancelTask_FullMethodName = "/core.v1.TaskService/CancelTask"
+	TaskService_RerunTask_FullMethodName  = "/core.v1.TaskService/RerunTask"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -38,6 +40,8 @@ type TaskServiceClient interface {
 	UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...grpc.CallOption) (*Task, error)
 	DeleteTask(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*v1.DeleteResponse, error)
 	CloneTask(ctx context.Context, in *CloneTaskRequest, opts ...grpc.CallOption) (*Task, error)
+	CancelTask(ctx context.Context, in *CancelTaskRequest, opts ...grpc.CallOption) (*CancelTaskResponse, error)
+	RerunTask(ctx context.Context, in *RerunTaskRequest, opts ...grpc.CallOption) (*RerunTaskResponse, error)
 }
 
 type taskServiceClient struct {
@@ -108,6 +112,26 @@ func (c *taskServiceClient) CloneTask(ctx context.Context, in *CloneTaskRequest,
 	return out, nil
 }
 
+func (c *taskServiceClient) CancelTask(ctx context.Context, in *CancelTaskRequest, opts ...grpc.CallOption) (*CancelTaskResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CancelTaskResponse)
+	err := c.cc.Invoke(ctx, TaskService_CancelTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) RerunTask(ctx context.Context, in *RerunTaskRequest, opts ...grpc.CallOption) (*RerunTaskResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RerunTaskResponse)
+	err := c.cc.Invoke(ctx, TaskService_RerunTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskServiceServer is the server API for TaskService service.
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility.
@@ -118,6 +142,8 @@ type TaskServiceServer interface {
 	UpdateTask(context.Context, *UpdateTaskRequest) (*Task, error)
 	DeleteTask(context.Context, *DeleteTaskRequest) (*v1.DeleteResponse, error)
 	CloneTask(context.Context, *CloneTaskRequest) (*Task, error)
+	CancelTask(context.Context, *CancelTaskRequest) (*CancelTaskResponse, error)
+	RerunTask(context.Context, *RerunTaskRequest) (*RerunTaskResponse, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -145,6 +171,12 @@ func (UnimplementedTaskServiceServer) DeleteTask(context.Context, *DeleteTaskReq
 }
 func (UnimplementedTaskServiceServer) CloneTask(context.Context, *CloneTaskRequest) (*Task, error) {
 	return nil, status.Error(codes.Unimplemented, "method CloneTask not implemented")
+}
+func (UnimplementedTaskServiceServer) CancelTask(context.Context, *CancelTaskRequest) (*CancelTaskResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CancelTask not implemented")
+}
+func (UnimplementedTaskServiceServer) RerunTask(context.Context, *RerunTaskRequest) (*RerunTaskResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RerunTask not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 func (UnimplementedTaskServiceServer) testEmbeddedByValue()                     {}
@@ -275,6 +307,42 @@ func _TaskService_CloneTask_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_CancelTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).CancelTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_CancelTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).CancelTask(ctx, req.(*CancelTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_RerunTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RerunTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).RerunTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_RerunTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).RerunTask(ctx, req.(*RerunTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaskService_ServiceDesc is the grpc.ServiceDesc for TaskService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -305,6 +373,14 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CloneTask",
 			Handler:    _TaskService_CloneTask_Handler,
+		},
+		{
+			MethodName: "CancelTask",
+			Handler:    _TaskService_CancelTask_Handler,
+		},
+		{
+			MethodName: "RerunTask",
+			Handler:    _TaskService_RerunTask_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

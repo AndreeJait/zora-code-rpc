@@ -20,6 +20,7 @@ message Deployment {
   common.v1.Status status = 8;
   bool create_new_container_if_not_exists = 9;
   common.v1.Timestamps timestamps = 10;
+  string zone_id = 11;
 }
 
 message ListDeploymentsRequest {
@@ -40,6 +41,7 @@ message CreateDeploymentRequest {
   string subdomain = 3;
   int32 port = 4;
   bool create_new_container_if_not_exists = 5;
+  string zone_id = 6;
 }
 
 message UpdateDeploymentRequest {
@@ -48,6 +50,7 @@ message UpdateDeploymentRequest {
   optional string subdomain = 3;
   optional int32 port = 4;
   optional bool create_new_container_if_not_exists = 5;
+  optional string zone_id = 6;
 }
 
 message DeleteDeploymentRequest {

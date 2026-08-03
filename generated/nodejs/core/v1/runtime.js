@@ -21,6 +21,7 @@ function createBaseRuntime() {
         envVars: [],
         agent: "",
         timestamps: undefined,
+        dockerfile: "",
     };
 }
 export const Runtime = {
@@ -57,6 +58,9 @@ export const Runtime = {
         }
         if (message.timestamps !== undefined) {
             Timestamps.encode(message.timestamps, writer.uint32(90).fork()).join();
+        }
+        if (message.dockerfile !== "") {
+            writer.uint32(98).string(message.dockerfile);
         }
         return writer;
     },
@@ -144,6 +148,13 @@ export const Runtime = {
                     message.timestamps = Timestamps.decode(reader, reader.uint32());
                     continue;
                 }
+                case 12: {
+                    if (tag !== 98) {
+                        break;
+                    }
+                    message.dockerfile = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -189,6 +200,7 @@ export const Runtime = {
                     : [],
             agent: isSet(object.agent) ? globalThis.String(object.agent) : "",
             timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+            dockerfile: isSet(object.dockerfile) ? globalThis.String(object.dockerfile) : "",
         };
     },
     toJSON(message) {
@@ -225,6 +237,9 @@ export const Runtime = {
         }
         if (message.timestamps !== undefined) {
             obj.timestamps = Timestamps.toJSON(message.timestamps);
+        }
+        if (message.dockerfile !== "") {
+            obj.dockerfile = message.dockerfile;
         }
         return obj;
     },
@@ -357,6 +372,7 @@ function createBaseCreateRuntimeRequest() {
         containerImage: "",
         installCommand: "",
         envVars: [],
+        dockerfile: "",
     };
 }
 export const CreateRuntimeRequest = {
@@ -384,6 +400,9 @@ export const CreateRuntimeRequest = {
         }
         for (const v of message.envVars) {
             EnvVar.encode(v, writer.uint32(66).fork()).join();
+        }
+        if (message.dockerfile !== "") {
+            writer.uint32(74).string(message.dockerfile);
         }
         return writer;
     },
@@ -450,6 +469,13 @@ export const CreateRuntimeRequest = {
                     message.envVars.push(EnvVar.decode(reader, reader.uint32()));
                     continue;
                 }
+                case 9: {
+                    if (tag !== 74) {
+                        break;
+                    }
+                    message.dockerfile = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -492,6 +518,7 @@ export const CreateRuntimeRequest = {
                 : globalThis.Array.isArray(object?.env_vars)
                     ? object.env_vars.map((e) => EnvVar.fromJSON(e))
                     : [],
+            dockerfile: isSet(object.dockerfile) ? globalThis.String(object.dockerfile) : "",
         };
     },
     toJSON(message) {
@@ -520,6 +547,9 @@ export const CreateRuntimeRequest = {
         if (message.envVars?.length) {
             obj.envVars = message.envVars.map((e) => EnvVar.toJSON(e));
         }
+        if (message.dockerfile !== "") {
+            obj.dockerfile = message.dockerfile;
+        }
         return obj;
     },
 };
@@ -534,6 +564,7 @@ function createBaseUpdateRuntimeRequest() {
         containerImage: undefined,
         installCommand: undefined,
         envVars: [],
+        dockerfile: undefined,
     };
 }
 export const UpdateRuntimeRequest = {
@@ -564,6 +595,9 @@ export const UpdateRuntimeRequest = {
         }
         for (const v of message.envVars) {
             EnvVar.encode(v, writer.uint32(74).fork()).join();
+        }
+        if (message.dockerfile !== undefined) {
+            writer.uint32(82).string(message.dockerfile);
         }
         return writer;
     },
@@ -637,6 +671,13 @@ export const UpdateRuntimeRequest = {
                     message.envVars.push(EnvVar.decode(reader, reader.uint32()));
                     continue;
                 }
+                case 10: {
+                    if (tag !== 82) {
+                        break;
+                    }
+                    message.dockerfile = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -680,6 +721,7 @@ export const UpdateRuntimeRequest = {
                 : globalThis.Array.isArray(object?.env_vars)
                     ? object.env_vars.map((e) => EnvVar.fromJSON(e))
                     : [],
+            dockerfile: isSet(object.dockerfile) ? globalThis.String(object.dockerfile) : undefined,
         };
     },
     toJSON(message) {
@@ -710,6 +752,9 @@ export const UpdateRuntimeRequest = {
         }
         if (message.envVars?.length) {
             obj.envVars = message.envVars.map((e) => EnvVar.toJSON(e));
+        }
+        if (message.dockerfile !== undefined) {
+            obj.dockerfile = message.dockerfile;
         }
         return obj;
     },

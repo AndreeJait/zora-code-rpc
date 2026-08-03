@@ -14,6 +14,8 @@ export interface Project {
     status: Status;
     lastTaskId: string;
     timestamps?: Timestamps | undefined;
+    workspaceFolder: string;
+    gitRemoteUrl: string;
 }
 export interface ListProjectsRequest {
     pagination?: Pagination | undefined;
@@ -33,6 +35,8 @@ export interface CreateProjectRequest {
     envVars: EnvVar[];
     prompt: string;
     initPrompt: string;
+    workspaceFolder: string;
+    gitRemoteUrl: string;
 }
 export interface UpdateProjectRequest {
     id: string;
@@ -42,8 +46,13 @@ export interface UpdateProjectRequest {
     envVars: EnvVar[];
     prompt?: string | undefined;
     initPrompt?: string | undefined;
+    workspaceFolder?: string | undefined;
+    gitRemoteUrl?: string | undefined;
 }
 export interface DeleteProjectRequest {
+    id: string;
+}
+export interface RunProjectInitRequest {
     id: string;
 }
 export declare const Project: MessageFns<Project>;
@@ -53,6 +62,7 @@ export declare const GetProjectRequest: MessageFns<GetProjectRequest>;
 export declare const CreateProjectRequest: MessageFns<CreateProjectRequest>;
 export declare const UpdateProjectRequest: MessageFns<UpdateProjectRequest>;
 export declare const DeleteProjectRequest: MessageFns<DeleteProjectRequest>;
+export declare const RunProjectInitRequest: MessageFns<RunProjectInitRequest>;
 export type ProjectServiceService = typeof ProjectServiceService;
 export declare const ProjectServiceService: {
     readonly listProjects: {
@@ -100,6 +110,15 @@ export declare const ProjectServiceService: {
         readonly responseSerialize: (value: DeleteResponse) => Buffer;
         readonly responseDeserialize: (value: Buffer) => DeleteResponse;
     };
+    readonly runProjectInit: {
+        readonly path: "/core.v1.ProjectService/RunProjectInit";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: RunProjectInitRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => RunProjectInitRequest;
+        readonly responseSerialize: (value: Project) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => Project;
+    };
 };
 export interface ProjectServiceServer extends UntypedServiceImplementation {
     listProjects: handleUnaryCall<ListProjectsRequest, ListProjectsResponse>;
@@ -107,6 +126,7 @@ export interface ProjectServiceServer extends UntypedServiceImplementation {
     createProject: handleUnaryCall<CreateProjectRequest, Project>;
     updateProject: handleUnaryCall<UpdateProjectRequest, Project>;
     deleteProject: handleUnaryCall<DeleteProjectRequest, DeleteResponse>;
+    runProjectInit: handleUnaryCall<RunProjectInitRequest, Project>;
 }
 export interface ProjectServiceClient extends Client {
     listProjects(request: ListProjectsRequest, callback: (error: ServiceError | null, response: ListProjectsResponse) => void): ClientUnaryCall;
@@ -124,6 +144,9 @@ export interface ProjectServiceClient extends Client {
     deleteProject(request: DeleteProjectRequest, callback: (error: ServiceError | null, response: DeleteResponse) => void): ClientUnaryCall;
     deleteProject(request: DeleteProjectRequest, metadata: Metadata, callback: (error: ServiceError | null, response: DeleteResponse) => void): ClientUnaryCall;
     deleteProject(request: DeleteProjectRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: DeleteResponse) => void): ClientUnaryCall;
+    runProjectInit(request: RunProjectInitRequest, callback: (error: ServiceError | null, response: Project) => void): ClientUnaryCall;
+    runProjectInit(request: RunProjectInitRequest, metadata: Metadata, callback: (error: ServiceError | null, response: Project) => void): ClientUnaryCall;
+    runProjectInit(request: RunProjectInitRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: Project) => void): ClientUnaryCall;
 }
 export declare const ProjectServiceClient: {
     new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): ProjectServiceClient;

@@ -19,11 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SystemConfigService_ListConfigs_FullMethodName  = "/core.v1.SystemConfigService/ListConfigs"
-	SystemConfigService_UpdateConfig_FullMethodName = "/core.v1.SystemConfigService/UpdateConfig"
-	SystemConfigService_ListSecrets_FullMethodName  = "/core.v1.SystemConfigService/ListSecrets"
-	SystemConfigService_GetSecret_FullMethodName    = "/core.v1.SystemConfigService/GetSecret"
-	SystemConfigService_UpdateSecret_FullMethodName = "/core.v1.SystemConfigService/UpdateSecret"
+	SystemConfigService_ListConfigs_FullMethodName           = "/core.v1.SystemConfigService/ListConfigs"
+	SystemConfigService_UpdateConfig_FullMethodName          = "/core.v1.SystemConfigService/UpdateConfig"
+	SystemConfigService_ListSecrets_FullMethodName           = "/core.v1.SystemConfigService/ListSecrets"
+	SystemConfigService_GetSecret_FullMethodName             = "/core.v1.SystemConfigService/GetSecret"
+	SystemConfigService_UpdateSecret_FullMethodName          = "/core.v1.SystemConfigService/UpdateSecret"
+	SystemConfigService_ListCloudflareTunnels_FullMethodName = "/core.v1.SystemConfigService/ListCloudflareTunnels"
+	SystemConfigService_ListCloudflareZones_FullMethodName   = "/core.v1.SystemConfigService/ListCloudflareZones"
 )
 
 // SystemConfigServiceClient is the client API for SystemConfigService service.
@@ -35,6 +37,8 @@ type SystemConfigServiceClient interface {
 	ListSecrets(ctx context.Context, in *ListSecretsRequest, opts ...grpc.CallOption) (*ListSecretsResponse, error)
 	GetSecret(ctx context.Context, in *GetSecretRequest, opts ...grpc.CallOption) (*Secret, error)
 	UpdateSecret(ctx context.Context, in *UpdateSecretRequest, opts ...grpc.CallOption) (*Secret, error)
+	ListCloudflareTunnels(ctx context.Context, in *ListCloudflareTunnelsRequest, opts ...grpc.CallOption) (*ListCloudflareTunnelsResponse, error)
+	ListCloudflareZones(ctx context.Context, in *ListCloudflareZonesRequest, opts ...grpc.CallOption) (*ListCloudflareZonesResponse, error)
 }
 
 type systemConfigServiceClient struct {
@@ -95,6 +99,26 @@ func (c *systemConfigServiceClient) UpdateSecret(ctx context.Context, in *Update
 	return out, nil
 }
 
+func (c *systemConfigServiceClient) ListCloudflareTunnels(ctx context.Context, in *ListCloudflareTunnelsRequest, opts ...grpc.CallOption) (*ListCloudflareTunnelsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCloudflareTunnelsResponse)
+	err := c.cc.Invoke(ctx, SystemConfigService_ListCloudflareTunnels_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemConfigServiceClient) ListCloudflareZones(ctx context.Context, in *ListCloudflareZonesRequest, opts ...grpc.CallOption) (*ListCloudflareZonesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCloudflareZonesResponse)
+	err := c.cc.Invoke(ctx, SystemConfigService_ListCloudflareZones_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemConfigServiceServer is the server API for SystemConfigService service.
 // All implementations must embed UnimplementedSystemConfigServiceServer
 // for forward compatibility.
@@ -104,6 +128,8 @@ type SystemConfigServiceServer interface {
 	ListSecrets(context.Context, *ListSecretsRequest) (*ListSecretsResponse, error)
 	GetSecret(context.Context, *GetSecretRequest) (*Secret, error)
 	UpdateSecret(context.Context, *UpdateSecretRequest) (*Secret, error)
+	ListCloudflareTunnels(context.Context, *ListCloudflareTunnelsRequest) (*ListCloudflareTunnelsResponse, error)
+	ListCloudflareZones(context.Context, *ListCloudflareZonesRequest) (*ListCloudflareZonesResponse, error)
 	mustEmbedUnimplementedSystemConfigServiceServer()
 }
 
@@ -128,6 +154,12 @@ func (UnimplementedSystemConfigServiceServer) GetSecret(context.Context, *GetSec
 }
 func (UnimplementedSystemConfigServiceServer) UpdateSecret(context.Context, *UpdateSecretRequest) (*Secret, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateSecret not implemented")
+}
+func (UnimplementedSystemConfigServiceServer) ListCloudflareTunnels(context.Context, *ListCloudflareTunnelsRequest) (*ListCloudflareTunnelsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListCloudflareTunnels not implemented")
+}
+func (UnimplementedSystemConfigServiceServer) ListCloudflareZones(context.Context, *ListCloudflareZonesRequest) (*ListCloudflareZonesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListCloudflareZones not implemented")
 }
 func (UnimplementedSystemConfigServiceServer) mustEmbedUnimplementedSystemConfigServiceServer() {}
 func (UnimplementedSystemConfigServiceServer) testEmbeddedByValue()                             {}
@@ -240,6 +272,42 @@ func _SystemConfigService_UpdateSecret_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemConfigService_ListCloudflareTunnels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCloudflareTunnelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemConfigServiceServer).ListCloudflareTunnels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemConfigService_ListCloudflareTunnels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemConfigServiceServer).ListCloudflareTunnels(ctx, req.(*ListCloudflareTunnelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemConfigService_ListCloudflareZones_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCloudflareZonesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemConfigServiceServer).ListCloudflareZones(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemConfigService_ListCloudflareZones_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemConfigServiceServer).ListCloudflareZones(ctx, req.(*ListCloudflareZonesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemConfigService_ServiceDesc is the grpc.ServiceDesc for SystemConfigService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +334,14 @@ var SystemConfigService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateSecret",
 			Handler:    _SystemConfigService_UpdateSecret_Handler,
+		},
+		{
+			MethodName: "ListCloudflareTunnels",
+			Handler:    _SystemConfigService_ListCloudflareTunnels_Handler,
+		},
+		{
+			MethodName: "ListCloudflareZones",
+			Handler:    _SystemConfigService_ListCloudflareZones_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

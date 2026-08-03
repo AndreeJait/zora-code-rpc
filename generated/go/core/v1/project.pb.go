@@ -24,19 +24,21 @@ const (
 
 // Project is a workspace that groups tasks, environment variables, and deployment configs.
 type Project struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	RuntimeId     string                 `protobuf:"bytes,4,opt,name=runtime_id,json=runtimeId,proto3" json:"runtime_id,omitempty"`
-	EnvVars       []*v1.EnvVar           `protobuf:"bytes,5,rep,name=env_vars,json=envVars,proto3" json:"env_vars,omitempty"`
-	Prompt        string                 `protobuf:"bytes,6,opt,name=prompt,proto3" json:"prompt,omitempty"`
-	InitPrompt    string                 `protobuf:"bytes,7,opt,name=init_prompt,json=initPrompt,proto3" json:"init_prompt,omitempty"`
-	Status        v1.Status              `protobuf:"varint,8,opt,name=status,proto3,enum=common.v1.Status" json:"status,omitempty"`
-	LastTaskId    string                 `protobuf:"bytes,9,opt,name=last_task_id,json=lastTaskId,proto3" json:"last_task_id,omitempty"`
-	Timestamps    *v1.Timestamps         `protobuf:"bytes,10,opt,name=timestamps,proto3" json:"timestamps,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name            string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description     string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	RuntimeId       string                 `protobuf:"bytes,4,opt,name=runtime_id,json=runtimeId,proto3" json:"runtime_id,omitempty"`
+	EnvVars         []*v1.EnvVar           `protobuf:"bytes,5,rep,name=env_vars,json=envVars,proto3" json:"env_vars,omitempty"`
+	Prompt          string                 `protobuf:"bytes,6,opt,name=prompt,proto3" json:"prompt,omitempty"`
+	InitPrompt      string                 `protobuf:"bytes,7,opt,name=init_prompt,json=initPrompt,proto3" json:"init_prompt,omitempty"`
+	Status          v1.Status              `protobuf:"varint,8,opt,name=status,proto3,enum=common.v1.Status" json:"status,omitempty"`
+	LastTaskId      string                 `protobuf:"bytes,9,opt,name=last_task_id,json=lastTaskId,proto3" json:"last_task_id,omitempty"`
+	Timestamps      *v1.Timestamps         `protobuf:"bytes,10,opt,name=timestamps,proto3" json:"timestamps,omitempty"`
+	WorkspaceFolder string                 `protobuf:"bytes,11,opt,name=workspace_folder,json=workspaceFolder,proto3" json:"workspace_folder,omitempty"`
+	GitRemoteUrl    string                 `protobuf:"bytes,12,opt,name=git_remote_url,json=gitRemoteUrl,proto3" json:"git_remote_url,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Project) Reset() {
@@ -137,6 +139,20 @@ func (x *Project) GetTimestamps() *v1.Timestamps {
 		return x.Timestamps
 	}
 	return nil
+}
+
+func (x *Project) GetWorkspaceFolder() string {
+	if x != nil {
+		return x.WorkspaceFolder
+	}
+	return ""
+}
+
+func (x *Project) GetGitRemoteUrl() string {
+	if x != nil {
+		return x.GitRemoteUrl
+	}
+	return ""
 }
 
 type ListProjectsRequest struct {
@@ -288,15 +304,17 @@ func (x *GetProjectRequest) GetId() string {
 }
 
 type CreateProjectRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	RuntimeId     string                 `protobuf:"bytes,3,opt,name=runtime_id,json=runtimeId,proto3" json:"runtime_id,omitempty"`
-	EnvVars       []*v1.EnvVar           `protobuf:"bytes,4,rep,name=env_vars,json=envVars,proto3" json:"env_vars,omitempty"`
-	Prompt        string                 `protobuf:"bytes,5,opt,name=prompt,proto3" json:"prompt,omitempty"`
-	InitPrompt    string                 `protobuf:"bytes,6,opt,name=init_prompt,json=initPrompt,proto3" json:"init_prompt,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Name            string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description     string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	RuntimeId       string                 `protobuf:"bytes,3,opt,name=runtime_id,json=runtimeId,proto3" json:"runtime_id,omitempty"`
+	EnvVars         []*v1.EnvVar           `protobuf:"bytes,4,rep,name=env_vars,json=envVars,proto3" json:"env_vars,omitempty"`
+	Prompt          string                 `protobuf:"bytes,5,opt,name=prompt,proto3" json:"prompt,omitempty"`
+	InitPrompt      string                 `protobuf:"bytes,6,opt,name=init_prompt,json=initPrompt,proto3" json:"init_prompt,omitempty"`
+	WorkspaceFolder string                 `protobuf:"bytes,7,opt,name=workspace_folder,json=workspaceFolder,proto3" json:"workspace_folder,omitempty"`
+	GitRemoteUrl    string                 `protobuf:"bytes,8,opt,name=git_remote_url,json=gitRemoteUrl,proto3" json:"git_remote_url,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *CreateProjectRequest) Reset() {
@@ -371,17 +389,33 @@ func (x *CreateProjectRequest) GetInitPrompt() string {
 	return ""
 }
 
+func (x *CreateProjectRequest) GetWorkspaceFolder() string {
+	if x != nil {
+		return x.WorkspaceFolder
+	}
+	return ""
+}
+
+func (x *CreateProjectRequest) GetGitRemoteUrl() string {
+	if x != nil {
+		return x.GitRemoteUrl
+	}
+	return ""
+}
+
 type UpdateProjectRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Description   *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
-	RuntimeId     *string                `protobuf:"bytes,4,opt,name=runtime_id,json=runtimeId,proto3,oneof" json:"runtime_id,omitempty"`
-	EnvVars       []*v1.EnvVar           `protobuf:"bytes,5,rep,name=env_vars,json=envVars,proto3" json:"env_vars,omitempty"`
-	Prompt        *string                `protobuf:"bytes,6,opt,name=prompt,proto3,oneof" json:"prompt,omitempty"`
-	InitPrompt    *string                `protobuf:"bytes,7,opt,name=init_prompt,json=initPrompt,proto3,oneof" json:"init_prompt,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name            *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Description     *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	RuntimeId       *string                `protobuf:"bytes,4,opt,name=runtime_id,json=runtimeId,proto3,oneof" json:"runtime_id,omitempty"`
+	EnvVars         []*v1.EnvVar           `protobuf:"bytes,5,rep,name=env_vars,json=envVars,proto3" json:"env_vars,omitempty"`
+	Prompt          *string                `protobuf:"bytes,6,opt,name=prompt,proto3,oneof" json:"prompt,omitempty"`
+	InitPrompt      *string                `protobuf:"bytes,7,opt,name=init_prompt,json=initPrompt,proto3,oneof" json:"init_prompt,omitempty"`
+	WorkspaceFolder *string                `protobuf:"bytes,8,opt,name=workspace_folder,json=workspaceFolder,proto3,oneof" json:"workspace_folder,omitempty"`
+	GitRemoteUrl    *string                `protobuf:"bytes,9,opt,name=git_remote_url,json=gitRemoteUrl,proto3,oneof" json:"git_remote_url,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *UpdateProjectRequest) Reset() {
@@ -463,6 +497,20 @@ func (x *UpdateProjectRequest) GetInitPrompt() string {
 	return ""
 }
 
+func (x *UpdateProjectRequest) GetWorkspaceFolder() string {
+	if x != nil && x.WorkspaceFolder != nil {
+		return *x.WorkspaceFolder
+	}
+	return ""
+}
+
+func (x *UpdateProjectRequest) GetGitRemoteUrl() string {
+	if x != nil && x.GitRemoteUrl != nil {
+		return *x.GitRemoteUrl
+	}
+	return ""
+}
+
 type DeleteProjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -507,11 +555,55 @@ func (x *DeleteProjectRequest) GetId() string {
 	return ""
 }
 
+type RunProjectInitRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RunProjectInitRequest) Reset() {
+	*x = RunProjectInitRequest{}
+	mi := &file_core_v1_project_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RunProjectInitRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RunProjectInitRequest) ProtoMessage() {}
+
+func (x *RunProjectInitRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_project_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RunProjectInitRequest.ProtoReflect.Descriptor instead.
+func (*RunProjectInitRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_project_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *RunProjectInitRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
 var File_core_v1_project_proto protoreflect.FileDescriptor
 
 const file_core_v1_project_proto_rawDesc = "" +
 	"\n" +
-	"\x15core/v1/project.proto\x12\acore.v1\x1a\x15common/v1/types.proto\"\xd9\x02\n" +
+	"\x15core/v1/project.proto\x12\acore.v1\x1a\x15common/v1/types.proto\"\xaa\x03\n" +
 	"\aProject\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -528,7 +620,9 @@ const file_core_v1_project_proto_rawDesc = "" +
 	"\n" +
 	"timestamps\x18\n" +
 	" \x01(\v2\x15.common.v1.TimestampsR\n" +
-	"timestamps\"q\n" +
+	"timestamps\x12)\n" +
+	"\x10workspace_folder\x18\v \x01(\tR\x0fworkspaceFolder\x12$\n" +
+	"\x0egit_remote_url\x18\f \x01(\tR\fgitRemoteUrl\"q\n" +
 	"\x13ListProjectsRequest\x125\n" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x15.common.v1.PaginationR\n" +
@@ -538,7 +632,7 @@ const file_core_v1_project_proto_rawDesc = "" +
 	"\bprojects\x18\x01 \x03(\v2\x10.core.v1.ProjectR\bprojects\x120\n" +
 	"\tpage_info\x18\x02 \x01(\v2\x13.common.v1.PageInfoR\bpageInfo\"#\n" +
 	"\x11GetProjectRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xd2\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xa3\x02\n" +
 	"\x14CreateProjectRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
@@ -547,7 +641,9 @@ const file_core_v1_project_proto_rawDesc = "" +
 	"\benv_vars\x18\x04 \x03(\v2\x11.common.v1.EnvVarR\aenvVars\x12\x16\n" +
 	"\x06prompt\x18\x05 \x01(\tR\x06prompt\x12\x1f\n" +
 	"\vinit_prompt\x18\x06 \x01(\tR\n" +
-	"initPrompt\"\xbe\x02\n" +
+	"initPrompt\x12)\n" +
+	"\x10workspace_folder\x18\a \x01(\tR\x0fworkspaceFolder\x12$\n" +
+	"\x0egit_remote_url\x18\b \x01(\tR\fgitRemoteUrl\"\xc1\x03\n" +
 	"\x14UpdateProjectRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12%\n" +
@@ -557,21 +653,28 @@ const file_core_v1_project_proto_rawDesc = "" +
 	"\benv_vars\x18\x05 \x03(\v2\x11.common.v1.EnvVarR\aenvVars\x12\x1b\n" +
 	"\x06prompt\x18\x06 \x01(\tH\x03R\x06prompt\x88\x01\x01\x12$\n" +
 	"\vinit_prompt\x18\a \x01(\tH\x04R\n" +
-	"initPrompt\x88\x01\x01B\a\n" +
+	"initPrompt\x88\x01\x01\x12.\n" +
+	"\x10workspace_folder\x18\b \x01(\tH\x05R\x0fworkspaceFolder\x88\x01\x01\x12)\n" +
+	"\x0egit_remote_url\x18\t \x01(\tH\x06R\fgitRemoteUrl\x88\x01\x01B\a\n" +
 	"\x05_nameB\x0e\n" +
 	"\f_descriptionB\r\n" +
 	"\v_runtime_idB\t\n" +
 	"\a_promptB\x0e\n" +
-	"\f_init_prompt\"&\n" +
+	"\f_init_promptB\x13\n" +
+	"\x11_workspace_folderB\x11\n" +
+	"\x0f_git_remote_url\"&\n" +
 	"\x14DeleteProjectRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id2\xe8\x02\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"'\n" +
+	"\x15RunProjectInitRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id2\xac\x03\n" +
 	"\x0eProjectService\x12K\n" +
 	"\fListProjects\x12\x1c.core.v1.ListProjectsRequest\x1a\x1d.core.v1.ListProjectsResponse\x12:\n" +
 	"\n" +
 	"GetProject\x12\x1a.core.v1.GetProjectRequest\x1a\x10.core.v1.Project\x12@\n" +
 	"\rCreateProject\x12\x1d.core.v1.CreateProjectRequest\x1a\x10.core.v1.Project\x12@\n" +
 	"\rUpdateProject\x12\x1d.core.v1.UpdateProjectRequest\x1a\x10.core.v1.Project\x12I\n" +
-	"\rDeleteProject\x12\x1d.core.v1.DeleteProjectRequest\x1a\x19.common.v1.DeleteResponseBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\rDeleteProject\x12\x1d.core.v1.DeleteProjectRequest\x1a\x19.common.v1.DeleteResponse\x12B\n" +
+	"\x0eRunProjectInit\x12\x1e.core.v1.RunProjectInitRequest\x1a\x10.core.v1.ProjectBYP\x01Z>github.com/zora-code/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_project_proto_rawDescOnce sync.Once
@@ -585,45 +688,48 @@ func file_core_v1_project_proto_rawDescGZIP() []byte {
 	return file_core_v1_project_proto_rawDescData
 }
 
-var file_core_v1_project_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_core_v1_project_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_core_v1_project_proto_goTypes = []any{
-	(*Project)(nil),              // 0: core.v1.Project
-	(*ListProjectsRequest)(nil),  // 1: core.v1.ListProjectsRequest
-	(*ListProjectsResponse)(nil), // 2: core.v1.ListProjectsResponse
-	(*GetProjectRequest)(nil),    // 3: core.v1.GetProjectRequest
-	(*CreateProjectRequest)(nil), // 4: core.v1.CreateProjectRequest
-	(*UpdateProjectRequest)(nil), // 5: core.v1.UpdateProjectRequest
-	(*DeleteProjectRequest)(nil), // 6: core.v1.DeleteProjectRequest
-	(*v1.EnvVar)(nil),            // 7: common.v1.EnvVar
-	(v1.Status)(0),               // 8: common.v1.Status
-	(*v1.Timestamps)(nil),        // 9: common.v1.Timestamps
-	(*v1.Pagination)(nil),        // 10: common.v1.Pagination
-	(*v1.Sort)(nil),              // 11: common.v1.Sort
-	(*v1.PageInfo)(nil),          // 12: common.v1.PageInfo
-	(*v1.DeleteResponse)(nil),    // 13: common.v1.DeleteResponse
+	(*Project)(nil),               // 0: core.v1.Project
+	(*ListProjectsRequest)(nil),   // 1: core.v1.ListProjectsRequest
+	(*ListProjectsResponse)(nil),  // 2: core.v1.ListProjectsResponse
+	(*GetProjectRequest)(nil),     // 3: core.v1.GetProjectRequest
+	(*CreateProjectRequest)(nil),  // 4: core.v1.CreateProjectRequest
+	(*UpdateProjectRequest)(nil),  // 5: core.v1.UpdateProjectRequest
+	(*DeleteProjectRequest)(nil),  // 6: core.v1.DeleteProjectRequest
+	(*RunProjectInitRequest)(nil), // 7: core.v1.RunProjectInitRequest
+	(*v1.EnvVar)(nil),             // 8: common.v1.EnvVar
+	(v1.Status)(0),                // 9: common.v1.Status
+	(*v1.Timestamps)(nil),         // 10: common.v1.Timestamps
+	(*v1.Pagination)(nil),         // 11: common.v1.Pagination
+	(*v1.Sort)(nil),               // 12: common.v1.Sort
+	(*v1.PageInfo)(nil),           // 13: common.v1.PageInfo
+	(*v1.DeleteResponse)(nil),     // 14: common.v1.DeleteResponse
 }
 var file_core_v1_project_proto_depIdxs = []int32{
-	7,  // 0: core.v1.Project.env_vars:type_name -> common.v1.EnvVar
-	8,  // 1: core.v1.Project.status:type_name -> common.v1.Status
-	9,  // 2: core.v1.Project.timestamps:type_name -> common.v1.Timestamps
-	10, // 3: core.v1.ListProjectsRequest.pagination:type_name -> common.v1.Pagination
-	11, // 4: core.v1.ListProjectsRequest.sort:type_name -> common.v1.Sort
+	8,  // 0: core.v1.Project.env_vars:type_name -> common.v1.EnvVar
+	9,  // 1: core.v1.Project.status:type_name -> common.v1.Status
+	10, // 2: core.v1.Project.timestamps:type_name -> common.v1.Timestamps
+	11, // 3: core.v1.ListProjectsRequest.pagination:type_name -> common.v1.Pagination
+	12, // 4: core.v1.ListProjectsRequest.sort:type_name -> common.v1.Sort
 	0,  // 5: core.v1.ListProjectsResponse.projects:type_name -> core.v1.Project
-	12, // 6: core.v1.ListProjectsResponse.page_info:type_name -> common.v1.PageInfo
-	7,  // 7: core.v1.CreateProjectRequest.env_vars:type_name -> common.v1.EnvVar
-	7,  // 8: core.v1.UpdateProjectRequest.env_vars:type_name -> common.v1.EnvVar
+	13, // 6: core.v1.ListProjectsResponse.page_info:type_name -> common.v1.PageInfo
+	8,  // 7: core.v1.CreateProjectRequest.env_vars:type_name -> common.v1.EnvVar
+	8,  // 8: core.v1.UpdateProjectRequest.env_vars:type_name -> common.v1.EnvVar
 	1,  // 9: core.v1.ProjectService.ListProjects:input_type -> core.v1.ListProjectsRequest
 	3,  // 10: core.v1.ProjectService.GetProject:input_type -> core.v1.GetProjectRequest
 	4,  // 11: core.v1.ProjectService.CreateProject:input_type -> core.v1.CreateProjectRequest
 	5,  // 12: core.v1.ProjectService.UpdateProject:input_type -> core.v1.UpdateProjectRequest
 	6,  // 13: core.v1.ProjectService.DeleteProject:input_type -> core.v1.DeleteProjectRequest
-	2,  // 14: core.v1.ProjectService.ListProjects:output_type -> core.v1.ListProjectsResponse
-	0,  // 15: core.v1.ProjectService.GetProject:output_type -> core.v1.Project
-	0,  // 16: core.v1.ProjectService.CreateProject:output_type -> core.v1.Project
-	0,  // 17: core.v1.ProjectService.UpdateProject:output_type -> core.v1.Project
-	13, // 18: core.v1.ProjectService.DeleteProject:output_type -> common.v1.DeleteResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
+	7,  // 14: core.v1.ProjectService.RunProjectInit:input_type -> core.v1.RunProjectInitRequest
+	2,  // 15: core.v1.ProjectService.ListProjects:output_type -> core.v1.ListProjectsResponse
+	0,  // 16: core.v1.ProjectService.GetProject:output_type -> core.v1.Project
+	0,  // 17: core.v1.ProjectService.CreateProject:output_type -> core.v1.Project
+	0,  // 18: core.v1.ProjectService.UpdateProject:output_type -> core.v1.Project
+	14, // 19: core.v1.ProjectService.DeleteProject:output_type -> common.v1.DeleteResponse
+	0,  // 20: core.v1.ProjectService.RunProjectInit:output_type -> core.v1.Project
+	15, // [15:21] is the sub-list for method output_type
+	9,  // [9:15] is the sub-list for method input_type
 	9,  // [9:9] is the sub-list for extension type_name
 	9,  // [9:9] is the sub-list for extension extendee
 	0,  // [0:9] is the sub-list for field type_name
@@ -641,7 +747,7 @@ func file_core_v1_project_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_project_proto_rawDesc), len(file_core_v1_project_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

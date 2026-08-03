@@ -161,7 +161,15 @@ export const SystemConfig = {
     },
 };
 function createBaseSecret() {
-    return { id: "", provider: 0, username: undefined, token: undefined, appId: undefined, timestamps: undefined };
+    return {
+        id: "",
+        provider: 0,
+        username: undefined,
+        token: undefined,
+        zoneId: undefined,
+        accountId: undefined,
+        timestamps: undefined,
+    };
 }
 export const Secret = {
     encode(message, writer = new BinaryWriter()) {
@@ -177,11 +185,14 @@ export const Secret = {
         if (message.token !== undefined) {
             writer.uint32(34).string(message.token);
         }
-        if (message.appId !== undefined) {
-            writer.uint32(42).string(message.appId);
+        if (message.zoneId !== undefined) {
+            writer.uint32(42).string(message.zoneId);
+        }
+        if (message.accountId !== undefined) {
+            writer.uint32(50).string(message.accountId);
         }
         if (message.timestamps !== undefined) {
-            Timestamps.encode(message.timestamps, writer.uint32(50).fork()).join();
+            Timestamps.encode(message.timestamps, writer.uint32(58).fork()).join();
         }
         return writer;
     },
@@ -224,11 +235,18 @@ export const Secret = {
                     if (tag !== 42) {
                         break;
                     }
-                    message.appId = reader.string();
+                    message.zoneId = reader.string();
                     continue;
                 }
                 case 6: {
                     if (tag !== 50) {
+                        break;
+                    }
+                    message.accountId = reader.string();
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
                         break;
                     }
                     message.timestamps = Timestamps.decode(reader, reader.uint32());
@@ -248,10 +266,15 @@ export const Secret = {
             provider: isSet(object.provider) ? secretProviderFromJSON(object.provider) : 0,
             username: isSet(object.username) ? globalThis.String(object.username) : undefined,
             token: isSet(object.token) ? globalThis.String(object.token) : undefined,
-            appId: isSet(object.appId)
-                ? globalThis.String(object.appId)
-                : isSet(object.app_id)
-                    ? globalThis.String(object.app_id)
+            zoneId: isSet(object.zoneId)
+                ? globalThis.String(object.zoneId)
+                : isSet(object.zone_id)
+                    ? globalThis.String(object.zone_id)
+                    : undefined,
+            accountId: isSet(object.accountId)
+                ? globalThis.String(object.accountId)
+                : isSet(object.account_id)
+                    ? globalThis.String(object.account_id)
                     : undefined,
             timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
         };
@@ -270,8 +293,11 @@ export const Secret = {
         if (message.token !== undefined) {
             obj.token = message.token;
         }
-        if (message.appId !== undefined) {
-            obj.appId = message.appId;
+        if (message.zoneId !== undefined) {
+            obj.zoneId = message.zoneId;
+        }
+        if (message.accountId !== undefined) {
+            obj.accountId = message.accountId;
         }
         if (message.timestamps !== undefined) {
             obj.timestamps = Timestamps.toJSON(message.timestamps);
@@ -534,7 +560,7 @@ export const GetSecretRequest = {
     },
 };
 function createBaseUpdateSecretRequest() {
-    return { provider: 0, username: undefined, token: undefined, appId: undefined };
+    return { provider: 0, username: undefined, token: undefined, zoneId: undefined, accountId: undefined };
 }
 export const UpdateSecretRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -547,8 +573,11 @@ export const UpdateSecretRequest = {
         if (message.token !== undefined) {
             writer.uint32(26).string(message.token);
         }
-        if (message.appId !== undefined) {
-            writer.uint32(34).string(message.appId);
+        if (message.zoneId !== undefined) {
+            writer.uint32(34).string(message.zoneId);
+        }
+        if (message.accountId !== undefined) {
+            writer.uint32(42).string(message.accountId);
         }
         return writer;
     },
@@ -584,7 +613,14 @@ export const UpdateSecretRequest = {
                     if (tag !== 34) {
                         break;
                     }
-                    message.appId = reader.string();
+                    message.zoneId = reader.string();
+                    continue;
+                }
+                case 5: {
+                    if (tag !== 42) {
+                        break;
+                    }
+                    message.accountId = reader.string();
                     continue;
                 }
             }
@@ -600,10 +636,15 @@ export const UpdateSecretRequest = {
             provider: isSet(object.provider) ? secretProviderFromJSON(object.provider) : 0,
             username: isSet(object.username) ? globalThis.String(object.username) : undefined,
             token: isSet(object.token) ? globalThis.String(object.token) : undefined,
-            appId: isSet(object.appId)
-                ? globalThis.String(object.appId)
-                : isSet(object.app_id)
-                    ? globalThis.String(object.app_id)
+            zoneId: isSet(object.zoneId)
+                ? globalThis.String(object.zoneId)
+                : isSet(object.zone_id)
+                    ? globalThis.String(object.zone_id)
+                    : undefined,
+            accountId: isSet(object.accountId)
+                ? globalThis.String(object.accountId)
+                : isSet(object.account_id)
+                    ? globalThis.String(object.account_id)
                     : undefined,
         };
     },
@@ -618,8 +659,313 @@ export const UpdateSecretRequest = {
         if (message.token !== undefined) {
             obj.token = message.token;
         }
-        if (message.appId !== undefined) {
-            obj.appId = message.appId;
+        if (message.zoneId !== undefined) {
+            obj.zoneId = message.zoneId;
+        }
+        if (message.accountId !== undefined) {
+            obj.accountId = message.accountId;
+        }
+        return obj;
+    },
+};
+function createBaseCloudflareTunnel() {
+    return { id: "", name: "", accountId: "", status: "" };
+}
+export const CloudflareTunnel = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.id !== "") {
+            writer.uint32(10).string(message.id);
+        }
+        if (message.name !== "") {
+            writer.uint32(18).string(message.name);
+        }
+        if (message.accountId !== "") {
+            writer.uint32(26).string(message.accountId);
+        }
+        if (message.status !== "") {
+            writer.uint32(34).string(message.status);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseCloudflareTunnel();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.id = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.name = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.accountId = reader.string();
+                    continue;
+                }
+                case 4: {
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.status = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            id: isSet(object.id) ? globalThis.String(object.id) : "",
+            name: isSet(object.name) ? globalThis.String(object.name) : "",
+            accountId: isSet(object.accountId)
+                ? globalThis.String(object.accountId)
+                : isSet(object.account_id)
+                    ? globalThis.String(object.account_id)
+                    : "",
+            status: isSet(object.status) ? globalThis.String(object.status) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.id !== "") {
+            obj.id = message.id;
+        }
+        if (message.name !== "") {
+            obj.name = message.name;
+        }
+        if (message.accountId !== "") {
+            obj.accountId = message.accountId;
+        }
+        if (message.status !== "") {
+            obj.status = message.status;
+        }
+        return obj;
+    },
+};
+function createBaseListCloudflareTunnelsRequest() {
+    return {};
+}
+export const ListCloudflareTunnelsRequest = {
+    encode(_, writer = new BinaryWriter()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseListCloudflareTunnelsRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+};
+function createBaseListCloudflareTunnelsResponse() {
+    return { tunnels: [] };
+}
+export const ListCloudflareTunnelsResponse = {
+    encode(message, writer = new BinaryWriter()) {
+        for (const v of message.tunnels) {
+            CloudflareTunnel.encode(v, writer.uint32(10).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseListCloudflareTunnelsResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.tunnels.push(CloudflareTunnel.decode(reader, reader.uint32()));
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            tunnels: globalThis.Array.isArray(object?.tunnels)
+                ? object.tunnels.map((e) => CloudflareTunnel.fromJSON(e))
+                : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.tunnels?.length) {
+            obj.tunnels = message.tunnels.map((e) => CloudflareTunnel.toJSON(e));
+        }
+        return obj;
+    },
+};
+function createBaseCloudflareZone() {
+    return { id: "", name: "" };
+}
+export const CloudflareZone = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.id !== "") {
+            writer.uint32(10).string(message.id);
+        }
+        if (message.name !== "") {
+            writer.uint32(18).string(message.name);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseCloudflareZone();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.id = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.name = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            id: isSet(object.id) ? globalThis.String(object.id) : "",
+            name: isSet(object.name) ? globalThis.String(object.name) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.id !== "") {
+            obj.id = message.id;
+        }
+        if (message.name !== "") {
+            obj.name = message.name;
+        }
+        return obj;
+    },
+};
+function createBaseListCloudflareZonesRequest() {
+    return {};
+}
+export const ListCloudflareZonesRequest = {
+    encode(_, writer = new BinaryWriter()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseListCloudflareZonesRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+};
+function createBaseListCloudflareZonesResponse() {
+    return { zones: [] };
+}
+export const ListCloudflareZonesResponse = {
+    encode(message, writer = new BinaryWriter()) {
+        for (const v of message.zones) {
+            CloudflareZone.encode(v, writer.uint32(10).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseListCloudflareZonesResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.zones.push(CloudflareZone.decode(reader, reader.uint32()));
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            zones: globalThis.Array.isArray(object?.zones) ? object.zones.map((e) => CloudflareZone.fromJSON(e)) : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.zones?.length) {
+            obj.zones = message.zones.map((e) => CloudflareZone.toJSON(e));
         }
         return obj;
     },
@@ -669,6 +1015,24 @@ export const SystemConfigServiceService = {
         requestDeserialize: (value) => UpdateSecretRequest.decode(value),
         responseSerialize: (value) => Buffer.from(Secret.encode(value).finish()),
         responseDeserialize: (value) => Secret.decode(value),
+    },
+    listCloudflareTunnels: {
+        path: "/core.v1.SystemConfigService/ListCloudflareTunnels",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(ListCloudflareTunnelsRequest.encode(value).finish()),
+        requestDeserialize: (value) => ListCloudflareTunnelsRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(ListCloudflareTunnelsResponse.encode(value).finish()),
+        responseDeserialize: (value) => ListCloudflareTunnelsResponse.decode(value),
+    },
+    listCloudflareZones: {
+        path: "/core.v1.SystemConfigService/ListCloudflareZones",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(ListCloudflareZonesRequest.encode(value).finish()),
+        requestDeserialize: (value) => ListCloudflareZonesRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(ListCloudflareZonesResponse.encode(value).finish()),
+        responseDeserialize: (value) => ListCloudflareZonesResponse.decode(value),
     },
 };
 export const SystemConfigServiceClient = makeGenericClientConstructor(SystemConfigServiceService, "core.v1.SystemConfigService");

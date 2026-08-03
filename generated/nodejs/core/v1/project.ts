@@ -44,6 +44,8 @@ export interface Project {
   status: Status;
   lastTaskId: string;
   timestamps?: Timestamps | undefined;
+  workspaceFolder: string;
+  gitRemoteUrl: string;
 }
 
 export interface ListProjectsRequest {
@@ -67,6 +69,8 @@ export interface CreateProjectRequest {
   envVars: EnvVar[];
   prompt: string;
   initPrompt: string;
+  workspaceFolder: string;
+  gitRemoteUrl: string;
 }
 
 export interface UpdateProjectRequest {
@@ -77,9 +81,15 @@ export interface UpdateProjectRequest {
   envVars: EnvVar[];
   prompt?: string | undefined;
   initPrompt?: string | undefined;
+  workspaceFolder?: string | undefined;
+  gitRemoteUrl?: string | undefined;
 }
 
 export interface DeleteProjectRequest {
+  id: string;
+}
+
+export interface RunProjectInitRequest {
   id: string;
 }
 
@@ -95,6 +105,8 @@ function createBaseProject(): Project {
     status: 0,
     lastTaskId: "",
     timestamps: undefined,
+    workspaceFolder: "",
+    gitRemoteUrl: "",
   };
 }
 
@@ -129,6 +141,12 @@ export const Project: MessageFns<Project> = {
     }
     if (message.timestamps !== undefined) {
       Timestamps.encode(message.timestamps, writer.uint32(82).fork()).join();
+    }
+    if (message.workspaceFolder !== "") {
+      writer.uint32(90).string(message.workspaceFolder);
+    }
+    if (message.gitRemoteUrl !== "") {
+      writer.uint32(98).string(message.gitRemoteUrl);
     }
     return writer;
   },
@@ -220,6 +238,22 @@ export const Project: MessageFns<Project> = {
           message.timestamps = Timestamps.decode(reader, reader.uint32());
           continue;
         }
+        case 11: {
+          if (tag !== 90) {
+            break;
+          }
+
+          message.workspaceFolder = reader.string();
+          continue;
+        }
+        case 12: {
+          if (tag !== 98) {
+            break;
+          }
+
+          message.gitRemoteUrl = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -257,6 +291,16 @@ export const Project: MessageFns<Project> = {
         ? globalThis.String(object.last_task_id)
         : "",
       timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+      workspaceFolder: isSet(object.workspaceFolder)
+        ? globalThis.String(object.workspaceFolder)
+        : isSet(object.workspace_folder)
+        ? globalThis.String(object.workspace_folder)
+        : "",
+      gitRemoteUrl: isSet(object.gitRemoteUrl)
+        ? globalThis.String(object.gitRemoteUrl)
+        : isSet(object.git_remote_url)
+        ? globalThis.String(object.git_remote_url)
+        : "",
     };
   },
 
@@ -291,6 +335,12 @@ export const Project: MessageFns<Project> = {
     }
     if (message.timestamps !== undefined) {
       obj.timestamps = Timestamps.toJSON(message.timestamps);
+    }
+    if (message.workspaceFolder !== "") {
+      obj.workspaceFolder = message.workspaceFolder;
+    }
+    if (message.gitRemoteUrl !== "") {
+      obj.gitRemoteUrl = message.gitRemoteUrl;
     }
     return obj;
   },
@@ -482,7 +532,16 @@ export const GetProjectRequest: MessageFns<GetProjectRequest> = {
 };
 
 function createBaseCreateProjectRequest(): CreateProjectRequest {
-  return { name: "", description: "", runtimeId: "", envVars: [], prompt: "", initPrompt: "" };
+  return {
+    name: "",
+    description: "",
+    runtimeId: "",
+    envVars: [],
+    prompt: "",
+    initPrompt: "",
+    workspaceFolder: "",
+    gitRemoteUrl: "",
+  };
 }
 
 export const CreateProjectRequest: MessageFns<CreateProjectRequest> = {
@@ -504,6 +563,12 @@ export const CreateProjectRequest: MessageFns<CreateProjectRequest> = {
     }
     if (message.initPrompt !== "") {
       writer.uint32(50).string(message.initPrompt);
+    }
+    if (message.workspaceFolder !== "") {
+      writer.uint32(58).string(message.workspaceFolder);
+    }
+    if (message.gitRemoteUrl !== "") {
+      writer.uint32(66).string(message.gitRemoteUrl);
     }
     return writer;
   },
@@ -563,6 +628,22 @@ export const CreateProjectRequest: MessageFns<CreateProjectRequest> = {
           message.initPrompt = reader.string();
           continue;
         }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.workspaceFolder = reader.string();
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.gitRemoteUrl = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -592,6 +673,16 @@ export const CreateProjectRequest: MessageFns<CreateProjectRequest> = {
         : isSet(object.init_prompt)
         ? globalThis.String(object.init_prompt)
         : "",
+      workspaceFolder: isSet(object.workspaceFolder)
+        ? globalThis.String(object.workspaceFolder)
+        : isSet(object.workspace_folder)
+        ? globalThis.String(object.workspace_folder)
+        : "",
+      gitRemoteUrl: isSet(object.gitRemoteUrl)
+        ? globalThis.String(object.gitRemoteUrl)
+        : isSet(object.git_remote_url)
+        ? globalThis.String(object.git_remote_url)
+        : "",
     };
   },
 
@@ -615,6 +706,12 @@ export const CreateProjectRequest: MessageFns<CreateProjectRequest> = {
     if (message.initPrompt !== "") {
       obj.initPrompt = message.initPrompt;
     }
+    if (message.workspaceFolder !== "") {
+      obj.workspaceFolder = message.workspaceFolder;
+    }
+    if (message.gitRemoteUrl !== "") {
+      obj.gitRemoteUrl = message.gitRemoteUrl;
+    }
     return obj;
   },
 };
@@ -628,6 +725,8 @@ function createBaseUpdateProjectRequest(): UpdateProjectRequest {
     envVars: [],
     prompt: undefined,
     initPrompt: undefined,
+    workspaceFolder: undefined,
+    gitRemoteUrl: undefined,
   };
 }
 
@@ -653,6 +752,12 @@ export const UpdateProjectRequest: MessageFns<UpdateProjectRequest> = {
     }
     if (message.initPrompt !== undefined) {
       writer.uint32(58).string(message.initPrompt);
+    }
+    if (message.workspaceFolder !== undefined) {
+      writer.uint32(66).string(message.workspaceFolder);
+    }
+    if (message.gitRemoteUrl !== undefined) {
+      writer.uint32(74).string(message.gitRemoteUrl);
     }
     return writer;
   },
@@ -720,6 +825,22 @@ export const UpdateProjectRequest: MessageFns<UpdateProjectRequest> = {
           message.initPrompt = reader.string();
           continue;
         }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.workspaceFolder = reader.string();
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.gitRemoteUrl = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -750,6 +871,16 @@ export const UpdateProjectRequest: MessageFns<UpdateProjectRequest> = {
         : isSet(object.init_prompt)
         ? globalThis.String(object.init_prompt)
         : undefined,
+      workspaceFolder: isSet(object.workspaceFolder)
+        ? globalThis.String(object.workspaceFolder)
+        : isSet(object.workspace_folder)
+        ? globalThis.String(object.workspace_folder)
+        : undefined,
+      gitRemoteUrl: isSet(object.gitRemoteUrl)
+        ? globalThis.String(object.gitRemoteUrl)
+        : isSet(object.git_remote_url)
+        ? globalThis.String(object.git_remote_url)
+        : undefined,
     };
   },
 
@@ -775,6 +906,12 @@ export const UpdateProjectRequest: MessageFns<UpdateProjectRequest> = {
     }
     if (message.initPrompt !== undefined) {
       obj.initPrompt = message.initPrompt;
+    }
+    if (message.workspaceFolder !== undefined) {
+      obj.workspaceFolder = message.workspaceFolder;
+    }
+    if (message.gitRemoteUrl !== undefined) {
+      obj.gitRemoteUrl = message.gitRemoteUrl;
     }
     return obj;
   },
@@ -821,6 +958,55 @@ export const DeleteProjectRequest: MessageFns<DeleteProjectRequest> = {
   },
 
   toJSON(message: DeleteProjectRequest): unknown {
+    const obj: any = {};
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
+    return obj;
+  },
+};
+
+function createBaseRunProjectInitRequest(): RunProjectInitRequest {
+  return { id: "" };
+}
+
+export const RunProjectInitRequest: MessageFns<RunProjectInitRequest> = {
+  encode(message: RunProjectInitRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): RunProjectInitRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRunProjectInitRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): RunProjectInitRequest {
+    return { id: isSet(object.id) ? globalThis.String(object.id) : "" };
+  },
+
+  toJSON(message: RunProjectInitRequest): unknown {
     const obj: any = {};
     if (message.id !== "") {
       obj.id = message.id;
@@ -877,6 +1063,16 @@ export const ProjectServiceService = {
     responseSerialize: (value: DeleteResponse): Buffer => Buffer.from(DeleteResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer): DeleteResponse => DeleteResponse.decode(value),
   },
+  runProjectInit: {
+    path: "/core.v1.ProjectService/RunProjectInit" as const,
+    requestStream: false as const,
+    responseStream: false as const,
+    requestSerialize: (value: RunProjectInitRequest): Buffer =>
+      Buffer.from(RunProjectInitRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): RunProjectInitRequest => RunProjectInitRequest.decode(value),
+    responseSerialize: (value: Project): Buffer => Buffer.from(Project.encode(value).finish()),
+    responseDeserialize: (value: Buffer): Project => Project.decode(value),
+  },
 } as const;
 
 export interface ProjectServiceServer extends UntypedServiceImplementation {
@@ -885,6 +1081,7 @@ export interface ProjectServiceServer extends UntypedServiceImplementation {
   createProject: handleUnaryCall<CreateProjectRequest, Project>;
   updateProject: handleUnaryCall<UpdateProjectRequest, Project>;
   deleteProject: handleUnaryCall<DeleteProjectRequest, DeleteResponse>;
+  runProjectInit: handleUnaryCall<RunProjectInitRequest, Project>;
 }
 
 export interface ProjectServiceClient extends Client {
@@ -962,6 +1159,21 @@ export interface ProjectServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: DeleteResponse) => void,
+  ): ClientUnaryCall;
+  runProjectInit(
+    request: RunProjectInitRequest,
+    callback: (error: ServiceError | null, response: Project) => void,
+  ): ClientUnaryCall;
+  runProjectInit(
+    request: RunProjectInitRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: Project) => void,
+  ): ClientUnaryCall;
+  runProjectInit(
+    request: RunProjectInitRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: Project) => void,
   ): ClientUnaryCall;
 }
 
