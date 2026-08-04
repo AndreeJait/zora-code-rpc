@@ -24,6 +24,7 @@ message Task {
   google.protobuf.Timestamp completed_at = 11;
   google.protobuf.Timestamp created_at = 12;
   google.protobuf.Timestamp updated_at = 13;
+  repeated string image_urls = 14;
 }
 
 message ListTasksRequest {
@@ -47,6 +48,7 @@ message CreateTaskRequest {
   string prompt = 4;
   string model = 5;
   string linked_task_id = 6;
+  repeated string image_urls = 7;
 }
 
 message UpdateTaskRequest {
@@ -55,6 +57,7 @@ message UpdateTaskRequest {
   optional string description = 3;
   optional string prompt = 4;
   optional string model = 5;
+  repeated string image_urls = 6;
 }
 
 message DeleteTaskRequest {

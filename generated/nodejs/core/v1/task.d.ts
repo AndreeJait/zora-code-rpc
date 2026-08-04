@@ -17,6 +17,7 @@ export interface Task {
     completedAt?: Date | undefined;
     createdAt?: Date | undefined;
     updatedAt?: Date | undefined;
+    imageUrls: string[];
 }
 export interface ListTasksRequest {
     projectId: string;
@@ -36,6 +37,7 @@ export interface CreateTaskRequest {
     prompt: string;
     model: string;
     linkedTaskId: string;
+    imageUrls: string[];
 }
 export interface UpdateTaskRequest {
     id: string;
@@ -43,6 +45,7 @@ export interface UpdateTaskRequest {
     description?: string | undefined;
     prompt?: string | undefined;
     model?: string | undefined;
+    imageUrls: string[];
 }
 export interface DeleteTaskRequest {
     id: string;

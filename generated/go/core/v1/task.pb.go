@@ -39,6 +39,7 @@ type Task struct {
 	CompletedAt   *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	ImageUrls     []string               `protobuf:"bytes,14,rep,name=image_urls,json=imageUrls,proto3" json:"image_urls,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -160,6 +161,13 @@ func (x *Task) GetCreatedAt() *timestamppb.Timestamp {
 func (x *Task) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *Task) GetImageUrls() []string {
+	if x != nil {
+		return x.ImageUrls
 	}
 	return nil
 }
@@ -320,6 +328,7 @@ type CreateTaskRequest struct {
 	Prompt        string                 `protobuf:"bytes,4,opt,name=prompt,proto3" json:"prompt,omitempty"`
 	Model         string                 `protobuf:"bytes,5,opt,name=model,proto3" json:"model,omitempty"`
 	LinkedTaskId  string                 `protobuf:"bytes,6,opt,name=linked_task_id,json=linkedTaskId,proto3" json:"linked_task_id,omitempty"`
+	ImageUrls     []string               `protobuf:"bytes,7,rep,name=image_urls,json=imageUrls,proto3" json:"image_urls,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -396,6 +405,13 @@ func (x *CreateTaskRequest) GetLinkedTaskId() string {
 	return ""
 }
 
+func (x *CreateTaskRequest) GetImageUrls() []string {
+	if x != nil {
+		return x.ImageUrls
+	}
+	return nil
+}
+
 type UpdateTaskRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -403,6 +419,7 @@ type UpdateTaskRequest struct {
 	Description   *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
 	Prompt        *string                `protobuf:"bytes,4,opt,name=prompt,proto3,oneof" json:"prompt,omitempty"`
 	Model         *string                `protobuf:"bytes,5,opt,name=model,proto3,oneof" json:"model,omitempty"`
+	ImageUrls     []string               `protobuf:"bytes,6,rep,name=image_urls,json=imageUrls,proto3" json:"image_urls,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -470,6 +487,13 @@ func (x *UpdateTaskRequest) GetModel() string {
 		return *x.Model
 	}
 	return ""
+}
+
+func (x *UpdateTaskRequest) GetImageUrls() []string {
+	if x != nil {
+		return x.ImageUrls
+	}
+	return nil
 }
 
 type DeleteTaskRequest struct {
@@ -740,7 +764,7 @@ var File_core_v1_task_proto protoreflect.FileDescriptor
 
 const file_core_v1_task_proto_rawDesc = "" +
 	"\n" +
-	"\x12core/v1/task.proto\x12\acore.v1\x1a\x15common/v1/types.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf2\x03\n" +
+	"\x12core/v1/task.proto\x12\acore.v1\x1a\x15common/v1/types.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x91\x04\n" +
 	"\x04Task\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -759,7 +783,9 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"h\n" +
+	"updated_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
+	"\n" +
+	"image_urls\x18\x0e \x03(\tR\timageUrls\"h\n" +
 	"\x10ListTasksRequest\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x125\n" +
@@ -770,7 +796,7 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\x05tasks\x18\x01 \x03(\v2\r.core.v1.TaskR\x05tasks\x120\n" +
 	"\tpage_info\x18\x02 \x01(\v2\x13.common.v1.PageInfoR\bpageInfo\" \n" +
 	"\x0eGetTaskRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xbc\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xdb\x01\n" +
 	"\x11CreateTaskRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
@@ -778,13 +804,17 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x16\n" +
 	"\x06prompt\x18\x04 \x01(\tR\x06prompt\x12\x14\n" +
 	"\x05model\x18\x05 \x01(\tR\x05model\x12$\n" +
-	"\x0elinked_task_id\x18\x06 \x01(\tR\flinkedTaskId\"\xc9\x01\n" +
+	"\x0elinked_task_id\x18\x06 \x01(\tR\flinkedTaskId\x12\x1d\n" +
+	"\n" +
+	"image_urls\x18\a \x03(\tR\timageUrls\"\xe8\x01\n" +
 	"\x11UpdateTaskRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12%\n" +
 	"\vdescription\x18\x03 \x01(\tH\x01R\vdescription\x88\x01\x01\x12\x1b\n" +
 	"\x06prompt\x18\x04 \x01(\tH\x02R\x06prompt\x88\x01\x01\x12\x19\n" +
-	"\x05model\x18\x05 \x01(\tH\x03R\x05model\x88\x01\x01B\a\n" +
+	"\x05model\x18\x05 \x01(\tH\x03R\x05model\x88\x01\x01\x12\x1d\n" +
+	"\n" +
+	"image_urls\x18\x06 \x03(\tR\timageUrlsB\a\n" +
 	"\x05_nameB\x0e\n" +
 	"\f_descriptionB\t\n" +
 	"\a_promptB\b\n" +

@@ -38,6 +38,7 @@ export interface Task {
   completedAt?: Date | undefined;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
+  imageUrls: string[];
 }
 
 export interface ListTasksRequest {
@@ -61,6 +62,7 @@ export interface CreateTaskRequest {
   prompt: string;
   model: string;
   linkedTaskId: string;
+  imageUrls: string[];
 }
 
 export interface UpdateTaskRequest {
@@ -69,6 +71,7 @@ export interface UpdateTaskRequest {
   description?: string | undefined;
   prompt?: string | undefined;
   model?: string | undefined;
+  imageUrls: string[];
 }
 
 export interface DeleteTaskRequest {
@@ -110,6 +113,7 @@ function createBaseTask(): Task {
     completedAt: undefined,
     createdAt: undefined,
     updatedAt: undefined,
+    imageUrls: [],
   };
 }
 
@@ -153,6 +157,9 @@ export const Task: MessageFns<Task> = {
     }
     if (message.updatedAt !== undefined) {
       Timestamp.encode(toTimestamp(message.updatedAt), writer.uint32(106).fork()).join();
+    }
+    for (const v of message.imageUrls) {
+      writer.uint32(114).string(v!);
     }
     return writer;
   },
@@ -268,6 +275,14 @@ export const Task: MessageFns<Task> = {
           message.updatedAt = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
           continue;
         }
+        case 14: {
+          if (tag !== 114) {
+            break;
+          }
+
+          message.imageUrls.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -316,6 +331,11 @@ export const Task: MessageFns<Task> = {
         : isSet(object.updated_at)
         ? fromJsonTimestamp(object.updated_at)
         : undefined,
+      imageUrls: globalThis.Array.isArray(object?.imageUrls)
+        ? object.imageUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.image_urls)
+        ? object.image_urls.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -359,6 +379,9 @@ export const Task: MessageFns<Task> = {
     }
     if (message.updatedAt !== undefined) {
       obj.updatedAt = message.updatedAt.toISOString();
+    }
+    if (message.imageUrls?.length) {
+      obj.imageUrls = message.imageUrls;
     }
     return obj;
   },
@@ -554,7 +577,7 @@ export const GetTaskRequest: MessageFns<GetTaskRequest> = {
 };
 
 function createBaseCreateTaskRequest(): CreateTaskRequest {
-  return { name: "", description: "", projectId: "", prompt: "", model: "", linkedTaskId: "" };
+  return { name: "", description: "", projectId: "", prompt: "", model: "", linkedTaskId: "", imageUrls: [] };
 }
 
 export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
@@ -576,6 +599,9 @@ export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
     }
     if (message.linkedTaskId !== "") {
       writer.uint32(50).string(message.linkedTaskId);
+    }
+    for (const v of message.imageUrls) {
+      writer.uint32(58).string(v!);
     }
     return writer;
   },
@@ -635,6 +661,14 @@ export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
           message.linkedTaskId = reader.string();
           continue;
         }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.imageUrls.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -660,6 +694,11 @@ export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
         : isSet(object.linked_task_id)
         ? globalThis.String(object.linked_task_id)
         : "",
+      imageUrls: globalThis.Array.isArray(object?.imageUrls)
+        ? object.imageUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.image_urls)
+        ? object.image_urls.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -683,12 +722,15 @@ export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
     if (message.linkedTaskId !== "") {
       obj.linkedTaskId = message.linkedTaskId;
     }
+    if (message.imageUrls?.length) {
+      obj.imageUrls = message.imageUrls;
+    }
     return obj;
   },
 };
 
 function createBaseUpdateTaskRequest(): UpdateTaskRequest {
-  return { id: "", name: undefined, description: undefined, prompt: undefined, model: undefined };
+  return { id: "", name: undefined, description: undefined, prompt: undefined, model: undefined, imageUrls: [] };
 }
 
 export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
@@ -707,6 +749,9 @@ export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
     }
     if (message.model !== undefined) {
       writer.uint32(42).string(message.model);
+    }
+    for (const v of message.imageUrls) {
+      writer.uint32(50).string(v!);
     }
     return writer;
   },
@@ -758,6 +803,14 @@ export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
           message.model = reader.string();
           continue;
         }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.imageUrls.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -774,6 +827,11 @@ export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
       description: isSet(object.description) ? globalThis.String(object.description) : undefined,
       prompt: isSet(object.prompt) ? globalThis.String(object.prompt) : undefined,
       model: isSet(object.model) ? globalThis.String(object.model) : undefined,
+      imageUrls: globalThis.Array.isArray(object?.imageUrls)
+        ? object.imageUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.image_urls)
+        ? object.image_urls.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -793,6 +851,9 @@ export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
     }
     if (message.model !== undefined) {
       obj.model = message.model;
+    }
+    if (message.imageUrls?.length) {
+      obj.imageUrls = message.imageUrls;
     }
     return obj;
   },
