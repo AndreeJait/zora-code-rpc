@@ -15,6 +15,7 @@ export interface Deployment {
     createNewContainerIfNotExists: boolean;
     timestamps?: Timestamps | undefined;
     zoneId: string;
+    networkName: string;
 }
 export interface ListDeploymentsRequest {
     projectId: string;
@@ -32,6 +33,7 @@ export interface CreateDeploymentRequest {
     port: number;
     createNewContainerIfNotExists: boolean;
     zoneId: string;
+    networkName: string;
 }
 export interface UpdateDeploymentRequest {
     id: string;
@@ -40,6 +42,7 @@ export interface UpdateDeploymentRequest {
     port?: number | undefined;
     createNewContainerIfNotExists?: boolean | undefined;
     zoneId?: string | undefined;
+    networkName?: string | undefined;
 }
 export interface DeleteDeploymentRequest {
     id: string;

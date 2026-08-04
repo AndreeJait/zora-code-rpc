@@ -35,6 +35,7 @@ export interface Deployment {
   createNewContainerIfNotExists: boolean;
   timestamps?: Timestamps | undefined;
   zoneId: string;
+  networkName: string;
 }
 
 export interface ListDeploymentsRequest {
@@ -56,6 +57,7 @@ export interface CreateDeploymentRequest {
   port: number;
   createNewContainerIfNotExists: boolean;
   zoneId: string;
+  networkName: string;
 }
 
 export interface UpdateDeploymentRequest {
@@ -65,6 +67,7 @@ export interface UpdateDeploymentRequest {
   port?: number | undefined;
   createNewContainerIfNotExists?: boolean | undefined;
   zoneId?: string | undefined;
+  networkName?: string | undefined;
 }
 
 export interface DeleteDeploymentRequest {
@@ -92,6 +95,7 @@ function createBaseDeployment(): Deployment {
     createNewContainerIfNotExists: false,
     timestamps: undefined,
     zoneId: "",
+    networkName: "",
   };
 }
 
@@ -129,6 +133,9 @@ export const Deployment: MessageFns<Deployment> = {
     }
     if (message.zoneId !== "") {
       writer.uint32(90).string(message.zoneId);
+    }
+    if (message.networkName !== "") {
+      writer.uint32(98).string(message.networkName);
     }
     return writer;
   },
@@ -228,6 +235,14 @@ export const Deployment: MessageFns<Deployment> = {
           message.zoneId = reader.string();
           continue;
         }
+        case 12: {
+          if (tag !== 98) {
+            break;
+          }
+
+          message.networkName = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -270,6 +285,11 @@ export const Deployment: MessageFns<Deployment> = {
         : isSet(object.zone_id)
         ? globalThis.String(object.zone_id)
         : "",
+      networkName: isSet(object.networkName)
+        ? globalThis.String(object.networkName)
+        : isSet(object.network_name)
+        ? globalThis.String(object.network_name)
+        : "",
     };
   },
 
@@ -307,6 +327,9 @@ export const Deployment: MessageFns<Deployment> = {
     }
     if (message.zoneId !== "") {
       obj.zoneId = message.zoneId;
+    }
+    if (message.networkName !== "") {
+      obj.networkName = message.networkName;
     }
     return obj;
   },
@@ -470,7 +493,15 @@ export const GetDeploymentRequest: MessageFns<GetDeploymentRequest> = {
 };
 
 function createBaseCreateDeploymentRequest(): CreateDeploymentRequest {
-  return { projectId: "", tunnelId: "", subdomain: "", port: 0, createNewContainerIfNotExists: false, zoneId: "" };
+  return {
+    projectId: "",
+    tunnelId: "",
+    subdomain: "",
+    port: 0,
+    createNewContainerIfNotExists: false,
+    zoneId: "",
+    networkName: "",
+  };
 }
 
 export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
@@ -492,6 +523,9 @@ export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
     }
     if (message.zoneId !== "") {
       writer.uint32(50).string(message.zoneId);
+    }
+    if (message.networkName !== "") {
+      writer.uint32(58).string(message.networkName);
     }
     return writer;
   },
@@ -551,6 +585,14 @@ export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
           message.zoneId = reader.string();
           continue;
         }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.networkName = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -584,6 +626,11 @@ export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
         : isSet(object.zone_id)
         ? globalThis.String(object.zone_id)
         : "",
+      networkName: isSet(object.networkName)
+        ? globalThis.String(object.networkName)
+        : isSet(object.network_name)
+        ? globalThis.String(object.network_name)
+        : "",
     };
   },
 
@@ -607,6 +654,9 @@ export const CreateDeploymentRequest: MessageFns<CreateDeploymentRequest> = {
     if (message.zoneId !== "") {
       obj.zoneId = message.zoneId;
     }
+    if (message.networkName !== "") {
+      obj.networkName = message.networkName;
+    }
     return obj;
   },
 };
@@ -619,6 +669,7 @@ function createBaseUpdateDeploymentRequest(): UpdateDeploymentRequest {
     port: undefined,
     createNewContainerIfNotExists: undefined,
     zoneId: undefined,
+    networkName: undefined,
   };
 }
 
@@ -641,6 +692,9 @@ export const UpdateDeploymentRequest: MessageFns<UpdateDeploymentRequest> = {
     }
     if (message.zoneId !== undefined) {
       writer.uint32(50).string(message.zoneId);
+    }
+    if (message.networkName !== undefined) {
+      writer.uint32(58).string(message.networkName);
     }
     return writer;
   },
@@ -700,6 +754,14 @@ export const UpdateDeploymentRequest: MessageFns<UpdateDeploymentRequest> = {
           message.zoneId = reader.string();
           continue;
         }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.networkName = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -729,6 +791,11 @@ export const UpdateDeploymentRequest: MessageFns<UpdateDeploymentRequest> = {
         : isSet(object.zone_id)
         ? globalThis.String(object.zone_id)
         : undefined,
+      networkName: isSet(object.networkName)
+        ? globalThis.String(object.networkName)
+        : isSet(object.network_name)
+        ? globalThis.String(object.network_name)
+        : undefined,
     };
   },
 
@@ -751,6 +818,9 @@ export const UpdateDeploymentRequest: MessageFns<UpdateDeploymentRequest> = {
     }
     if (message.zoneId !== undefined) {
       obj.zoneId = message.zoneId;
+    }
+    if (message.networkName !== undefined) {
+      obj.networkName = message.networkName;
     }
     return obj;
   },
