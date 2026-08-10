@@ -8,6 +8,7 @@ PROTO_FILES := \
 	proto/core/v1/deployment.proto \
 	proto/core/v1/system_config.proto \
 	proto/core/v1/auth.proto \
+	proto/core/v1/plan.proto \
 	proto/runtime/v1/execution.proto \
 	proto/model/v1/provider.proto \
 	proto/model/v1/inference.proto
@@ -27,13 +28,14 @@ generate-go:
 generate-node:
 	npm run generate:proto
 
-# Regenerate both Go and Node.js stubs, then fail if generated/ still differs from the committed state.
+# Regenerate both Go and Node.js stubs, then fail if proto-derived files differ from the
+# committed state. The generated/nodejs/index.* barrel is hand-maintained, so it is excluded.
 verify-generate: generate-go generate-node
-	@if git diff --quiet generated/; then \
+	@if git diff --quiet -- ':!generated/nodejs/index.*' generated/; then \
 		echo "Generated stubs are up to date."; \
 	else \
 		echo "Generated stubs are out of date. Run 'make generate-go generate-node' and commit the changes."; \
-		git diff --stat generated/; \
+		git diff --stat -- ':!generated/nodejs/index.*' generated/; \
 		exit 1; \
 	fi
 
