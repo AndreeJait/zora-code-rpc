@@ -39,6 +39,7 @@ export interface Plan {
   generatedSummary: string;
   status: Status;
   timestamps?: Timestamps | undefined;
+  messages: PlanMessage[];
 }
 
 /** PlanMessage is a single turn inside a Plan thread. */
@@ -144,6 +145,7 @@ function createBasePlan(): Plan {
     generatedSummary: "",
     status: 0,
     timestamps: undefined,
+    messages: [],
   };
 }
 
@@ -181,6 +183,9 @@ export const Plan: MessageFns<Plan> = {
     }
     if (message.timestamps !== undefined) {
       Timestamps.encode(message.timestamps, writer.uint32(90).fork()).join();
+    }
+    for (const v of message.messages) {
+      PlanMessage.encode(v!, writer.uint32(98).fork()).join();
     }
     return writer;
   },
@@ -280,6 +285,14 @@ export const Plan: MessageFns<Plan> = {
           message.timestamps = Timestamps.decode(reader, reader.uint32());
           continue;
         }
+        case 12: {
+          if (tag !== 98) {
+            break;
+          }
+
+          message.messages.push(PlanMessage.decode(reader, reader.uint32()));
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -322,6 +335,9 @@ export const Plan: MessageFns<Plan> = {
         : "",
       status: isSet(object.status) ? statusFromJSON(object.status) : 0,
       timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+      messages: globalThis.Array.isArray(object?.messages)
+        ? object.messages.map((e: any) => PlanMessage.fromJSON(e))
+        : [],
     };
   },
 
@@ -359,6 +375,9 @@ export const Plan: MessageFns<Plan> = {
     }
     if (message.timestamps !== undefined) {
       obj.timestamps = Timestamps.toJSON(message.timestamps);
+    }
+    if (message.messages?.length) {
+      obj.messages = message.messages.map((e) => PlanMessage.toJSON(e));
     }
     return obj;
   },

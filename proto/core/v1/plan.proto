@@ -23,6 +23,7 @@ message Plan {
   string generated_summary = 9;
   common.v1.Status status = 10;
   common.v1.Timestamps timestamps = 11;
+  repeated PlanMessage messages = 12;
 }
 
 // PlanMessage is a single turn inside a Plan thread.

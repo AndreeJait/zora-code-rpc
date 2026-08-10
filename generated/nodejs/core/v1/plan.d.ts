@@ -19,6 +19,7 @@ export interface Plan {
     generatedSummary: string;
     status: Status;
     timestamps?: Timestamps | undefined;
+    messages: PlanMessage[];
 }
 /** PlanMessage is a single turn inside a Plan thread. */
 export interface PlanMessage {

@@ -37,6 +37,7 @@ type Plan struct {
 	GeneratedSummary string                 `protobuf:"bytes,9,opt,name=generated_summary,json=generatedSummary,proto3" json:"generated_summary,omitempty"`
 	Status           v1.Status              `protobuf:"varint,10,opt,name=status,proto3,enum=common.v1.Status" json:"status,omitempty"`
 	Timestamps       *v1.Timestamps         `protobuf:"bytes,11,opt,name=timestamps,proto3" json:"timestamps,omitempty"`
+	Messages         []*PlanMessage         `protobuf:"bytes,12,rep,name=messages,proto3" json:"messages,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -144,6 +145,13 @@ func (x *Plan) GetStatus() v1.Status {
 func (x *Plan) GetTimestamps() *v1.Timestamps {
 	if x != nil {
 		return x.Timestamps
+	}
+	return nil
+}
+
+func (x *Plan) GetMessages() []*PlanMessage {
+	if x != nil {
+		return x.Messages
 	}
 	return nil
 }
@@ -1015,7 +1023,7 @@ var File_core_v1_plan_proto protoreflect.FileDescriptor
 
 const file_core_v1_plan_proto_rawDesc = "" +
 	"\n" +
-	"\x12core/v1/plan.proto\x12\acore.v1\x1a\x15common/v1/types.proto\x1a\x15core/v1/project.proto\"\xfd\x02\n" +
+	"\x12core/v1/plan.proto\x12\acore.v1\x1a\x15common/v1/types.proto\x1a\x15core/v1/project.proto\"\xaf\x03\n" +
 	"\x04Plan\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -1033,7 +1041,8 @@ const file_core_v1_plan_proto_rawDesc = "" +
 	" \x01(\x0e2\x11.common.v1.StatusR\x06status\x125\n" +
 	"\n" +
 	"timestamps\x18\v \x01(\v2\x15.common.v1.TimestampsR\n" +
-	"timestamps\"\xb4\x01\n" +
+	"timestamps\x120\n" +
+	"\bmessages\x18\f \x03(\v2\x14.core.v1.PlanMessageR\bmessages\"\xb4\x01\n" +
 	"\vPlanMessage\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\aplan_id\x18\x02 \x01(\tR\x06planId\x12\x12\n" +
@@ -1163,39 +1172,40 @@ var file_core_v1_plan_proto_goTypes = []any{
 var file_core_v1_plan_proto_depIdxs = []int32{
 	16, // 0: core.v1.Plan.status:type_name -> common.v1.Status
 	17, // 1: core.v1.Plan.timestamps:type_name -> common.v1.Timestamps
-	17, // 2: core.v1.PlanMessage.timestamps:type_name -> common.v1.Timestamps
-	17, // 3: core.v1.Model.timestamps:type_name -> common.v1.Timestamps
-	0,  // 4: core.v1.ListPlansResponse.plans:type_name -> core.v1.Plan
-	2,  // 5: core.v1.ListModelsResponse.models:type_name -> core.v1.Model
-	3,  // 6: core.v1.PlanService.CreatePlan:input_type -> core.v1.CreatePlanRequest
-	4,  // 7: core.v1.PlanService.UpdatePlan:input_type -> core.v1.UpdatePlanRequest
-	5,  // 8: core.v1.PlanService.DeletePlan:input_type -> core.v1.GetPlanRequest
-	5,  // 9: core.v1.PlanService.GetPlan:input_type -> core.v1.GetPlanRequest
-	6,  // 10: core.v1.PlanService.ListPlans:input_type -> core.v1.ListPlansRequest
-	8,  // 11: core.v1.PlanService.SendPlanMessage:input_type -> core.v1.SendPlanMessageRequest
-	9,  // 12: core.v1.PlanService.CreateProjectFromPlan:input_type -> core.v1.CreateProjectFromPlanRequest
-	13, // 13: core.v1.ModelService.CreateModel:input_type -> core.v1.CreateModelRequest
-	14, // 14: core.v1.ModelService.UpdateModel:input_type -> core.v1.UpdateModelRequest
-	15, // 15: core.v1.ModelService.DeleteModel:input_type -> core.v1.DeleteModelRequest
-	12, // 16: core.v1.ModelService.GetModel:input_type -> core.v1.GetModelRequest
-	10, // 17: core.v1.ModelService.ListModels:input_type -> core.v1.ListModelsRequest
-	0,  // 18: core.v1.PlanService.CreatePlan:output_type -> core.v1.Plan
-	0,  // 19: core.v1.PlanService.UpdatePlan:output_type -> core.v1.Plan
-	18, // 20: core.v1.PlanService.DeletePlan:output_type -> common.v1.DeleteResponse
-	0,  // 21: core.v1.PlanService.GetPlan:output_type -> core.v1.Plan
-	7,  // 22: core.v1.PlanService.ListPlans:output_type -> core.v1.ListPlansResponse
-	1,  // 23: core.v1.PlanService.SendPlanMessage:output_type -> core.v1.PlanMessage
-	19, // 24: core.v1.PlanService.CreateProjectFromPlan:output_type -> core.v1.Project
-	2,  // 25: core.v1.ModelService.CreateModel:output_type -> core.v1.Model
-	2,  // 26: core.v1.ModelService.UpdateModel:output_type -> core.v1.Model
-	18, // 27: core.v1.ModelService.DeleteModel:output_type -> common.v1.DeleteResponse
-	2,  // 28: core.v1.ModelService.GetModel:output_type -> core.v1.Model
-	11, // 29: core.v1.ModelService.ListModels:output_type -> core.v1.ListModelsResponse
-	18, // [18:30] is the sub-list for method output_type
-	6,  // [6:18] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	1,  // 2: core.v1.Plan.messages:type_name -> core.v1.PlanMessage
+	17, // 3: core.v1.PlanMessage.timestamps:type_name -> common.v1.Timestamps
+	17, // 4: core.v1.Model.timestamps:type_name -> common.v1.Timestamps
+	0,  // 5: core.v1.ListPlansResponse.plans:type_name -> core.v1.Plan
+	2,  // 6: core.v1.ListModelsResponse.models:type_name -> core.v1.Model
+	3,  // 7: core.v1.PlanService.CreatePlan:input_type -> core.v1.CreatePlanRequest
+	4,  // 8: core.v1.PlanService.UpdatePlan:input_type -> core.v1.UpdatePlanRequest
+	5,  // 9: core.v1.PlanService.DeletePlan:input_type -> core.v1.GetPlanRequest
+	5,  // 10: core.v1.PlanService.GetPlan:input_type -> core.v1.GetPlanRequest
+	6,  // 11: core.v1.PlanService.ListPlans:input_type -> core.v1.ListPlansRequest
+	8,  // 12: core.v1.PlanService.SendPlanMessage:input_type -> core.v1.SendPlanMessageRequest
+	9,  // 13: core.v1.PlanService.CreateProjectFromPlan:input_type -> core.v1.CreateProjectFromPlanRequest
+	13, // 14: core.v1.ModelService.CreateModel:input_type -> core.v1.CreateModelRequest
+	14, // 15: core.v1.ModelService.UpdateModel:input_type -> core.v1.UpdateModelRequest
+	15, // 16: core.v1.ModelService.DeleteModel:input_type -> core.v1.DeleteModelRequest
+	12, // 17: core.v1.ModelService.GetModel:input_type -> core.v1.GetModelRequest
+	10, // 18: core.v1.ModelService.ListModels:input_type -> core.v1.ListModelsRequest
+	0,  // 19: core.v1.PlanService.CreatePlan:output_type -> core.v1.Plan
+	0,  // 20: core.v1.PlanService.UpdatePlan:output_type -> core.v1.Plan
+	18, // 21: core.v1.PlanService.DeletePlan:output_type -> common.v1.DeleteResponse
+	0,  // 22: core.v1.PlanService.GetPlan:output_type -> core.v1.Plan
+	7,  // 23: core.v1.PlanService.ListPlans:output_type -> core.v1.ListPlansResponse
+	1,  // 24: core.v1.PlanService.SendPlanMessage:output_type -> core.v1.PlanMessage
+	19, // 25: core.v1.PlanService.CreateProjectFromPlan:output_type -> core.v1.Project
+	2,  // 26: core.v1.ModelService.CreateModel:output_type -> core.v1.Model
+	2,  // 27: core.v1.ModelService.UpdateModel:output_type -> core.v1.Model
+	18, // 28: core.v1.ModelService.DeleteModel:output_type -> common.v1.DeleteResponse
+	2,  // 29: core.v1.ModelService.GetModel:output_type -> core.v1.Model
+	11, // 30: core.v1.ModelService.ListModels:output_type -> core.v1.ListModelsResponse
+	19, // [19:31] is the sub-list for method output_type
+	7,  // [7:19] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_plan_proto_init() }
