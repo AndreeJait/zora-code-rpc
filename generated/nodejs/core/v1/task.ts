@@ -98,6 +98,15 @@ export interface RerunTaskResponse {
   task?: Task | undefined;
 }
 
+export interface UploadTaskImagesRequest {
+  images: Buffer[];
+  fileNames: string[];
+}
+
+export interface UploadTaskImagesResponse {
+  imageUrls: string[];
+}
+
 function createBaseTask(): Task {
   return {
     id: "",
@@ -1153,6 +1162,133 @@ export const RerunTaskResponse: MessageFns<RerunTaskResponse> = {
   },
 };
 
+function createBaseUploadTaskImagesRequest(): UploadTaskImagesRequest {
+  return { images: [], fileNames: [] };
+}
+
+export const UploadTaskImagesRequest: MessageFns<UploadTaskImagesRequest> = {
+  encode(message: UploadTaskImagesRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.images) {
+      writer.uint32(10).bytes(v!);
+    }
+    for (const v of message.fileNames) {
+      writer.uint32(18).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UploadTaskImagesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUploadTaskImagesRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.images.push(Buffer.from(reader.bytes()));
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.fileNames.push(reader.string());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): UploadTaskImagesRequest {
+    return {
+      images: globalThis.Array.isArray(object?.images)
+        ? object.images.map((e: any) => Buffer.from(bytesFromBase64(e)))
+        : [],
+      fileNames: globalThis.Array.isArray(object?.fileNames)
+        ? object.fileNames.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.file_names)
+        ? object.file_names.map((e: any) => globalThis.String(e))
+        : [],
+    };
+  },
+
+  toJSON(message: UploadTaskImagesRequest): unknown {
+    const obj: any = {};
+    if (message.images?.length) {
+      obj.images = message.images.map((e) => base64FromBytes(e));
+    }
+    if (message.fileNames?.length) {
+      obj.fileNames = message.fileNames;
+    }
+    return obj;
+  },
+};
+
+function createBaseUploadTaskImagesResponse(): UploadTaskImagesResponse {
+  return { imageUrls: [] };
+}
+
+export const UploadTaskImagesResponse: MessageFns<UploadTaskImagesResponse> = {
+  encode(message: UploadTaskImagesResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.imageUrls) {
+      writer.uint32(10).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UploadTaskImagesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUploadTaskImagesResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.imageUrls.push(reader.string());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): UploadTaskImagesResponse {
+    return {
+      imageUrls: globalThis.Array.isArray(object?.imageUrls)
+        ? object.imageUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.image_urls)
+        ? object.image_urls.map((e: any) => globalThis.String(e))
+        : [],
+    };
+  },
+
+  toJSON(message: UploadTaskImagesResponse): unknown {
+    const obj: any = {};
+    if (message.imageUrls?.length) {
+      obj.imageUrls = message.imageUrls;
+    }
+    return obj;
+  },
+};
+
 export type TaskServiceService = typeof TaskServiceService;
 export const TaskServiceService = {
   listTasks: {
@@ -1227,6 +1363,17 @@ export const TaskServiceService = {
     responseSerialize: (value: RerunTaskResponse): Buffer => Buffer.from(RerunTaskResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer): RerunTaskResponse => RerunTaskResponse.decode(value),
   },
+  uploadTaskImages: {
+    path: "/core.v1.TaskService/UploadTaskImages" as const,
+    requestStream: false as const,
+    responseStream: false as const,
+    requestSerialize: (value: UploadTaskImagesRequest): Buffer =>
+      Buffer.from(UploadTaskImagesRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): UploadTaskImagesRequest => UploadTaskImagesRequest.decode(value),
+    responseSerialize: (value: UploadTaskImagesResponse): Buffer =>
+      Buffer.from(UploadTaskImagesResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UploadTaskImagesResponse => UploadTaskImagesResponse.decode(value),
+  },
 } as const;
 
 export interface TaskServiceServer extends UntypedServiceImplementation {
@@ -1238,6 +1385,7 @@ export interface TaskServiceServer extends UntypedServiceImplementation {
   cloneTask: handleUnaryCall<CloneTaskRequest, Task>;
   cancelTask: handleUnaryCall<CancelTaskRequest, CancelTaskResponse>;
   rerunTask: handleUnaryCall<RerunTaskRequest, RerunTaskResponse>;
+  uploadTaskImages: handleUnaryCall<UploadTaskImagesRequest, UploadTaskImagesResponse>;
 }
 
 export interface TaskServiceClient extends Client {
@@ -1355,6 +1503,21 @@ export interface TaskServiceClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: RerunTaskResponse) => void,
   ): ClientUnaryCall;
+  uploadTaskImages(
+    request: UploadTaskImagesRequest,
+    callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void,
+  ): ClientUnaryCall;
+  uploadTaskImages(
+    request: UploadTaskImagesRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void,
+  ): ClientUnaryCall;
+  uploadTaskImages(
+    request: UploadTaskImagesRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void,
+  ): ClientUnaryCall;
 }
 
 export const TaskServiceClient = makeGenericClientConstructor(TaskServiceService, "core.v1.TaskService") as unknown as {
@@ -1362,6 +1525,14 @@ export const TaskServiceClient = makeGenericClientConstructor(TaskServiceService
   service: typeof TaskServiceService;
   serviceName: string;
 };
+
+function bytesFromBase64(b64: string): Uint8Array {
+  return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
+}
+
+function base64FromBytes(arr: Uint8Array): string {
+  return globalThis.Buffer.from(arr).toString("base64");
+}
 
 function toTimestamp(date: Date): Timestamp {
   const seconds = Math.trunc(date.getTime() / 1_000);

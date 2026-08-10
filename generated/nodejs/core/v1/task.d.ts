@@ -65,6 +65,13 @@ export interface RerunTaskRequest {
 export interface RerunTaskResponse {
     task?: Task | undefined;
 }
+export interface UploadTaskImagesRequest {
+    images: Buffer[];
+    fileNames: string[];
+}
+export interface UploadTaskImagesResponse {
+    imageUrls: string[];
+}
 export declare const Task: MessageFns<Task>;
 export declare const ListTasksRequest: MessageFns<ListTasksRequest>;
 export declare const ListTasksResponse: MessageFns<ListTasksResponse>;
@@ -77,6 +84,8 @@ export declare const CancelTaskRequest: MessageFns<CancelTaskRequest>;
 export declare const CancelTaskResponse: MessageFns<CancelTaskResponse>;
 export declare const RerunTaskRequest: MessageFns<RerunTaskRequest>;
 export declare const RerunTaskResponse: MessageFns<RerunTaskResponse>;
+export declare const UploadTaskImagesRequest: MessageFns<UploadTaskImagesRequest>;
+export declare const UploadTaskImagesResponse: MessageFns<UploadTaskImagesResponse>;
 export type TaskServiceService = typeof TaskServiceService;
 export declare const TaskServiceService: {
     readonly listTasks: {
@@ -151,6 +160,15 @@ export declare const TaskServiceService: {
         readonly responseSerialize: (value: RerunTaskResponse) => Buffer;
         readonly responseDeserialize: (value: Buffer) => RerunTaskResponse;
     };
+    readonly uploadTaskImages: {
+        readonly path: "/core.v1.TaskService/UploadTaskImages";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: UploadTaskImagesRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => UploadTaskImagesRequest;
+        readonly responseSerialize: (value: UploadTaskImagesResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => UploadTaskImagesResponse;
+    };
 };
 export interface TaskServiceServer extends UntypedServiceImplementation {
     listTasks: handleUnaryCall<ListTasksRequest, ListTasksResponse>;
@@ -161,6 +179,7 @@ export interface TaskServiceServer extends UntypedServiceImplementation {
     cloneTask: handleUnaryCall<CloneTaskRequest, Task>;
     cancelTask: handleUnaryCall<CancelTaskRequest, CancelTaskResponse>;
     rerunTask: handleUnaryCall<RerunTaskRequest, RerunTaskResponse>;
+    uploadTaskImages: handleUnaryCall<UploadTaskImagesRequest, UploadTaskImagesResponse>;
 }
 export interface TaskServiceClient extends Client {
     listTasks(request: ListTasksRequest, callback: (error: ServiceError | null, response: ListTasksResponse) => void): ClientUnaryCall;
@@ -187,6 +206,9 @@ export interface TaskServiceClient extends Client {
     rerunTask(request: RerunTaskRequest, callback: (error: ServiceError | null, response: RerunTaskResponse) => void): ClientUnaryCall;
     rerunTask(request: RerunTaskRequest, metadata: Metadata, callback: (error: ServiceError | null, response: RerunTaskResponse) => void): ClientUnaryCall;
     rerunTask(request: RerunTaskRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: RerunTaskResponse) => void): ClientUnaryCall;
+    uploadTaskImages(request: UploadTaskImagesRequest, callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void): ClientUnaryCall;
+    uploadTaskImages(request: UploadTaskImagesRequest, metadata: Metadata, callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void): ClientUnaryCall;
+    uploadTaskImages(request: UploadTaskImagesRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void): ClientUnaryCall;
 }
 export declare const TaskServiceClient: {
     new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): TaskServiceClient;

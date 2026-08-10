@@ -760,6 +760,102 @@ func (x *RerunTaskResponse) GetTask() *Task {
 	return nil
 }
 
+type UploadTaskImagesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Images        [][]byte               `protobuf:"bytes,1,rep,name=images,proto3" json:"images,omitempty"`
+	FileNames     []string               `protobuf:"bytes,2,rep,name=file_names,json=fileNames,proto3" json:"file_names,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadTaskImagesRequest) Reset() {
+	*x = UploadTaskImagesRequest{}
+	mi := &file_core_v1_task_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadTaskImagesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadTaskImagesRequest) ProtoMessage() {}
+
+func (x *UploadTaskImagesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_task_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadTaskImagesRequest.ProtoReflect.Descriptor instead.
+func (*UploadTaskImagesRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_task_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UploadTaskImagesRequest) GetImages() [][]byte {
+	if x != nil {
+		return x.Images
+	}
+	return nil
+}
+
+func (x *UploadTaskImagesRequest) GetFileNames() []string {
+	if x != nil {
+		return x.FileNames
+	}
+	return nil
+}
+
+type UploadTaskImagesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ImageUrls     []string               `protobuf:"bytes,1,rep,name=image_urls,json=imageUrls,proto3" json:"image_urls,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadTaskImagesResponse) Reset() {
+	*x = UploadTaskImagesResponse{}
+	mi := &file_core_v1_task_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadTaskImagesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadTaskImagesResponse) ProtoMessage() {}
+
+func (x *UploadTaskImagesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_task_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadTaskImagesResponse.ProtoReflect.Descriptor instead.
+func (*UploadTaskImagesResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_task_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *UploadTaskImagesResponse) GetImageUrls() []string {
+	if x != nil {
+		return x.ImageUrls
+	}
+	return nil
+}
+
 var File_core_v1_task_proto protoreflect.FileDescriptor
 
 const file_core_v1_task_proto_rawDesc = "" +
@@ -830,7 +926,14 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\x10RerunTaskRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"6\n" +
 	"\x11RerunTaskResponse\x12!\n" +
-	"\x04task\x18\x01 \x01(\v2\r.core.v1.TaskR\x04task2\xfd\x03\n" +
+	"\x04task\x18\x01 \x01(\v2\r.core.v1.TaskR\x04task\"P\n" +
+	"\x17UploadTaskImagesRequest\x12\x16\n" +
+	"\x06images\x18\x01 \x03(\fR\x06images\x12\x1d\n" +
+	"\n" +
+	"file_names\x18\x02 \x03(\tR\tfileNames\"9\n" +
+	"\x18UploadTaskImagesResponse\x12\x1d\n" +
+	"\n" +
+	"image_urls\x18\x01 \x03(\tR\timageUrls2\xd6\x04\n" +
 	"\vTaskService\x12B\n" +
 	"\tListTasks\x12\x19.core.v1.ListTasksRequest\x1a\x1a.core.v1.ListTasksResponse\x121\n" +
 	"\aGetTask\x12\x17.core.v1.GetTaskRequest\x1a\r.core.v1.Task\x127\n" +
@@ -843,7 +946,8 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\tCloneTask\x12\x19.core.v1.CloneTaskRequest\x1a\r.core.v1.Task\x12E\n" +
 	"\n" +
 	"CancelTask\x12\x1a.core.v1.CancelTaskRequest\x1a\x1b.core.v1.CancelTaskResponse\x12B\n" +
-	"\tRerunTask\x12\x19.core.v1.RerunTaskRequest\x1a\x1a.core.v1.RerunTaskResponseBZP\x01Z?github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\tRerunTask\x12\x19.core.v1.RerunTaskRequest\x1a\x1a.core.v1.RerunTaskResponse\x12W\n" +
+	"\x10UploadTaskImages\x12 .core.v1.UploadTaskImagesRequest\x1a!.core.v1.UploadTaskImagesResponseBZP\x01Z?github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_task_proto_rawDescOnce sync.Once
@@ -857,35 +961,37 @@ func file_core_v1_task_proto_rawDescGZIP() []byte {
 	return file_core_v1_task_proto_rawDescData
 }
 
-var file_core_v1_task_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_core_v1_task_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_core_v1_task_proto_goTypes = []any{
-	(*Task)(nil),                  // 0: core.v1.Task
-	(*ListTasksRequest)(nil),      // 1: core.v1.ListTasksRequest
-	(*ListTasksResponse)(nil),     // 2: core.v1.ListTasksResponse
-	(*GetTaskRequest)(nil),        // 3: core.v1.GetTaskRequest
-	(*CreateTaskRequest)(nil),     // 4: core.v1.CreateTaskRequest
-	(*UpdateTaskRequest)(nil),     // 5: core.v1.UpdateTaskRequest
-	(*DeleteTaskRequest)(nil),     // 6: core.v1.DeleteTaskRequest
-	(*CloneTaskRequest)(nil),      // 7: core.v1.CloneTaskRequest
-	(*CancelTaskRequest)(nil),     // 8: core.v1.CancelTaskRequest
-	(*CancelTaskResponse)(nil),    // 9: core.v1.CancelTaskResponse
-	(*RerunTaskRequest)(nil),      // 10: core.v1.RerunTaskRequest
-	(*RerunTaskResponse)(nil),     // 11: core.v1.RerunTaskResponse
-	(v1.Status)(0),                // 12: common.v1.Status
-	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
-	(*v1.Pagination)(nil),         // 14: common.v1.Pagination
-	(*v1.PageInfo)(nil),           // 15: common.v1.PageInfo
-	(*v1.DeleteResponse)(nil),     // 16: common.v1.DeleteResponse
+	(*Task)(nil),                     // 0: core.v1.Task
+	(*ListTasksRequest)(nil),         // 1: core.v1.ListTasksRequest
+	(*ListTasksResponse)(nil),        // 2: core.v1.ListTasksResponse
+	(*GetTaskRequest)(nil),           // 3: core.v1.GetTaskRequest
+	(*CreateTaskRequest)(nil),        // 4: core.v1.CreateTaskRequest
+	(*UpdateTaskRequest)(nil),        // 5: core.v1.UpdateTaskRequest
+	(*DeleteTaskRequest)(nil),        // 6: core.v1.DeleteTaskRequest
+	(*CloneTaskRequest)(nil),         // 7: core.v1.CloneTaskRequest
+	(*CancelTaskRequest)(nil),        // 8: core.v1.CancelTaskRequest
+	(*CancelTaskResponse)(nil),       // 9: core.v1.CancelTaskResponse
+	(*RerunTaskRequest)(nil),         // 10: core.v1.RerunTaskRequest
+	(*RerunTaskResponse)(nil),        // 11: core.v1.RerunTaskResponse
+	(*UploadTaskImagesRequest)(nil),  // 12: core.v1.UploadTaskImagesRequest
+	(*UploadTaskImagesResponse)(nil), // 13: core.v1.UploadTaskImagesResponse
+	(v1.Status)(0),                   // 14: common.v1.Status
+	(*timestamppb.Timestamp)(nil),    // 15: google.protobuf.Timestamp
+	(*v1.Pagination)(nil),            // 16: common.v1.Pagination
+	(*v1.PageInfo)(nil),              // 17: common.v1.PageInfo
+	(*v1.DeleteResponse)(nil),        // 18: common.v1.DeleteResponse
 }
 var file_core_v1_task_proto_depIdxs = []int32{
-	12, // 0: core.v1.Task.status:type_name -> common.v1.Status
-	13, // 1: core.v1.Task.started_at:type_name -> google.protobuf.Timestamp
-	13, // 2: core.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
-	13, // 3: core.v1.Task.created_at:type_name -> google.protobuf.Timestamp
-	13, // 4: core.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
-	14, // 5: core.v1.ListTasksRequest.pagination:type_name -> common.v1.Pagination
+	14, // 0: core.v1.Task.status:type_name -> common.v1.Status
+	15, // 1: core.v1.Task.started_at:type_name -> google.protobuf.Timestamp
+	15, // 2: core.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
+	15, // 3: core.v1.Task.created_at:type_name -> google.protobuf.Timestamp
+	15, // 4: core.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
+	16, // 5: core.v1.ListTasksRequest.pagination:type_name -> common.v1.Pagination
 	0,  // 6: core.v1.ListTasksResponse.tasks:type_name -> core.v1.Task
-	15, // 7: core.v1.ListTasksResponse.page_info:type_name -> common.v1.PageInfo
+	17, // 7: core.v1.ListTasksResponse.page_info:type_name -> common.v1.PageInfo
 	0,  // 8: core.v1.CancelTaskResponse.task:type_name -> core.v1.Task
 	0,  // 9: core.v1.RerunTaskResponse.task:type_name -> core.v1.Task
 	1,  // 10: core.v1.TaskService.ListTasks:input_type -> core.v1.ListTasksRequest
@@ -896,16 +1002,18 @@ var file_core_v1_task_proto_depIdxs = []int32{
 	7,  // 15: core.v1.TaskService.CloneTask:input_type -> core.v1.CloneTaskRequest
 	8,  // 16: core.v1.TaskService.CancelTask:input_type -> core.v1.CancelTaskRequest
 	10, // 17: core.v1.TaskService.RerunTask:input_type -> core.v1.RerunTaskRequest
-	2,  // 18: core.v1.TaskService.ListTasks:output_type -> core.v1.ListTasksResponse
-	0,  // 19: core.v1.TaskService.GetTask:output_type -> core.v1.Task
-	0,  // 20: core.v1.TaskService.CreateTask:output_type -> core.v1.Task
-	0,  // 21: core.v1.TaskService.UpdateTask:output_type -> core.v1.Task
-	16, // 22: core.v1.TaskService.DeleteTask:output_type -> common.v1.DeleteResponse
-	0,  // 23: core.v1.TaskService.CloneTask:output_type -> core.v1.Task
-	9,  // 24: core.v1.TaskService.CancelTask:output_type -> core.v1.CancelTaskResponse
-	11, // 25: core.v1.TaskService.RerunTask:output_type -> core.v1.RerunTaskResponse
-	18, // [18:26] is the sub-list for method output_type
-	10, // [10:18] is the sub-list for method input_type
+	12, // 18: core.v1.TaskService.UploadTaskImages:input_type -> core.v1.UploadTaskImagesRequest
+	2,  // 19: core.v1.TaskService.ListTasks:output_type -> core.v1.ListTasksResponse
+	0,  // 20: core.v1.TaskService.GetTask:output_type -> core.v1.Task
+	0,  // 21: core.v1.TaskService.CreateTask:output_type -> core.v1.Task
+	0,  // 22: core.v1.TaskService.UpdateTask:output_type -> core.v1.Task
+	18, // 23: core.v1.TaskService.DeleteTask:output_type -> common.v1.DeleteResponse
+	0,  // 24: core.v1.TaskService.CloneTask:output_type -> core.v1.Task
+	9,  // 25: core.v1.TaskService.CancelTask:output_type -> core.v1.CancelTaskResponse
+	11, // 26: core.v1.TaskService.RerunTask:output_type -> core.v1.RerunTaskResponse
+	13, // 27: core.v1.TaskService.UploadTaskImages:output_type -> core.v1.UploadTaskImagesResponse
+	19, // [19:28] is the sub-list for method output_type
+	10, // [10:19] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
 	10, // [10:10] is the sub-list for extension extendee
 	0,  // [0:10] is the sub-list for field type_name
@@ -923,7 +1031,7 @@ func file_core_v1_task_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_task_proto_rawDesc), len(file_core_v1_task_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

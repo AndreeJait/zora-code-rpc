@@ -20,14 +20,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TaskService_ListTasks_FullMethodName  = "/core.v1.TaskService/ListTasks"
-	TaskService_GetTask_FullMethodName    = "/core.v1.TaskService/GetTask"
-	TaskService_CreateTask_FullMethodName = "/core.v1.TaskService/CreateTask"
-	TaskService_UpdateTask_FullMethodName = "/core.v1.TaskService/UpdateTask"
-	TaskService_DeleteTask_FullMethodName = "/core.v1.TaskService/DeleteTask"
-	TaskService_CloneTask_FullMethodName  = "/core.v1.TaskService/CloneTask"
-	TaskService_CancelTask_FullMethodName = "/core.v1.TaskService/CancelTask"
-	TaskService_RerunTask_FullMethodName  = "/core.v1.TaskService/RerunTask"
+	TaskService_ListTasks_FullMethodName        = "/core.v1.TaskService/ListTasks"
+	TaskService_GetTask_FullMethodName          = "/core.v1.TaskService/GetTask"
+	TaskService_CreateTask_FullMethodName       = "/core.v1.TaskService/CreateTask"
+	TaskService_UpdateTask_FullMethodName       = "/core.v1.TaskService/UpdateTask"
+	TaskService_DeleteTask_FullMethodName       = "/core.v1.TaskService/DeleteTask"
+	TaskService_CloneTask_FullMethodName        = "/core.v1.TaskService/CloneTask"
+	TaskService_CancelTask_FullMethodName       = "/core.v1.TaskService/CancelTask"
+	TaskService_RerunTask_FullMethodName        = "/core.v1.TaskService/RerunTask"
+	TaskService_UploadTaskImages_FullMethodName = "/core.v1.TaskService/UploadTaskImages"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -42,6 +43,7 @@ type TaskServiceClient interface {
 	CloneTask(ctx context.Context, in *CloneTaskRequest, opts ...grpc.CallOption) (*Task, error)
 	CancelTask(ctx context.Context, in *CancelTaskRequest, opts ...grpc.CallOption) (*CancelTaskResponse, error)
 	RerunTask(ctx context.Context, in *RerunTaskRequest, opts ...grpc.CallOption) (*RerunTaskResponse, error)
+	UploadTaskImages(ctx context.Context, in *UploadTaskImagesRequest, opts ...grpc.CallOption) (*UploadTaskImagesResponse, error)
 }
 
 type taskServiceClient struct {
@@ -132,6 +134,16 @@ func (c *taskServiceClient) RerunTask(ctx context.Context, in *RerunTaskRequest,
 	return out, nil
 }
 
+func (c *taskServiceClient) UploadTaskImages(ctx context.Context, in *UploadTaskImagesRequest, opts ...grpc.CallOption) (*UploadTaskImagesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UploadTaskImagesResponse)
+	err := c.cc.Invoke(ctx, TaskService_UploadTaskImages_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskServiceServer is the server API for TaskService service.
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility.
@@ -144,6 +156,7 @@ type TaskServiceServer interface {
 	CloneTask(context.Context, *CloneTaskRequest) (*Task, error)
 	CancelTask(context.Context, *CancelTaskRequest) (*CancelTaskResponse, error)
 	RerunTask(context.Context, *RerunTaskRequest) (*RerunTaskResponse, error)
+	UploadTaskImages(context.Context, *UploadTaskImagesRequest) (*UploadTaskImagesResponse, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -177,6 +190,9 @@ func (UnimplementedTaskServiceServer) CancelTask(context.Context, *CancelTaskReq
 }
 func (UnimplementedTaskServiceServer) RerunTask(context.Context, *RerunTaskRequest) (*RerunTaskResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method RerunTask not implemented")
+}
+func (UnimplementedTaskServiceServer) UploadTaskImages(context.Context, *UploadTaskImagesRequest) (*UploadTaskImagesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UploadTaskImages not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 func (UnimplementedTaskServiceServer) testEmbeddedByValue()                     {}
@@ -343,6 +359,24 @@ func _TaskService_RerunTask_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_UploadTaskImages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadTaskImagesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).UploadTaskImages(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_UploadTaskImages_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).UploadTaskImages(ctx, req.(*UploadTaskImagesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaskService_ServiceDesc is the grpc.ServiceDesc for TaskService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -381,6 +415,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RerunTask",
 			Handler:    _TaskService_RerunTask_Handler,
+		},
+		{
+			MethodName: "UploadTaskImages",
+			Handler:    _TaskService_UploadTaskImages_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -84,6 +84,15 @@ message RerunTaskResponse {
   Task task = 1;
 }
 
+message UploadTaskImagesRequest {
+  repeated bytes images = 1;
+  repeated string file_names = 2;
+}
+
+message UploadTaskImagesResponse {
+  repeated string image_urls = 1;
+}
+
 service TaskService {
   rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
   rpc GetTask(GetTaskRequest) returns (Task);
@@ -93,4 +102,5 @@ service TaskService {
   rpc CloneTask(CloneTaskRequest) returns (Task);
   rpc CancelTask(CancelTaskRequest) returns (CancelTaskResponse);
   rpc RerunTask(RerunTaskRequest) returns (RerunTaskResponse);
+  rpc UploadTaskImages(UploadTaskImagesRequest) returns (UploadTaskImagesResponse);
 }
