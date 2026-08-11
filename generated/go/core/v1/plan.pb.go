@@ -715,6 +715,58 @@ func (x *CreateProjectFromPlanRequest) GetDescription() string {
 	return ""
 }
 
+type GeneratePlanSpecsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlanId        string                 `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	Instructions  string                 `protobuf:"bytes,2,opt,name=instructions,proto3" json:"instructions,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GeneratePlanSpecsRequest) Reset() {
+	*x = GeneratePlanSpecsRequest{}
+	mi := &file_core_v1_plan_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GeneratePlanSpecsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GeneratePlanSpecsRequest) ProtoMessage() {}
+
+func (x *GeneratePlanSpecsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_plan_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GeneratePlanSpecsRequest.ProtoReflect.Descriptor instead.
+func (*GeneratePlanSpecsRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_plan_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GeneratePlanSpecsRequest) GetPlanId() string {
+	if x != nil {
+		return x.PlanId
+	}
+	return ""
+}
+
+func (x *GeneratePlanSpecsRequest) GetInstructions() string {
+	if x != nil {
+		return x.Instructions
+	}
+	return ""
+}
+
 type ListModelsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProviderId    string                 `protobuf:"bytes,1,opt,name=provider_id,json=providerId,proto3" json:"provider_id,omitempty"`
@@ -724,7 +776,7 @@ type ListModelsRequest struct {
 
 func (x *ListModelsRequest) Reset() {
 	*x = ListModelsRequest{}
-	mi := &file_core_v1_plan_proto_msgTypes[10]
+	mi := &file_core_v1_plan_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -736,7 +788,7 @@ func (x *ListModelsRequest) String() string {
 func (*ListModelsRequest) ProtoMessage() {}
 
 func (x *ListModelsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_plan_proto_msgTypes[10]
+	mi := &file_core_v1_plan_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -749,7 +801,7 @@ func (x *ListModelsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListModelsRequest.ProtoReflect.Descriptor instead.
 func (*ListModelsRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_plan_proto_rawDescGZIP(), []int{10}
+	return file_core_v1_plan_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ListModelsRequest) GetProviderId() string {
@@ -768,7 +820,7 @@ type ListModelsResponse struct {
 
 func (x *ListModelsResponse) Reset() {
 	*x = ListModelsResponse{}
-	mi := &file_core_v1_plan_proto_msgTypes[11]
+	mi := &file_core_v1_plan_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -780,7 +832,7 @@ func (x *ListModelsResponse) String() string {
 func (*ListModelsResponse) ProtoMessage() {}
 
 func (x *ListModelsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_plan_proto_msgTypes[11]
+	mi := &file_core_v1_plan_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -793,7 +845,7 @@ func (x *ListModelsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListModelsResponse.ProtoReflect.Descriptor instead.
 func (*ListModelsResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_plan_proto_rawDescGZIP(), []int{11}
+	return file_core_v1_plan_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ListModelsResponse) GetModels() []*Model {
@@ -812,7 +864,7 @@ type GetModelRequest struct {
 
 func (x *GetModelRequest) Reset() {
 	*x = GetModelRequest{}
-	mi := &file_core_v1_plan_proto_msgTypes[12]
+	mi := &file_core_v1_plan_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -824,7 +876,7 @@ func (x *GetModelRequest) String() string {
 func (*GetModelRequest) ProtoMessage() {}
 
 func (x *GetModelRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_plan_proto_msgTypes[12]
+	mi := &file_core_v1_plan_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -837,7 +889,7 @@ func (x *GetModelRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetModelRequest.ProtoReflect.Descriptor instead.
 func (*GetModelRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_plan_proto_rawDescGZIP(), []int{12}
+	return file_core_v1_plan_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetModelRequest) GetId() string {
@@ -858,7 +910,7 @@ type CreateModelRequest struct {
 
 func (x *CreateModelRequest) Reset() {
 	*x = CreateModelRequest{}
-	mi := &file_core_v1_plan_proto_msgTypes[13]
+	mi := &file_core_v1_plan_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -870,7 +922,7 @@ func (x *CreateModelRequest) String() string {
 func (*CreateModelRequest) ProtoMessage() {}
 
 func (x *CreateModelRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_plan_proto_msgTypes[13]
+	mi := &file_core_v1_plan_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -883,7 +935,7 @@ func (x *CreateModelRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateModelRequest.ProtoReflect.Descriptor instead.
 func (*CreateModelRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_plan_proto_rawDescGZIP(), []int{13}
+	return file_core_v1_plan_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *CreateModelRequest) GetProviderId() string {
@@ -919,7 +971,7 @@ type UpdateModelRequest struct {
 
 func (x *UpdateModelRequest) Reset() {
 	*x = UpdateModelRequest{}
-	mi := &file_core_v1_plan_proto_msgTypes[14]
+	mi := &file_core_v1_plan_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -931,7 +983,7 @@ func (x *UpdateModelRequest) String() string {
 func (*UpdateModelRequest) ProtoMessage() {}
 
 func (x *UpdateModelRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_plan_proto_msgTypes[14]
+	mi := &file_core_v1_plan_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -944,7 +996,7 @@ func (x *UpdateModelRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateModelRequest.ProtoReflect.Descriptor instead.
 func (*UpdateModelRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_plan_proto_rawDescGZIP(), []int{14}
+	return file_core_v1_plan_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *UpdateModelRequest) GetId() string {
@@ -984,7 +1036,7 @@ type DeleteModelRequest struct {
 
 func (x *DeleteModelRequest) Reset() {
 	*x = DeleteModelRequest{}
-	mi := &file_core_v1_plan_proto_msgTypes[15]
+	mi := &file_core_v1_plan_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -996,7 +1048,7 @@ func (x *DeleteModelRequest) String() string {
 func (*DeleteModelRequest) ProtoMessage() {}
 
 func (x *DeleteModelRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_plan_proto_msgTypes[15]
+	mi := &file_core_v1_plan_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1009,7 +1061,7 @@ func (x *DeleteModelRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteModelRequest.ProtoReflect.Descriptor instead.
 func (*DeleteModelRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_plan_proto_rawDescGZIP(), []int{15}
+	return file_core_v1_plan_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *DeleteModelRequest) GetId() string {
@@ -1091,7 +1143,10 @@ const file_core_v1_plan_proto_rawDesc = "" +
 	"\n" +
 	"runtime_id\x18\x02 \x01(\tR\truntimeId\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"4\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"W\n" +
+	"\x18GeneratePlanSpecsRequest\x12\x17\n" +
+	"\aplan_id\x18\x01 \x01(\tR\x06planId\x12\"\n" +
+	"\finstructions\x18\x02 \x01(\tR\finstructions\"4\n" +
 	"\x11ListModelsRequest\x12\x1f\n" +
 	"\vprovider_id\x18\x01 \x01(\tR\n" +
 	"providerId\"<\n" +
@@ -1114,7 +1169,7 @@ const file_core_v1_plan_proto_rawDesc = "" +
 	"\n" +
 	"_is_active\"$\n" +
 	"\x12DeleteModelRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id2\xd4\x03\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id2\x9b\x04\n" +
 	"\vPlanService\x127\n" +
 	"\n" +
 	"CreatePlan\x12\x1a.core.v1.CreatePlanRequest\x1a\r.core.v1.Plan\x127\n" +
@@ -1125,7 +1180,8 @@ const file_core_v1_plan_proto_rawDesc = "" +
 	"\aGetPlan\x12\x17.core.v1.GetPlanRequest\x1a\r.core.v1.Plan\x12B\n" +
 	"\tListPlans\x12\x19.core.v1.ListPlansRequest\x1a\x1a.core.v1.ListPlansResponse\x12H\n" +
 	"\x0fSendPlanMessage\x12\x1f.core.v1.SendPlanMessageRequest\x1a\x14.core.v1.PlanMessage\x12P\n" +
-	"\x15CreateProjectFromPlan\x12%.core.v1.CreateProjectFromPlanRequest\x1a\x10.core.v1.Project2\xca\x02\n" +
+	"\x15CreateProjectFromPlan\x12%.core.v1.CreateProjectFromPlanRequest\x1a\x10.core.v1.Project\x12E\n" +
+	"\x11GeneratePlanSpecs\x12!.core.v1.GeneratePlanSpecsRequest\x1a\r.core.v1.Plan2\xca\x02\n" +
 	"\fModelService\x12:\n" +
 	"\vCreateModel\x12\x1b.core.v1.CreateModelRequest\x1a\x0e.core.v1.Model\x12:\n" +
 	"\vUpdateModel\x12\x1b.core.v1.UpdateModelRequest\x1a\x0e.core.v1.Model\x12E\n" +
@@ -1146,7 +1202,7 @@ func file_core_v1_plan_proto_rawDescGZIP() []byte {
 	return file_core_v1_plan_proto_rawDescData
 }
 
-var file_core_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_core_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_core_v1_plan_proto_goTypes = []any{
 	(*Plan)(nil),                         // 0: core.v1.Plan
 	(*PlanMessage)(nil),                  // 1: core.v1.PlanMessage
@@ -1158,23 +1214,24 @@ var file_core_v1_plan_proto_goTypes = []any{
 	(*ListPlansResponse)(nil),            // 7: core.v1.ListPlansResponse
 	(*SendPlanMessageRequest)(nil),       // 8: core.v1.SendPlanMessageRequest
 	(*CreateProjectFromPlanRequest)(nil), // 9: core.v1.CreateProjectFromPlanRequest
-	(*ListModelsRequest)(nil),            // 10: core.v1.ListModelsRequest
-	(*ListModelsResponse)(nil),           // 11: core.v1.ListModelsResponse
-	(*GetModelRequest)(nil),              // 12: core.v1.GetModelRequest
-	(*CreateModelRequest)(nil),           // 13: core.v1.CreateModelRequest
-	(*UpdateModelRequest)(nil),           // 14: core.v1.UpdateModelRequest
-	(*DeleteModelRequest)(nil),           // 15: core.v1.DeleteModelRequest
-	(v1.Status)(0),                       // 16: common.v1.Status
-	(*v1.Timestamps)(nil),                // 17: common.v1.Timestamps
-	(*v1.DeleteResponse)(nil),            // 18: common.v1.DeleteResponse
-	(*Project)(nil),                      // 19: core.v1.Project
+	(*GeneratePlanSpecsRequest)(nil),     // 10: core.v1.GeneratePlanSpecsRequest
+	(*ListModelsRequest)(nil),            // 11: core.v1.ListModelsRequest
+	(*ListModelsResponse)(nil),           // 12: core.v1.ListModelsResponse
+	(*GetModelRequest)(nil),              // 13: core.v1.GetModelRequest
+	(*CreateModelRequest)(nil),           // 14: core.v1.CreateModelRequest
+	(*UpdateModelRequest)(nil),           // 15: core.v1.UpdateModelRequest
+	(*DeleteModelRequest)(nil),           // 16: core.v1.DeleteModelRequest
+	(v1.Status)(0),                       // 17: common.v1.Status
+	(*v1.Timestamps)(nil),                // 18: common.v1.Timestamps
+	(*v1.DeleteResponse)(nil),            // 19: common.v1.DeleteResponse
+	(*Project)(nil),                      // 20: core.v1.Project
 }
 var file_core_v1_plan_proto_depIdxs = []int32{
-	16, // 0: core.v1.Plan.status:type_name -> common.v1.Status
-	17, // 1: core.v1.Plan.timestamps:type_name -> common.v1.Timestamps
+	17, // 0: core.v1.Plan.status:type_name -> common.v1.Status
+	18, // 1: core.v1.Plan.timestamps:type_name -> common.v1.Timestamps
 	1,  // 2: core.v1.Plan.messages:type_name -> core.v1.PlanMessage
-	17, // 3: core.v1.PlanMessage.timestamps:type_name -> common.v1.Timestamps
-	17, // 4: core.v1.Model.timestamps:type_name -> common.v1.Timestamps
+	18, // 3: core.v1.PlanMessage.timestamps:type_name -> common.v1.Timestamps
+	18, // 4: core.v1.Model.timestamps:type_name -> common.v1.Timestamps
 	0,  // 5: core.v1.ListPlansResponse.plans:type_name -> core.v1.Plan
 	2,  // 6: core.v1.ListModelsResponse.models:type_name -> core.v1.Model
 	3,  // 7: core.v1.PlanService.CreatePlan:input_type -> core.v1.CreatePlanRequest
@@ -1184,25 +1241,27 @@ var file_core_v1_plan_proto_depIdxs = []int32{
 	6,  // 11: core.v1.PlanService.ListPlans:input_type -> core.v1.ListPlansRequest
 	8,  // 12: core.v1.PlanService.SendPlanMessage:input_type -> core.v1.SendPlanMessageRequest
 	9,  // 13: core.v1.PlanService.CreateProjectFromPlan:input_type -> core.v1.CreateProjectFromPlanRequest
-	13, // 14: core.v1.ModelService.CreateModel:input_type -> core.v1.CreateModelRequest
-	14, // 15: core.v1.ModelService.UpdateModel:input_type -> core.v1.UpdateModelRequest
-	15, // 16: core.v1.ModelService.DeleteModel:input_type -> core.v1.DeleteModelRequest
-	12, // 17: core.v1.ModelService.GetModel:input_type -> core.v1.GetModelRequest
-	10, // 18: core.v1.ModelService.ListModels:input_type -> core.v1.ListModelsRequest
-	0,  // 19: core.v1.PlanService.CreatePlan:output_type -> core.v1.Plan
-	0,  // 20: core.v1.PlanService.UpdatePlan:output_type -> core.v1.Plan
-	18, // 21: core.v1.PlanService.DeletePlan:output_type -> common.v1.DeleteResponse
-	0,  // 22: core.v1.PlanService.GetPlan:output_type -> core.v1.Plan
-	7,  // 23: core.v1.PlanService.ListPlans:output_type -> core.v1.ListPlansResponse
-	1,  // 24: core.v1.PlanService.SendPlanMessage:output_type -> core.v1.PlanMessage
-	19, // 25: core.v1.PlanService.CreateProjectFromPlan:output_type -> core.v1.Project
-	2,  // 26: core.v1.ModelService.CreateModel:output_type -> core.v1.Model
-	2,  // 27: core.v1.ModelService.UpdateModel:output_type -> core.v1.Model
-	18, // 28: core.v1.ModelService.DeleteModel:output_type -> common.v1.DeleteResponse
-	2,  // 29: core.v1.ModelService.GetModel:output_type -> core.v1.Model
-	11, // 30: core.v1.ModelService.ListModels:output_type -> core.v1.ListModelsResponse
-	19, // [19:31] is the sub-list for method output_type
-	7,  // [7:19] is the sub-list for method input_type
+	10, // 14: core.v1.PlanService.GeneratePlanSpecs:input_type -> core.v1.GeneratePlanSpecsRequest
+	14, // 15: core.v1.ModelService.CreateModel:input_type -> core.v1.CreateModelRequest
+	15, // 16: core.v1.ModelService.UpdateModel:input_type -> core.v1.UpdateModelRequest
+	16, // 17: core.v1.ModelService.DeleteModel:input_type -> core.v1.DeleteModelRequest
+	13, // 18: core.v1.ModelService.GetModel:input_type -> core.v1.GetModelRequest
+	11, // 19: core.v1.ModelService.ListModels:input_type -> core.v1.ListModelsRequest
+	0,  // 20: core.v1.PlanService.CreatePlan:output_type -> core.v1.Plan
+	0,  // 21: core.v1.PlanService.UpdatePlan:output_type -> core.v1.Plan
+	19, // 22: core.v1.PlanService.DeletePlan:output_type -> common.v1.DeleteResponse
+	0,  // 23: core.v1.PlanService.GetPlan:output_type -> core.v1.Plan
+	7,  // 24: core.v1.PlanService.ListPlans:output_type -> core.v1.ListPlansResponse
+	1,  // 25: core.v1.PlanService.SendPlanMessage:output_type -> core.v1.PlanMessage
+	20, // 26: core.v1.PlanService.CreateProjectFromPlan:output_type -> core.v1.Project
+	0,  // 27: core.v1.PlanService.GeneratePlanSpecs:output_type -> core.v1.Plan
+	2,  // 28: core.v1.ModelService.CreateModel:output_type -> core.v1.Model
+	2,  // 29: core.v1.ModelService.UpdateModel:output_type -> core.v1.Model
+	19, // 30: core.v1.ModelService.DeleteModel:output_type -> common.v1.DeleteResponse
+	2,  // 31: core.v1.ModelService.GetModel:output_type -> core.v1.Model
+	12, // 32: core.v1.ModelService.ListModels:output_type -> core.v1.ListModelsResponse
+	20, // [20:33] is the sub-list for method output_type
+	7,  // [7:20] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -1215,14 +1274,14 @@ func file_core_v1_plan_proto_init() {
 	}
 	file_core_v1_project_proto_init()
 	file_core_v1_plan_proto_msgTypes[4].OneofWrappers = []any{}
-	file_core_v1_plan_proto_msgTypes[14].OneofWrappers = []any{}
+	file_core_v1_plan_proto_msgTypes[15].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_plan_proto_rawDesc), len(file_core_v1_plan_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

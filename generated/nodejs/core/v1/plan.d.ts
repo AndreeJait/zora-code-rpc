@@ -73,6 +73,10 @@ export interface CreateProjectFromPlanRequest {
     name: string;
     description: string;
 }
+export interface GeneratePlanSpecsRequest {
+    planId: string;
+    instructions: string;
+}
 export interface ListModelsRequest {
     providerId: string;
 }
@@ -106,6 +110,7 @@ export declare const ListPlansRequest: MessageFns<ListPlansRequest>;
 export declare const ListPlansResponse: MessageFns<ListPlansResponse>;
 export declare const SendPlanMessageRequest: MessageFns<SendPlanMessageRequest>;
 export declare const CreateProjectFromPlanRequest: MessageFns<CreateProjectFromPlanRequest>;
+export declare const GeneratePlanSpecsRequest: MessageFns<GeneratePlanSpecsRequest>;
 export declare const ListModelsRequest: MessageFns<ListModelsRequest>;
 export declare const ListModelsResponse: MessageFns<ListModelsResponse>;
 export declare const GetModelRequest: MessageFns<GetModelRequest>;
@@ -177,6 +182,15 @@ export declare const PlanServiceService: {
         readonly responseSerialize: (value: Project) => Buffer;
         readonly responseDeserialize: (value: Buffer) => Project;
     };
+    readonly generatePlanSpecs: {
+        readonly path: "/core.v1.PlanService/GeneratePlanSpecs";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: GeneratePlanSpecsRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => GeneratePlanSpecsRequest;
+        readonly responseSerialize: (value: Plan) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => Plan;
+    };
 };
 export interface PlanServiceServer extends UntypedServiceImplementation {
     createPlan: handleUnaryCall<CreatePlanRequest, Plan>;
@@ -186,6 +200,7 @@ export interface PlanServiceServer extends UntypedServiceImplementation {
     listPlans: handleUnaryCall<ListPlansRequest, ListPlansResponse>;
     sendPlanMessage: handleUnaryCall<SendPlanMessageRequest, PlanMessage>;
     createProjectFromPlan: handleUnaryCall<CreateProjectFromPlanRequest, Project>;
+    generatePlanSpecs: handleUnaryCall<GeneratePlanSpecsRequest, Plan>;
 }
 export interface PlanServiceClient extends Client {
     createPlan(request: CreatePlanRequest, callback: (error: ServiceError | null, response: Plan) => void): ClientUnaryCall;
@@ -209,6 +224,9 @@ export interface PlanServiceClient extends Client {
     createProjectFromPlan(request: CreateProjectFromPlanRequest, callback: (error: ServiceError | null, response: Project) => void): ClientUnaryCall;
     createProjectFromPlan(request: CreateProjectFromPlanRequest, metadata: Metadata, callback: (error: ServiceError | null, response: Project) => void): ClientUnaryCall;
     createProjectFromPlan(request: CreateProjectFromPlanRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: Project) => void): ClientUnaryCall;
+    generatePlanSpecs(request: GeneratePlanSpecsRequest, callback: (error: ServiceError | null, response: Plan) => void): ClientUnaryCall;
+    generatePlanSpecs(request: GeneratePlanSpecsRequest, metadata: Metadata, callback: (error: ServiceError | null, response: Plan) => void): ClientUnaryCall;
+    generatePlanSpecs(request: GeneratePlanSpecsRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: Plan) => void): ClientUnaryCall;
 }
 export declare const PlanServiceClient: {
     new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): PlanServiceClient;

@@ -103,6 +103,11 @@ export interface CreateProjectFromPlanRequest {
   description: string;
 }
 
+export interface GeneratePlanSpecsRequest {
+  planId: string;
+  instructions: string;
+}
+
 export interface ListModelsRequest {
   providerId: string;
 }
@@ -1173,6 +1178,76 @@ export const CreateProjectFromPlanRequest: MessageFns<CreateProjectFromPlanReque
   },
 };
 
+function createBaseGeneratePlanSpecsRequest(): GeneratePlanSpecsRequest {
+  return { planId: "", instructions: "" };
+}
+
+export const GeneratePlanSpecsRequest: MessageFns<GeneratePlanSpecsRequest> = {
+  encode(message: GeneratePlanSpecsRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.planId !== "") {
+      writer.uint32(10).string(message.planId);
+    }
+    if (message.instructions !== "") {
+      writer.uint32(18).string(message.instructions);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GeneratePlanSpecsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGeneratePlanSpecsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.planId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.instructions = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GeneratePlanSpecsRequest {
+    return {
+      planId: isSet(object.planId)
+        ? globalThis.String(object.planId)
+        : isSet(object.plan_id)
+        ? globalThis.String(object.plan_id)
+        : "",
+      instructions: isSet(object.instructions) ? globalThis.String(object.instructions) : "",
+    };
+  },
+
+  toJSON(message: GeneratePlanSpecsRequest): unknown {
+    const obj: any = {};
+    if (message.planId !== "") {
+      obj.planId = message.planId;
+    }
+    if (message.instructions !== "") {
+      obj.instructions = message.instructions;
+    }
+    return obj;
+  },
+};
+
 function createBaseListModelsRequest(): ListModelsRequest {
   return { providerId: "" };
 }
@@ -1627,6 +1702,16 @@ export const PlanServiceService = {
     responseSerialize: (value: Project): Buffer => Buffer.from(Project.encode(value).finish()),
     responseDeserialize: (value: Buffer): Project => Project.decode(value),
   },
+  generatePlanSpecs: {
+    path: "/core.v1.PlanService/GeneratePlanSpecs" as const,
+    requestStream: false as const,
+    responseStream: false as const,
+    requestSerialize: (value: GeneratePlanSpecsRequest): Buffer =>
+      Buffer.from(GeneratePlanSpecsRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): GeneratePlanSpecsRequest => GeneratePlanSpecsRequest.decode(value),
+    responseSerialize: (value: Plan): Buffer => Buffer.from(Plan.encode(value).finish()),
+    responseDeserialize: (value: Buffer): Plan => Plan.decode(value),
+  },
 } as const;
 
 export interface PlanServiceServer extends UntypedServiceImplementation {
@@ -1637,6 +1722,7 @@ export interface PlanServiceServer extends UntypedServiceImplementation {
   listPlans: handleUnaryCall<ListPlansRequest, ListPlansResponse>;
   sendPlanMessage: handleUnaryCall<SendPlanMessageRequest, PlanMessage>;
   createProjectFromPlan: handleUnaryCall<CreateProjectFromPlanRequest, Project>;
+  generatePlanSpecs: handleUnaryCall<GeneratePlanSpecsRequest, Plan>;
 }
 
 export interface PlanServiceClient extends Client {
@@ -1741,6 +1827,21 @@ export interface PlanServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: Project) => void,
+  ): ClientUnaryCall;
+  generatePlanSpecs(
+    request: GeneratePlanSpecsRequest,
+    callback: (error: ServiceError | null, response: Plan) => void,
+  ): ClientUnaryCall;
+  generatePlanSpecs(
+    request: GeneratePlanSpecsRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: Plan) => void,
+  ): ClientUnaryCall;
+  generatePlanSpecs(
+    request: GeneratePlanSpecsRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: Plan) => void,
   ): ClientUnaryCall;
 }
 

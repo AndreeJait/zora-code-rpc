@@ -27,6 +27,7 @@ const (
 	PlanService_ListPlans_FullMethodName             = "/core.v1.PlanService/ListPlans"
 	PlanService_SendPlanMessage_FullMethodName       = "/core.v1.PlanService/SendPlanMessage"
 	PlanService_CreateProjectFromPlan_FullMethodName = "/core.v1.PlanService/CreateProjectFromPlan"
+	PlanService_GeneratePlanSpecs_FullMethodName     = "/core.v1.PlanService/GeneratePlanSpecs"
 )
 
 // PlanServiceClient is the client API for PlanService service.
@@ -40,6 +41,7 @@ type PlanServiceClient interface {
 	ListPlans(ctx context.Context, in *ListPlansRequest, opts ...grpc.CallOption) (*ListPlansResponse, error)
 	SendPlanMessage(ctx context.Context, in *SendPlanMessageRequest, opts ...grpc.CallOption) (*PlanMessage, error)
 	CreateProjectFromPlan(ctx context.Context, in *CreateProjectFromPlanRequest, opts ...grpc.CallOption) (*Project, error)
+	GeneratePlanSpecs(ctx context.Context, in *GeneratePlanSpecsRequest, opts ...grpc.CallOption) (*Plan, error)
 }
 
 type planServiceClient struct {
@@ -120,6 +122,16 @@ func (c *planServiceClient) CreateProjectFromPlan(ctx context.Context, in *Creat
 	return out, nil
 }
 
+func (c *planServiceClient) GeneratePlanSpecs(ctx context.Context, in *GeneratePlanSpecsRequest, opts ...grpc.CallOption) (*Plan, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Plan)
+	err := c.cc.Invoke(ctx, PlanService_GeneratePlanSpecs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PlanServiceServer is the server API for PlanService service.
 // All implementations must embed UnimplementedPlanServiceServer
 // for forward compatibility.
@@ -131,6 +143,7 @@ type PlanServiceServer interface {
 	ListPlans(context.Context, *ListPlansRequest) (*ListPlansResponse, error)
 	SendPlanMessage(context.Context, *SendPlanMessageRequest) (*PlanMessage, error)
 	CreateProjectFromPlan(context.Context, *CreateProjectFromPlanRequest) (*Project, error)
+	GeneratePlanSpecs(context.Context, *GeneratePlanSpecsRequest) (*Plan, error)
 	mustEmbedUnimplementedPlanServiceServer()
 }
 
@@ -161,6 +174,9 @@ func (UnimplementedPlanServiceServer) SendPlanMessage(context.Context, *SendPlan
 }
 func (UnimplementedPlanServiceServer) CreateProjectFromPlan(context.Context, *CreateProjectFromPlanRequest) (*Project, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateProjectFromPlan not implemented")
+}
+func (UnimplementedPlanServiceServer) GeneratePlanSpecs(context.Context, *GeneratePlanSpecsRequest) (*Plan, error) {
+	return nil, status.Error(codes.Unimplemented, "method GeneratePlanSpecs not implemented")
 }
 func (UnimplementedPlanServiceServer) mustEmbedUnimplementedPlanServiceServer() {}
 func (UnimplementedPlanServiceServer) testEmbeddedByValue()                     {}
@@ -309,6 +325,24 @@ func _PlanService_CreateProjectFromPlan_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PlanService_GeneratePlanSpecs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GeneratePlanSpecsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlanServiceServer).GeneratePlanSpecs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlanService_GeneratePlanSpecs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlanServiceServer).GeneratePlanSpecs(ctx, req.(*GeneratePlanSpecsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PlanService_ServiceDesc is the grpc.ServiceDesc for PlanService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -343,6 +377,10 @@ var PlanService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateProjectFromPlan",
 			Handler:    _PlanService_CreateProjectFromPlan_Handler,
+		},
+		{
+			MethodName: "GeneratePlanSpecs",
+			Handler:    _PlanService_GeneratePlanSpecs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

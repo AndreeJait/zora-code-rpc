@@ -80,6 +80,11 @@ message CreateProjectFromPlanRequest {
   string description = 4;
 }
 
+message GeneratePlanSpecsRequest {
+  string plan_id = 1;
+  string instructions = 2;
+}
+
 message ListModelsRequest { string provider_id = 1; }
 
 message ListModelsResponse { repeated Model models = 1; }
@@ -109,6 +114,7 @@ service PlanService {
   rpc ListPlans(ListPlansRequest) returns (ListPlansResponse);
   rpc SendPlanMessage(SendPlanMessageRequest) returns (PlanMessage);
   rpc CreateProjectFromPlan(CreateProjectFromPlanRequest) returns (core.v1.Project);
+  rpc GeneratePlanSpecs(GeneratePlanSpecsRequest) returns (Plan);
 }
 
 service ModelService {

@@ -959,6 +959,69 @@ export const CreateProjectFromPlanRequest = {
         return obj;
     },
 };
+function createBaseGeneratePlanSpecsRequest() {
+    return { planId: "", instructions: "" };
+}
+export const GeneratePlanSpecsRequest = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.planId !== "") {
+            writer.uint32(10).string(message.planId);
+        }
+        if (message.instructions !== "") {
+            writer.uint32(18).string(message.instructions);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseGeneratePlanSpecsRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.planId = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.instructions = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            planId: isSet(object.planId)
+                ? globalThis.String(object.planId)
+                : isSet(object.plan_id)
+                    ? globalThis.String(object.plan_id)
+                    : "",
+            instructions: isSet(object.instructions) ? globalThis.String(object.instructions) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.planId !== "") {
+            obj.planId = message.planId;
+        }
+        if (message.instructions !== "") {
+            obj.instructions = message.instructions;
+        }
+        return obj;
+    },
+};
 function createBaseListModelsRequest() {
     return { providerId: "" };
 }
@@ -1368,6 +1431,15 @@ export const PlanServiceService = {
         requestDeserialize: (value) => CreateProjectFromPlanRequest.decode(value),
         responseSerialize: (value) => Buffer.from(Project.encode(value).finish()),
         responseDeserialize: (value) => Project.decode(value),
+    },
+    generatePlanSpecs: {
+        path: "/core.v1.PlanService/GeneratePlanSpecs",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(GeneratePlanSpecsRequest.encode(value).finish()),
+        requestDeserialize: (value) => GeneratePlanSpecsRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(Plan.encode(value).finish()),
+        responseDeserialize: (value) => Plan.decode(value),
     },
 };
 export const PlanServiceClient = makeGenericClientConstructor(PlanServiceService, "core.v1.PlanService");
