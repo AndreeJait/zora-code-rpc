@@ -22,6 +22,7 @@ message Project {
   common.v1.Timestamps timestamps = 10;
   string workspace_folder = 11;
   string git_remote_url = 12;
+  bool is_planning = 13;
 }
 
 message ListProjectsRequest {

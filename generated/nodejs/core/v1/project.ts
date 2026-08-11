@@ -46,6 +46,7 @@ export interface Project {
   timestamps?: Timestamps | undefined;
   workspaceFolder: string;
   gitRemoteUrl: string;
+  isPlanning: boolean;
 }
 
 export interface ListProjectsRequest {
@@ -107,6 +108,7 @@ function createBaseProject(): Project {
     timestamps: undefined,
     workspaceFolder: "",
     gitRemoteUrl: "",
+    isPlanning: false,
   };
 }
 
@@ -147,6 +149,9 @@ export const Project: MessageFns<Project> = {
     }
     if (message.gitRemoteUrl !== "") {
       writer.uint32(98).string(message.gitRemoteUrl);
+    }
+    if (message.isPlanning !== false) {
+      writer.uint32(104).bool(message.isPlanning);
     }
     return writer;
   },
@@ -254,6 +259,14 @@ export const Project: MessageFns<Project> = {
           message.gitRemoteUrl = reader.string();
           continue;
         }
+        case 13: {
+          if (tag !== 104) {
+            break;
+          }
+
+          message.isPlanning = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -301,6 +314,11 @@ export const Project: MessageFns<Project> = {
         : isSet(object.git_remote_url)
         ? globalThis.String(object.git_remote_url)
         : "",
+      isPlanning: isSet(object.isPlanning)
+        ? globalThis.Boolean(object.isPlanning)
+        : isSet(object.is_planning)
+        ? globalThis.Boolean(object.is_planning)
+        : false,
     };
   },
 
@@ -341,6 +359,9 @@ export const Project: MessageFns<Project> = {
     }
     if (message.gitRemoteUrl !== "") {
       obj.gitRemoteUrl = message.gitRemoteUrl;
+    }
+    if (message.isPlanning !== false) {
+      obj.isPlanning = message.isPlanning;
     }
     return obj;
   },

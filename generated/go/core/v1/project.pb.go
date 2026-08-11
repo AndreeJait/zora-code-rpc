@@ -37,6 +37,7 @@ type Project struct {
 	Timestamps      *v1.Timestamps         `protobuf:"bytes,10,opt,name=timestamps,proto3" json:"timestamps,omitempty"`
 	WorkspaceFolder string                 `protobuf:"bytes,11,opt,name=workspace_folder,json=workspaceFolder,proto3" json:"workspace_folder,omitempty"`
 	GitRemoteUrl    string                 `protobuf:"bytes,12,opt,name=git_remote_url,json=gitRemoteUrl,proto3" json:"git_remote_url,omitempty"`
+	IsPlanning      bool                   `protobuf:"varint,13,opt,name=is_planning,json=isPlanning,proto3" json:"is_planning,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -153,6 +154,13 @@ func (x *Project) GetGitRemoteUrl() string {
 		return x.GitRemoteUrl
 	}
 	return ""
+}
+
+func (x *Project) GetIsPlanning() bool {
+	if x != nil {
+		return x.IsPlanning
+	}
+	return false
 }
 
 type ListProjectsRequest struct {
@@ -603,7 +611,7 @@ var File_core_v1_project_proto protoreflect.FileDescriptor
 
 const file_core_v1_project_proto_rawDesc = "" +
 	"\n" +
-	"\x15core/v1/project.proto\x12\acore.v1\x1a\x15common/v1/types.proto\"\xaa\x03\n" +
+	"\x15core/v1/project.proto\x12\acore.v1\x1a\x15common/v1/types.proto\"\xcb\x03\n" +
 	"\aProject\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -622,7 +630,9 @@ const file_core_v1_project_proto_rawDesc = "" +
 	" \x01(\v2\x15.common.v1.TimestampsR\n" +
 	"timestamps\x12)\n" +
 	"\x10workspace_folder\x18\v \x01(\tR\x0fworkspaceFolder\x12$\n" +
-	"\x0egit_remote_url\x18\f \x01(\tR\fgitRemoteUrl\"q\n" +
+	"\x0egit_remote_url\x18\f \x01(\tR\fgitRemoteUrl\x12\x1f\n" +
+	"\vis_planning\x18\r \x01(\bR\n" +
+	"isPlanning\"q\n" +
 	"\x13ListProjectsRequest\x125\n" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x15.common.v1.PaginationR\n" +

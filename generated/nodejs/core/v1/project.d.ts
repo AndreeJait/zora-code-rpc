@@ -16,6 +16,7 @@ export interface Project {
     timestamps?: Timestamps | undefined;
     workspaceFolder: string;
     gitRemoteUrl: string;
+    isPlanning: boolean;
 }
 export interface ListProjectsRequest {
     pagination?: Pagination | undefined;
