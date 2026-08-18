@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package bot.v1;
+
+option go_package = "github.com/AndreeJait/zora-code-rpc/generated/go/bot/v1;botv1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Bot.V1";
+
+message BotConfig {
+  string command_prefix = 1;
+  string default_model = 2;
+  string default_voice = 3;
+  string provider_id = 4;
+}
+
+message GetConfigRequest {}
+
+message UpdateConfigRequest {
+  string command_prefix = 1;
+  string default_model = 2;
+  string default_voice = 3;
+  string provider_id = 4;
+}
+
+service BotConfigService {
+  rpc GetConfig(GetConfigRequest) returns (BotConfig);
+  rpc UpdateConfig(UpdateConfigRequest) returns (BotConfig);
+}

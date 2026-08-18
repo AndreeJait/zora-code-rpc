@@ -11,7 +11,11 @@ PROTO_FILES := \
 	proto/core/v1/plan.proto \
 	proto/runtime/v1/execution.proto \
 	proto/model/v1/provider.proto \
-	proto/model/v1/inference.proto
+	proto/model/v1/inference.proto \
+	proto/bot/v1/rule.proto \
+	proto/bot/v1/profile.proto \
+	proto/bot/v1/media.proto \
+	proto/bot/v1/config.proto
 
 # Generate Go protobuf stubs under generated/go/.
 generate-go:

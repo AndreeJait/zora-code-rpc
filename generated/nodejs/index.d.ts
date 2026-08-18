@@ -9,4 +9,5 @@ export * as systemConfig from "./core/v1/system_config.js";
 export * as plan from "./core/v1/plan.js";
 export * as model from "./model/v1/inference.js";
 export * as runtimeExec from "./runtime/v1/execution.js";
+export * as bot from "./bot/v1/index.js";
 //# sourceMappingURL=index.d.ts.map

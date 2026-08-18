@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package bot.v1;
+
+option go_package = "github.com/AndreeJait/zora-code-rpc/generated/go/bot/v1;botv1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Bot.V1";
+
+import "common/v1/types.proto";
+
+message BotProfile {
+  string id = 1;
+  string participant_id = 2;
+  string display_name = 3;
+  string system_prompt = 4;
+  string preferred_model = 5;
+  string preferred_voice = 6;
+  common.v1.Timestamps timestamps = 7;
+}
+
+message ListProfilesRequest {}
+
+message ListProfilesResponse {
+  repeated BotProfile profiles = 1;
+}
+
+message GetProfileRequest {
+  string id = 1;
+}
+
+message GetProfileByParticipantRequest {
+  string participant_id = 1;
+}
+
+message CreateProfileRequest {
+  string participant_id = 1;
+  string display_name = 2;
+  string system_prompt = 3;
+  string preferred_model = 4;
+  string preferred_voice = 5;
+}
+
+message UpdateProfileRequest {
+  string id = 1;
+  string display_name = 2;
+  string system_prompt = 3;
+  string preferred_model = 4;
+  string preferred_voice = 5;
+}
+
+message DeleteProfileRequest {
+  string id = 1;
+}
+
+service ProfileService {
+  rpc ListProfiles(ListProfilesRequest) returns (ListProfilesResponse);
+  rpc GetProfile(GetProfileRequest) returns (BotProfile);
+  rpc GetProfileByParticipant(GetProfileByParticipantRequest) returns (BotProfile);
+  rpc CreateProfile(CreateProfileRequest) returns (BotProfile);
+  rpc UpdateProfile(UpdateProfileRequest) returns (BotProfile);
+  rpc DeleteProfile(DeleteProfileRequest) returns (common.v1.DeleteResponse);
+}

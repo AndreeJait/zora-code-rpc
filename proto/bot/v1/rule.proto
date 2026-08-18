@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package bot.v1;
+
+option go_package = "github.com/AndreeJait/zora-code-rpc/generated/go/bot/v1;botv1";
+option java_multiple_files = true;
+option csharp_namespace = "ZoraCode.Rpc.Bot.V1";
+
+import "common/v1/types.proto";
+
+enum RuleScope {
+  RULE_SCOPE_UNSPECIFIED = 0;
+  RULE_SCOPE_GLOBAL_PARTICIPANT = 1;
+  RULE_SCOPE_CHAT = 2;
+  RULE_SCOPE_PARTICIPANT_IN_CHAT = 3;
+}
+
+enum RuleAction {
+  RULE_ACTION_UNSPECIFIED = 0;
+  RULE_ACTION_ALLOW = 1;
+  RULE_ACTION_DENY = 2;
+}
+
+message BotRule {
+  string id = 1;
+  RuleScope scope = 2;
+  string chat_id = 3;
+  string participant_id = 4;
+  RuleAction action = 5;
+  common.v1.Timestamps timestamps = 6;
+}
+
+message ListRulesRequest {}
+
+message ListRulesResponse {
+  repeated BotRule rules = 1;
+}
+
+message GetRuleRequest {
+  string id = 1;
+}
+
+message CreateRuleRequest {
+  RuleScope scope = 1;
+  string chat_id = 2;
+  string participant_id = 3;
+  RuleAction action = 4;
+}
+
+message UpdateRuleRequest {
+  string id = 1;
+  RuleScope scope = 2;
+  string chat_id = 3;
+  string participant_id = 4;
+  RuleAction action = 5;
+}
+
+message DeleteRuleRequest {
+  string id = 1;
+}
+
+service RuleService {
+  rpc ListRules(ListRulesRequest) returns (ListRulesResponse);
+  rpc GetRule(GetRuleRequest) returns (BotRule);
+  rpc CreateRule(CreateRuleRequest) returns (BotRule);
+  rpc UpdateRule(UpdateRuleRequest) returns (BotRule);
+  rpc DeleteRule(DeleteRuleRequest) returns (common.v1.DeleteResponse);
+}
