@@ -8,6 +8,7 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import { makeGenericClientConstructor, } from "@grpc/grpc-js";
 import { DeleteResponse, statusFromJSON, statusToJSON, Timestamps } from "../../common/v1/types.js";
 import { Project } from "./project.js";
+import { Task } from "./task.js";
 export const protobufPackage = "core.v1";
 function createBasePlan() {
     return {
@@ -23,6 +24,7 @@ function createBasePlan() {
         status: 0,
         timestamps: undefined,
         messages: [],
+        createSpecs: false,
     };
 }
 export const Plan = {
@@ -62,6 +64,9 @@ export const Plan = {
         }
         for (const v of message.messages) {
             PlanMessage.encode(v, writer.uint32(98).fork()).join();
+        }
+        if (message.createSpecs !== false) {
+            writer.uint32(104).bool(message.createSpecs);
         }
         return writer;
     },
@@ -156,6 +161,13 @@ export const Plan = {
                     message.messages.push(PlanMessage.decode(reader, reader.uint32()));
                     continue;
                 }
+                case 13: {
+                    if (tag !== 104) {
+                        break;
+                    }
+                    message.createSpecs = reader.bool();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -200,6 +212,11 @@ export const Plan = {
             messages: globalThis.Array.isArray(object?.messages)
                 ? object.messages.map((e) => PlanMessage.fromJSON(e))
                 : [],
+            createSpecs: isSet(object.createSpecs)
+                ? globalThis.Boolean(object.createSpecs)
+                : isSet(object.create_specs)
+                    ? globalThis.Boolean(object.create_specs)
+                    : false,
         };
     },
     toJSON(message) {
@@ -239,6 +256,9 @@ export const Plan = {
         }
         if (message.messages?.length) {
             obj.messages = message.messages.map((e) => PlanMessage.toJSON(e));
+        }
+        if (message.createSpecs !== false) {
+            obj.createSpecs = message.createSpecs;
         }
         return obj;
     },
@@ -490,7 +510,7 @@ export const Model = {
     },
 };
 function createBaseCreatePlanRequest() {
-    return { name: "", description: "", providerId: "", prompt: "", projectId: "" };
+    return { name: "", description: "", providerId: "", prompt: "", projectId: "", createSpecs: false };
 }
 export const CreatePlanRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -508,6 +528,9 @@ export const CreatePlanRequest = {
         }
         if (message.projectId !== "") {
             writer.uint32(42).string(message.projectId);
+        }
+        if (message.createSpecs !== false) {
+            writer.uint32(48).bool(message.createSpecs);
         }
         return writer;
     },
@@ -553,6 +576,13 @@ export const CreatePlanRequest = {
                     message.projectId = reader.string();
                     continue;
                 }
+                case 6: {
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.createSpecs = reader.bool();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -576,6 +606,11 @@ export const CreatePlanRequest = {
                 : isSet(object.project_id)
                     ? globalThis.String(object.project_id)
                     : "",
+            createSpecs: isSet(object.createSpecs)
+                ? globalThis.Boolean(object.createSpecs)
+                : isSet(object.create_specs)
+                    ? globalThis.Boolean(object.create_specs)
+                    : false,
         };
     },
     toJSON(message) {
@@ -595,11 +630,14 @@ export const CreatePlanRequest = {
         if (message.projectId !== "") {
             obj.projectId = message.projectId;
         }
+        if (message.createSpecs !== false) {
+            obj.createSpecs = message.createSpecs;
+        }
         return obj;
     },
 };
 function createBaseUpdatePlanRequest() {
-    return { id: "", name: undefined, description: undefined, prompt: undefined };
+    return { id: "", name: undefined, description: undefined, prompt: undefined, createSpecs: undefined };
 }
 export const UpdatePlanRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -614,6 +652,9 @@ export const UpdatePlanRequest = {
         }
         if (message.prompt !== undefined) {
             writer.uint32(34).string(message.prompt);
+        }
+        if (message.createSpecs !== undefined) {
+            writer.uint32(40).bool(message.createSpecs);
         }
         return writer;
     },
@@ -652,6 +693,13 @@ export const UpdatePlanRequest = {
                     message.prompt = reader.string();
                     continue;
                 }
+                case 5: {
+                    if (tag !== 40) {
+                        break;
+                    }
+                    message.createSpecs = reader.bool();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -666,6 +714,11 @@ export const UpdatePlanRequest = {
             name: isSet(object.name) ? globalThis.String(object.name) : undefined,
             description: isSet(object.description) ? globalThis.String(object.description) : undefined,
             prompt: isSet(object.prompt) ? globalThis.String(object.prompt) : undefined,
+            createSpecs: isSet(object.createSpecs)
+                ? globalThis.Boolean(object.createSpecs)
+                : isSet(object.create_specs)
+                    ? globalThis.Boolean(object.create_specs)
+                    : undefined,
         };
     },
     toJSON(message) {
@@ -681,6 +734,9 @@ export const UpdatePlanRequest = {
         }
         if (message.prompt !== undefined) {
             obj.prompt = message.prompt;
+        }
+        if (message.createSpecs !== undefined) {
+            obj.createSpecs = message.createSpecs;
         }
         return obj;
     },
@@ -1018,6 +1074,69 @@ export const GeneratePlanSpecsRequest = {
         }
         if (message.instructions !== "") {
             obj.instructions = message.instructions;
+        }
+        return obj;
+    },
+};
+function createBaseCreateFirstTaskFromPlanRequest() {
+    return { planId: "", prompt: "" };
+}
+export const CreateFirstTaskFromPlanRequest = {
+    encode(message, writer = new BinaryWriter()) {
+        if (message.planId !== "") {
+            writer.uint32(10).string(message.planId);
+        }
+        if (message.prompt !== "") {
+            writer.uint32(18).string(message.prompt);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseCreateFirstTaskFromPlanRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.planId = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.prompt = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            planId: isSet(object.planId)
+                ? globalThis.String(object.planId)
+                : isSet(object.plan_id)
+                    ? globalThis.String(object.plan_id)
+                    : "",
+            prompt: isSet(object.prompt) ? globalThis.String(object.prompt) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.planId !== "") {
+            obj.planId = message.planId;
+        }
+        if (message.prompt !== "") {
+            obj.prompt = message.prompt;
         }
         return obj;
     },
@@ -1440,6 +1559,15 @@ export const PlanServiceService = {
         requestDeserialize: (value) => GeneratePlanSpecsRequest.decode(value),
         responseSerialize: (value) => Buffer.from(Plan.encode(value).finish()),
         responseDeserialize: (value) => Plan.decode(value),
+    },
+    createFirstTaskFromPlan: {
+        path: "/core.v1.PlanService/CreateFirstTaskFromPlan",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(CreateFirstTaskFromPlanRequest.encode(value).finish()),
+        requestDeserialize: (value) => CreateFirstTaskFromPlanRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(Task.encode(value).finish()),
+        responseDeserialize: (value) => Task.decode(value),
     },
 };
 export const PlanServiceClient = makeGenericClientConstructor(PlanServiceService, "core.v1.PlanService");

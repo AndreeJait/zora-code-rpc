@@ -20,14 +20,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PlanService_CreatePlan_FullMethodName            = "/core.v1.PlanService/CreatePlan"
-	PlanService_UpdatePlan_FullMethodName            = "/core.v1.PlanService/UpdatePlan"
-	PlanService_DeletePlan_FullMethodName            = "/core.v1.PlanService/DeletePlan"
-	PlanService_GetPlan_FullMethodName               = "/core.v1.PlanService/GetPlan"
-	PlanService_ListPlans_FullMethodName             = "/core.v1.PlanService/ListPlans"
-	PlanService_SendPlanMessage_FullMethodName       = "/core.v1.PlanService/SendPlanMessage"
-	PlanService_CreateProjectFromPlan_FullMethodName = "/core.v1.PlanService/CreateProjectFromPlan"
-	PlanService_GeneratePlanSpecs_FullMethodName     = "/core.v1.PlanService/GeneratePlanSpecs"
+	PlanService_CreatePlan_FullMethodName              = "/core.v1.PlanService/CreatePlan"
+	PlanService_UpdatePlan_FullMethodName              = "/core.v1.PlanService/UpdatePlan"
+	PlanService_DeletePlan_FullMethodName              = "/core.v1.PlanService/DeletePlan"
+	PlanService_GetPlan_FullMethodName                 = "/core.v1.PlanService/GetPlan"
+	PlanService_ListPlans_FullMethodName               = "/core.v1.PlanService/ListPlans"
+	PlanService_SendPlanMessage_FullMethodName         = "/core.v1.PlanService/SendPlanMessage"
+	PlanService_CreateProjectFromPlan_FullMethodName   = "/core.v1.PlanService/CreateProjectFromPlan"
+	PlanService_GeneratePlanSpecs_FullMethodName       = "/core.v1.PlanService/GeneratePlanSpecs"
+	PlanService_CreateFirstTaskFromPlan_FullMethodName = "/core.v1.PlanService/CreateFirstTaskFromPlan"
 )
 
 // PlanServiceClient is the client API for PlanService service.
@@ -42,6 +43,7 @@ type PlanServiceClient interface {
 	SendPlanMessage(ctx context.Context, in *SendPlanMessageRequest, opts ...grpc.CallOption) (*PlanMessage, error)
 	CreateProjectFromPlan(ctx context.Context, in *CreateProjectFromPlanRequest, opts ...grpc.CallOption) (*Project, error)
 	GeneratePlanSpecs(ctx context.Context, in *GeneratePlanSpecsRequest, opts ...grpc.CallOption) (*Plan, error)
+	CreateFirstTaskFromPlan(ctx context.Context, in *CreateFirstTaskFromPlanRequest, opts ...grpc.CallOption) (*Task, error)
 }
 
 type planServiceClient struct {
@@ -132,6 +134,16 @@ func (c *planServiceClient) GeneratePlanSpecs(ctx context.Context, in *GenerateP
 	return out, nil
 }
 
+func (c *planServiceClient) CreateFirstTaskFromPlan(ctx context.Context, in *CreateFirstTaskFromPlanRequest, opts ...grpc.CallOption) (*Task, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Task)
+	err := c.cc.Invoke(ctx, PlanService_CreateFirstTaskFromPlan_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PlanServiceServer is the server API for PlanService service.
 // All implementations must embed UnimplementedPlanServiceServer
 // for forward compatibility.
@@ -144,6 +156,7 @@ type PlanServiceServer interface {
 	SendPlanMessage(context.Context, *SendPlanMessageRequest) (*PlanMessage, error)
 	CreateProjectFromPlan(context.Context, *CreateProjectFromPlanRequest) (*Project, error)
 	GeneratePlanSpecs(context.Context, *GeneratePlanSpecsRequest) (*Plan, error)
+	CreateFirstTaskFromPlan(context.Context, *CreateFirstTaskFromPlanRequest) (*Task, error)
 	mustEmbedUnimplementedPlanServiceServer()
 }
 
@@ -177,6 +190,9 @@ func (UnimplementedPlanServiceServer) CreateProjectFromPlan(context.Context, *Cr
 }
 func (UnimplementedPlanServiceServer) GeneratePlanSpecs(context.Context, *GeneratePlanSpecsRequest) (*Plan, error) {
 	return nil, status.Error(codes.Unimplemented, "method GeneratePlanSpecs not implemented")
+}
+func (UnimplementedPlanServiceServer) CreateFirstTaskFromPlan(context.Context, *CreateFirstTaskFromPlanRequest) (*Task, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateFirstTaskFromPlan not implemented")
 }
 func (UnimplementedPlanServiceServer) mustEmbedUnimplementedPlanServiceServer() {}
 func (UnimplementedPlanServiceServer) testEmbeddedByValue()                     {}
@@ -343,6 +359,24 @@ func _PlanService_GeneratePlanSpecs_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PlanService_CreateFirstTaskFromPlan_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFirstTaskFromPlanRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlanServiceServer).CreateFirstTaskFromPlan(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlanService_CreateFirstTaskFromPlan_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlanServiceServer).CreateFirstTaskFromPlan(ctx, req.(*CreateFirstTaskFromPlanRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PlanService_ServiceDesc is the grpc.ServiceDesc for PlanService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -381,6 +415,10 @@ var PlanService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GeneratePlanSpecs",
 			Handler:    _PlanService_GeneratePlanSpecs_Handler,
+		},
+		{
+			MethodName: "CreateFirstTaskFromPlan",
+			Handler:    _PlanService_CreateFirstTaskFromPlan_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

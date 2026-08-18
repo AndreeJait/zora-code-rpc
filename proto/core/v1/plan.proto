@@ -8,6 +8,7 @@ option csharp_namespace = "ZoraCode.Rpc.Core.V1";
 
 import "common/v1/types.proto";
 import "core/v1/project.proto";
+import "core/v1/task.proto";
 
 // Plan is a lightweight planning conversation that produces specs under a
 // workspace and can be promoted into a real Project.
@@ -24,6 +25,7 @@ message Plan {
   common.v1.Status status = 10;
   common.v1.Timestamps timestamps = 11;
   repeated PlanMessage messages = 12;
+  bool create_specs = 13;
 }
 
 // PlanMessage is a single turn inside a Plan thread.
@@ -53,6 +55,7 @@ message CreatePlanRequest {
   string provider_id = 3;
   string prompt = 4;
   string project_id = 5;
+  bool create_specs = 6;
 }
 
 message UpdatePlanRequest {
@@ -60,6 +63,7 @@ message UpdatePlanRequest {
   optional string name = 2;
   optional string description = 3;
   optional string prompt = 4;
+  optional bool create_specs = 5;
 }
 
 message GetPlanRequest { string id = 1; }
@@ -83,6 +87,11 @@ message CreateProjectFromPlanRequest {
 message GeneratePlanSpecsRequest {
   string plan_id = 1;
   string instructions = 2;
+}
+
+message CreateFirstTaskFromPlanRequest {
+  string plan_id = 1;
+  string prompt = 2;
 }
 
 message ListModelsRequest { string provider_id = 1; }
@@ -115,6 +124,7 @@ service PlanService {
   rpc SendPlanMessage(SendPlanMessageRequest) returns (PlanMessage);
   rpc CreateProjectFromPlan(CreateProjectFromPlanRequest) returns (core.v1.Project);
   rpc GeneratePlanSpecs(GeneratePlanSpecsRequest) returns (Plan);
+  rpc CreateFirstTaskFromPlan(CreateFirstTaskFromPlanRequest) returns (core.v1.Task);
 }
 
 service ModelService {

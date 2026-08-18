@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import { type CallOptions, type ChannelCredentials, Client, type ClientOptions, type ClientUnaryCall, type handleUnaryCall, type Metadata, type ServiceError, type UntypedServiceImplementation } from "@grpc/grpc-js";
 import { DeleteResponse, Status, Timestamps } from "../../common/v1/types.js";
 import { Project } from "./project.js";
+import { Task } from "./task.js";
 export declare const protobufPackage = "core.v1";
 /**
  * Plan is a lightweight planning conversation that produces specs under a
@@ -20,6 +21,7 @@ export interface Plan {
     status: Status;
     timestamps?: Timestamps | undefined;
     messages: PlanMessage[];
+    createSpecs: boolean;
 }
 /** PlanMessage is a single turn inside a Plan thread. */
 export interface PlanMessage {
@@ -48,12 +50,14 @@ export interface CreatePlanRequest {
     providerId: string;
     prompt: string;
     projectId: string;
+    createSpecs: boolean;
 }
 export interface UpdatePlanRequest {
     id: string;
     name?: string | undefined;
     description?: string | undefined;
     prompt?: string | undefined;
+    createSpecs?: boolean | undefined;
 }
 export interface GetPlanRequest {
     id: string;
@@ -76,6 +80,10 @@ export interface CreateProjectFromPlanRequest {
 export interface GeneratePlanSpecsRequest {
     planId: string;
     instructions: string;
+}
+export interface CreateFirstTaskFromPlanRequest {
+    planId: string;
+    prompt: string;
 }
 export interface ListModelsRequest {
     providerId: string;
@@ -111,6 +119,7 @@ export declare const ListPlansResponse: MessageFns<ListPlansResponse>;
 export declare const SendPlanMessageRequest: MessageFns<SendPlanMessageRequest>;
 export declare const CreateProjectFromPlanRequest: MessageFns<CreateProjectFromPlanRequest>;
 export declare const GeneratePlanSpecsRequest: MessageFns<GeneratePlanSpecsRequest>;
+export declare const CreateFirstTaskFromPlanRequest: MessageFns<CreateFirstTaskFromPlanRequest>;
 export declare const ListModelsRequest: MessageFns<ListModelsRequest>;
 export declare const ListModelsResponse: MessageFns<ListModelsResponse>;
 export declare const GetModelRequest: MessageFns<GetModelRequest>;
@@ -191,6 +200,15 @@ export declare const PlanServiceService: {
         readonly responseSerialize: (value: Plan) => Buffer;
         readonly responseDeserialize: (value: Buffer) => Plan;
     };
+    readonly createFirstTaskFromPlan: {
+        readonly path: "/core.v1.PlanService/CreateFirstTaskFromPlan";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: CreateFirstTaskFromPlanRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => CreateFirstTaskFromPlanRequest;
+        readonly responseSerialize: (value: Task) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => Task;
+    };
 };
 export interface PlanServiceServer extends UntypedServiceImplementation {
     createPlan: handleUnaryCall<CreatePlanRequest, Plan>;
@@ -201,6 +219,7 @@ export interface PlanServiceServer extends UntypedServiceImplementation {
     sendPlanMessage: handleUnaryCall<SendPlanMessageRequest, PlanMessage>;
     createProjectFromPlan: handleUnaryCall<CreateProjectFromPlanRequest, Project>;
     generatePlanSpecs: handleUnaryCall<GeneratePlanSpecsRequest, Plan>;
+    createFirstTaskFromPlan: handleUnaryCall<CreateFirstTaskFromPlanRequest, Task>;
 }
 export interface PlanServiceClient extends Client {
     createPlan(request: CreatePlanRequest, callback: (error: ServiceError | null, response: Plan) => void): ClientUnaryCall;
@@ -227,6 +246,9 @@ export interface PlanServiceClient extends Client {
     generatePlanSpecs(request: GeneratePlanSpecsRequest, callback: (error: ServiceError | null, response: Plan) => void): ClientUnaryCall;
     generatePlanSpecs(request: GeneratePlanSpecsRequest, metadata: Metadata, callback: (error: ServiceError | null, response: Plan) => void): ClientUnaryCall;
     generatePlanSpecs(request: GeneratePlanSpecsRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: Plan) => void): ClientUnaryCall;
+    createFirstTaskFromPlan(request: CreateFirstTaskFromPlanRequest, callback: (error: ServiceError | null, response: Task) => void): ClientUnaryCall;
+    createFirstTaskFromPlan(request: CreateFirstTaskFromPlanRequest, metadata: Metadata, callback: (error: ServiceError | null, response: Task) => void): ClientUnaryCall;
+    createFirstTaskFromPlan(request: CreateFirstTaskFromPlanRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: Task) => void): ClientUnaryCall;
 }
 export declare const PlanServiceClient: {
     new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): PlanServiceClient;
