@@ -52,6 +52,7 @@ export interface PlanMessage {
   content: string;
   taskId: string;
   timestamps?: Timestamps | undefined;
+  attachmentUrls: string[];
 }
 
 /**
@@ -98,6 +99,7 @@ export interface ListPlansResponse {
 export interface SendPlanMessageRequest {
   planId: string;
   content: string;
+  attachmentUrls: string[];
 }
 
 export interface CreateProjectFromPlanRequest {
@@ -115,6 +117,15 @@ export interface GeneratePlanSpecsRequest {
 export interface CreateFirstTaskFromPlanRequest {
   planId: string;
   prompt: string;
+}
+
+export interface UploadPlanAttachmentsRequest {
+  files: Buffer[];
+  fileNames: string[];
+}
+
+export interface UploadPlanAttachmentsResponse {
+  attachmentUrls: string[];
 }
 
 export interface ListModelsRequest {
@@ -418,7 +429,7 @@ export const Plan: MessageFns<Plan> = {
 };
 
 function createBasePlanMessage(): PlanMessage {
-  return { id: "", planId: "", role: "", content: "", taskId: "", timestamps: undefined };
+  return { id: "", planId: "", role: "", content: "", taskId: "", timestamps: undefined, attachmentUrls: [] };
 }
 
 export const PlanMessage: MessageFns<PlanMessage> = {
@@ -440,6 +451,9 @@ export const PlanMessage: MessageFns<PlanMessage> = {
     }
     if (message.timestamps !== undefined) {
       Timestamps.encode(message.timestamps, writer.uint32(50).fork()).join();
+    }
+    for (const v of message.attachmentUrls) {
+      writer.uint32(58).string(v!);
     }
     return writer;
   },
@@ -499,6 +513,14 @@ export const PlanMessage: MessageFns<PlanMessage> = {
           message.timestamps = Timestamps.decode(reader, reader.uint32());
           continue;
         }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.attachmentUrls.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -524,6 +546,11 @@ export const PlanMessage: MessageFns<PlanMessage> = {
         ? globalThis.String(object.task_id)
         : "",
       timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+      attachmentUrls: globalThis.Array.isArray(object?.attachmentUrls)
+        ? object.attachmentUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.attachment_urls)
+        ? object.attachment_urls.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -546,6 +573,9 @@ export const PlanMessage: MessageFns<PlanMessage> = {
     }
     if (message.timestamps !== undefined) {
       obj.timestamps = Timestamps.toJSON(message.timestamps);
+    }
+    if (message.attachmentUrls?.length) {
+      obj.attachmentUrls = message.attachmentUrls;
     }
     return obj;
   },
@@ -1072,7 +1102,7 @@ export const ListPlansResponse: MessageFns<ListPlansResponse> = {
 };
 
 function createBaseSendPlanMessageRequest(): SendPlanMessageRequest {
-  return { planId: "", content: "" };
+  return { planId: "", content: "", attachmentUrls: [] };
 }
 
 export const SendPlanMessageRequest: MessageFns<SendPlanMessageRequest> = {
@@ -1082,6 +1112,9 @@ export const SendPlanMessageRequest: MessageFns<SendPlanMessageRequest> = {
     }
     if (message.content !== "") {
       writer.uint32(18).string(message.content);
+    }
+    for (const v of message.attachmentUrls) {
+      writer.uint32(26).string(v!);
     }
     return writer;
   },
@@ -1109,6 +1142,14 @@ export const SendPlanMessageRequest: MessageFns<SendPlanMessageRequest> = {
           message.content = reader.string();
           continue;
         }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.attachmentUrls.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -1126,6 +1167,11 @@ export const SendPlanMessageRequest: MessageFns<SendPlanMessageRequest> = {
         ? globalThis.String(object.plan_id)
         : "",
       content: isSet(object.content) ? globalThis.String(object.content) : "",
+      attachmentUrls: globalThis.Array.isArray(object?.attachmentUrls)
+        ? object.attachmentUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.attachment_urls)
+        ? object.attachment_urls.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -1136,6 +1182,9 @@ export const SendPlanMessageRequest: MessageFns<SendPlanMessageRequest> = {
     }
     if (message.content !== "") {
       obj.content = message.content;
+    }
+    if (message.attachmentUrls?.length) {
+      obj.attachmentUrls = message.attachmentUrls;
     }
     return obj;
   },
@@ -1380,6 +1429,133 @@ export const CreateFirstTaskFromPlanRequest: MessageFns<CreateFirstTaskFromPlanR
     }
     if (message.prompt !== "") {
       obj.prompt = message.prompt;
+    }
+    return obj;
+  },
+};
+
+function createBaseUploadPlanAttachmentsRequest(): UploadPlanAttachmentsRequest {
+  return { files: [], fileNames: [] };
+}
+
+export const UploadPlanAttachmentsRequest: MessageFns<UploadPlanAttachmentsRequest> = {
+  encode(message: UploadPlanAttachmentsRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.files) {
+      writer.uint32(10).bytes(v!);
+    }
+    for (const v of message.fileNames) {
+      writer.uint32(18).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UploadPlanAttachmentsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUploadPlanAttachmentsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.files.push(Buffer.from(reader.bytes()));
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.fileNames.push(reader.string());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): UploadPlanAttachmentsRequest {
+    return {
+      files: globalThis.Array.isArray(object?.files)
+        ? object.files.map((e: any) => Buffer.from(bytesFromBase64(e)))
+        : [],
+      fileNames: globalThis.Array.isArray(object?.fileNames)
+        ? object.fileNames.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.file_names)
+        ? object.file_names.map((e: any) => globalThis.String(e))
+        : [],
+    };
+  },
+
+  toJSON(message: UploadPlanAttachmentsRequest): unknown {
+    const obj: any = {};
+    if (message.files?.length) {
+      obj.files = message.files.map((e) => base64FromBytes(e));
+    }
+    if (message.fileNames?.length) {
+      obj.fileNames = message.fileNames;
+    }
+    return obj;
+  },
+};
+
+function createBaseUploadPlanAttachmentsResponse(): UploadPlanAttachmentsResponse {
+  return { attachmentUrls: [] };
+}
+
+export const UploadPlanAttachmentsResponse: MessageFns<UploadPlanAttachmentsResponse> = {
+  encode(message: UploadPlanAttachmentsResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.attachmentUrls) {
+      writer.uint32(10).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UploadPlanAttachmentsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUploadPlanAttachmentsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.attachmentUrls.push(reader.string());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): UploadPlanAttachmentsResponse {
+    return {
+      attachmentUrls: globalThis.Array.isArray(object?.attachmentUrls)
+        ? object.attachmentUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.attachment_urls)
+        ? object.attachment_urls.map((e: any) => globalThis.String(e))
+        : [],
+    };
+  },
+
+  toJSON(message: UploadPlanAttachmentsResponse): unknown {
+    const obj: any = {};
+    if (message.attachmentUrls?.length) {
+      obj.attachmentUrls = message.attachmentUrls;
     }
     return obj;
   },
@@ -1829,6 +2005,17 @@ export const PlanServiceService = {
     responseSerialize: (value: PlanMessage): Buffer => Buffer.from(PlanMessage.encode(value).finish()),
     responseDeserialize: (value: Buffer): PlanMessage => PlanMessage.decode(value),
   },
+  uploadPlanAttachments: {
+    path: "/core.v1.PlanService/UploadPlanAttachments" as const,
+    requestStream: false as const,
+    responseStream: false as const,
+    requestSerialize: (value: UploadPlanAttachmentsRequest): Buffer =>
+      Buffer.from(UploadPlanAttachmentsRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): UploadPlanAttachmentsRequest => UploadPlanAttachmentsRequest.decode(value),
+    responseSerialize: (value: UploadPlanAttachmentsResponse): Buffer =>
+      Buffer.from(UploadPlanAttachmentsResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UploadPlanAttachmentsResponse => UploadPlanAttachmentsResponse.decode(value),
+  },
   createProjectFromPlan: {
     path: "/core.v1.PlanService/CreateProjectFromPlan" as const,
     requestStream: false as const,
@@ -1868,6 +2055,7 @@ export interface PlanServiceServer extends UntypedServiceImplementation {
   getPlan: handleUnaryCall<GetPlanRequest, Plan>;
   listPlans: handleUnaryCall<ListPlansRequest, ListPlansResponse>;
   sendPlanMessage: handleUnaryCall<SendPlanMessageRequest, PlanMessage>;
+  uploadPlanAttachments: handleUnaryCall<UploadPlanAttachmentsRequest, UploadPlanAttachmentsResponse>;
   createProjectFromPlan: handleUnaryCall<CreateProjectFromPlanRequest, Project>;
   generatePlanSpecs: handleUnaryCall<GeneratePlanSpecsRequest, Plan>;
   createFirstTaskFromPlan: handleUnaryCall<CreateFirstTaskFromPlanRequest, Task>;
@@ -1960,6 +2148,21 @@ export interface PlanServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: PlanMessage) => void,
+  ): ClientUnaryCall;
+  uploadPlanAttachments(
+    request: UploadPlanAttachmentsRequest,
+    callback: (error: ServiceError | null, response: UploadPlanAttachmentsResponse) => void,
+  ): ClientUnaryCall;
+  uploadPlanAttachments(
+    request: UploadPlanAttachmentsRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: UploadPlanAttachmentsResponse) => void,
+  ): ClientUnaryCall;
+  uploadPlanAttachments(
+    request: UploadPlanAttachmentsRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: UploadPlanAttachmentsResponse) => void,
   ): ClientUnaryCall;
   createProjectFromPlan(
     request: CreateProjectFromPlanRequest,
@@ -2154,6 +2357,14 @@ export const ModelServiceClient = makeGenericClientConstructor(
   service: typeof ModelServiceService;
   serviceName: string;
 };
+
+function bytesFromBase64(b64: string): Uint8Array {
+  return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
+}
+
+function base64FromBytes(arr: Uint8Array): string {
+  return globalThis.Buffer.from(arr).toString("base64");
+}
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;

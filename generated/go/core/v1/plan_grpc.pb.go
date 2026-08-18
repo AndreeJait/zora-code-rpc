@@ -26,6 +26,7 @@ const (
 	PlanService_GetPlan_FullMethodName                 = "/core.v1.PlanService/GetPlan"
 	PlanService_ListPlans_FullMethodName               = "/core.v1.PlanService/ListPlans"
 	PlanService_SendPlanMessage_FullMethodName         = "/core.v1.PlanService/SendPlanMessage"
+	PlanService_UploadPlanAttachments_FullMethodName   = "/core.v1.PlanService/UploadPlanAttachments"
 	PlanService_CreateProjectFromPlan_FullMethodName   = "/core.v1.PlanService/CreateProjectFromPlan"
 	PlanService_GeneratePlanSpecs_FullMethodName       = "/core.v1.PlanService/GeneratePlanSpecs"
 	PlanService_CreateFirstTaskFromPlan_FullMethodName = "/core.v1.PlanService/CreateFirstTaskFromPlan"
@@ -41,6 +42,7 @@ type PlanServiceClient interface {
 	GetPlan(ctx context.Context, in *GetPlanRequest, opts ...grpc.CallOption) (*Plan, error)
 	ListPlans(ctx context.Context, in *ListPlansRequest, opts ...grpc.CallOption) (*ListPlansResponse, error)
 	SendPlanMessage(ctx context.Context, in *SendPlanMessageRequest, opts ...grpc.CallOption) (*PlanMessage, error)
+	UploadPlanAttachments(ctx context.Context, in *UploadPlanAttachmentsRequest, opts ...grpc.CallOption) (*UploadPlanAttachmentsResponse, error)
 	CreateProjectFromPlan(ctx context.Context, in *CreateProjectFromPlanRequest, opts ...grpc.CallOption) (*Project, error)
 	GeneratePlanSpecs(ctx context.Context, in *GeneratePlanSpecsRequest, opts ...grpc.CallOption) (*Plan, error)
 	CreateFirstTaskFromPlan(ctx context.Context, in *CreateFirstTaskFromPlanRequest, opts ...grpc.CallOption) (*Task, error)
@@ -114,6 +116,16 @@ func (c *planServiceClient) SendPlanMessage(ctx context.Context, in *SendPlanMes
 	return out, nil
 }
 
+func (c *planServiceClient) UploadPlanAttachments(ctx context.Context, in *UploadPlanAttachmentsRequest, opts ...grpc.CallOption) (*UploadPlanAttachmentsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UploadPlanAttachmentsResponse)
+	err := c.cc.Invoke(ctx, PlanService_UploadPlanAttachments_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *planServiceClient) CreateProjectFromPlan(ctx context.Context, in *CreateProjectFromPlanRequest, opts ...grpc.CallOption) (*Project, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Project)
@@ -154,6 +166,7 @@ type PlanServiceServer interface {
 	GetPlan(context.Context, *GetPlanRequest) (*Plan, error)
 	ListPlans(context.Context, *ListPlansRequest) (*ListPlansResponse, error)
 	SendPlanMessage(context.Context, *SendPlanMessageRequest) (*PlanMessage, error)
+	UploadPlanAttachments(context.Context, *UploadPlanAttachmentsRequest) (*UploadPlanAttachmentsResponse, error)
 	CreateProjectFromPlan(context.Context, *CreateProjectFromPlanRequest) (*Project, error)
 	GeneratePlanSpecs(context.Context, *GeneratePlanSpecsRequest) (*Plan, error)
 	CreateFirstTaskFromPlan(context.Context, *CreateFirstTaskFromPlanRequest) (*Task, error)
@@ -184,6 +197,9 @@ func (UnimplementedPlanServiceServer) ListPlans(context.Context, *ListPlansReque
 }
 func (UnimplementedPlanServiceServer) SendPlanMessage(context.Context, *SendPlanMessageRequest) (*PlanMessage, error) {
 	return nil, status.Error(codes.Unimplemented, "method SendPlanMessage not implemented")
+}
+func (UnimplementedPlanServiceServer) UploadPlanAttachments(context.Context, *UploadPlanAttachmentsRequest) (*UploadPlanAttachmentsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UploadPlanAttachments not implemented")
 }
 func (UnimplementedPlanServiceServer) CreateProjectFromPlan(context.Context, *CreateProjectFromPlanRequest) (*Project, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateProjectFromPlan not implemented")
@@ -323,6 +339,24 @@ func _PlanService_SendPlanMessage_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PlanService_UploadPlanAttachments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadPlanAttachmentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlanServiceServer).UploadPlanAttachments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlanService_UploadPlanAttachments_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlanServiceServer).UploadPlanAttachments(ctx, req.(*UploadPlanAttachmentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _PlanService_CreateProjectFromPlan_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateProjectFromPlanRequest)
 	if err := dec(in); err != nil {
@@ -407,6 +441,10 @@ var PlanService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendPlanMessage",
 			Handler:    _PlanService_SendPlanMessage_Handler,
+		},
+		{
+			MethodName: "UploadPlanAttachments",
+			Handler:    _PlanService_UploadPlanAttachments_Handler,
 		},
 		{
 			MethodName: "CreateProjectFromPlan",

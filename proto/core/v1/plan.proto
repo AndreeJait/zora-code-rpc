@@ -36,6 +36,7 @@ message PlanMessage {
   string content = 4;
   string task_id = 5;
   common.v1.Timestamps timestamps = 6;
+  repeated string attachment_urls = 7;
 }
 
 // Model is a provider-bound model registry entry managed independently of
@@ -75,6 +76,7 @@ message ListPlansResponse { repeated Plan plans = 1; }
 message SendPlanMessageRequest {
   string plan_id = 1;
   string content = 2;
+  repeated string attachment_urls = 3;
 }
 
 message CreateProjectFromPlanRequest {
@@ -92,6 +94,15 @@ message GeneratePlanSpecsRequest {
 message CreateFirstTaskFromPlanRequest {
   string plan_id = 1;
   string prompt = 2;
+}
+
+message UploadPlanAttachmentsRequest {
+  repeated bytes files = 1;
+  repeated string file_names = 2;
+}
+
+message UploadPlanAttachmentsResponse {
+  repeated string attachment_urls = 1;
 }
 
 message ListModelsRequest { string provider_id = 1; }
@@ -122,6 +133,7 @@ service PlanService {
   rpc GetPlan(GetPlanRequest) returns (Plan);
   rpc ListPlans(ListPlansRequest) returns (ListPlansResponse);
   rpc SendPlanMessage(SendPlanMessageRequest) returns (PlanMessage);
+  rpc UploadPlanAttachments(UploadPlanAttachmentsRequest) returns (UploadPlanAttachmentsResponse);
   rpc CreateProjectFromPlan(CreateProjectFromPlanRequest) returns (core.v1.Project);
   rpc GeneratePlanSpecs(GeneratePlanSpecsRequest) returns (Plan);
   rpc CreateFirstTaskFromPlan(CreateFirstTaskFromPlanRequest) returns (core.v1.Task);

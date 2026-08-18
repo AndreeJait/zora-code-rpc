@@ -264,7 +264,7 @@ export const Plan = {
     },
 };
 function createBasePlanMessage() {
-    return { id: "", planId: "", role: "", content: "", taskId: "", timestamps: undefined };
+    return { id: "", planId: "", role: "", content: "", taskId: "", timestamps: undefined, attachmentUrls: [] };
 }
 export const PlanMessage = {
     encode(message, writer = new BinaryWriter()) {
@@ -285,6 +285,9 @@ export const PlanMessage = {
         }
         if (message.timestamps !== undefined) {
             Timestamps.encode(message.timestamps, writer.uint32(50).fork()).join();
+        }
+        for (const v of message.attachmentUrls) {
+            writer.uint32(58).string(v);
         }
         return writer;
     },
@@ -337,6 +340,13 @@ export const PlanMessage = {
                     message.timestamps = Timestamps.decode(reader, reader.uint32());
                     continue;
                 }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.attachmentUrls.push(reader.string());
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -361,6 +371,11 @@ export const PlanMessage = {
                     ? globalThis.String(object.task_id)
                     : "",
             timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+            attachmentUrls: globalThis.Array.isArray(object?.attachmentUrls)
+                ? object.attachmentUrls.map((e) => globalThis.String(e))
+                : globalThis.Array.isArray(object?.attachment_urls)
+                    ? object.attachment_urls.map((e) => globalThis.String(e))
+                    : [],
         };
     },
     toJSON(message) {
@@ -382,6 +397,9 @@ export const PlanMessage = {
         }
         if (message.timestamps !== undefined) {
             obj.timestamps = Timestamps.toJSON(message.timestamps);
+        }
+        if (message.attachmentUrls?.length) {
+            obj.attachmentUrls = message.attachmentUrls;
         }
         return obj;
     },
@@ -858,7 +876,7 @@ export const ListPlansResponse = {
     },
 };
 function createBaseSendPlanMessageRequest() {
-    return { planId: "", content: "" };
+    return { planId: "", content: "", attachmentUrls: [] };
 }
 export const SendPlanMessageRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -867,6 +885,9 @@ export const SendPlanMessageRequest = {
         }
         if (message.content !== "") {
             writer.uint32(18).string(message.content);
+        }
+        for (const v of message.attachmentUrls) {
+            writer.uint32(26).string(v);
         }
         return writer;
     },
@@ -891,6 +912,13 @@ export const SendPlanMessageRequest = {
                     message.content = reader.string();
                     continue;
                 }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.attachmentUrls.push(reader.string());
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -907,6 +935,11 @@ export const SendPlanMessageRequest = {
                     ? globalThis.String(object.plan_id)
                     : "",
             content: isSet(object.content) ? globalThis.String(object.content) : "",
+            attachmentUrls: globalThis.Array.isArray(object?.attachmentUrls)
+                ? object.attachmentUrls.map((e) => globalThis.String(e))
+                : globalThis.Array.isArray(object?.attachment_urls)
+                    ? object.attachment_urls.map((e) => globalThis.String(e))
+                    : [],
         };
     },
     toJSON(message) {
@@ -916,6 +949,9 @@ export const SendPlanMessageRequest = {
         }
         if (message.content !== "") {
             obj.content = message.content;
+        }
+        if (message.attachmentUrls?.length) {
+            obj.attachmentUrls = message.attachmentUrls;
         }
         return obj;
     },
@@ -1137,6 +1173,120 @@ export const CreateFirstTaskFromPlanRequest = {
         }
         if (message.prompt !== "") {
             obj.prompt = message.prompt;
+        }
+        return obj;
+    },
+};
+function createBaseUploadPlanAttachmentsRequest() {
+    return { files: [], fileNames: [] };
+}
+export const UploadPlanAttachmentsRequest = {
+    encode(message, writer = new BinaryWriter()) {
+        for (const v of message.files) {
+            writer.uint32(10).bytes(v);
+        }
+        for (const v of message.fileNames) {
+            writer.uint32(18).string(v);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseUploadPlanAttachmentsRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.files.push(Buffer.from(reader.bytes()));
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.fileNames.push(reader.string());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            files: globalThis.Array.isArray(object?.files)
+                ? object.files.map((e) => Buffer.from(bytesFromBase64(e)))
+                : [],
+            fileNames: globalThis.Array.isArray(object?.fileNames)
+                ? object.fileNames.map((e) => globalThis.String(e))
+                : globalThis.Array.isArray(object?.file_names)
+                    ? object.file_names.map((e) => globalThis.String(e))
+                    : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.files?.length) {
+            obj.files = message.files.map((e) => base64FromBytes(e));
+        }
+        if (message.fileNames?.length) {
+            obj.fileNames = message.fileNames;
+        }
+        return obj;
+    },
+};
+function createBaseUploadPlanAttachmentsResponse() {
+    return { attachmentUrls: [] };
+}
+export const UploadPlanAttachmentsResponse = {
+    encode(message, writer = new BinaryWriter()) {
+        for (const v of message.attachmentUrls) {
+            writer.uint32(10).string(v);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseUploadPlanAttachmentsResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.attachmentUrls.push(reader.string());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            attachmentUrls: globalThis.Array.isArray(object?.attachmentUrls)
+                ? object.attachmentUrls.map((e) => globalThis.String(e))
+                : globalThis.Array.isArray(object?.attachment_urls)
+                    ? object.attachment_urls.map((e) => globalThis.String(e))
+                    : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.attachmentUrls?.length) {
+            obj.attachmentUrls = message.attachmentUrls;
         }
         return obj;
     },
@@ -1542,6 +1692,15 @@ export const PlanServiceService = {
         responseSerialize: (value) => Buffer.from(PlanMessage.encode(value).finish()),
         responseDeserialize: (value) => PlanMessage.decode(value),
     },
+    uploadPlanAttachments: {
+        path: "/core.v1.PlanService/UploadPlanAttachments",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(UploadPlanAttachmentsRequest.encode(value).finish()),
+        requestDeserialize: (value) => UploadPlanAttachmentsRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(UploadPlanAttachmentsResponse.encode(value).finish()),
+        responseDeserialize: (value) => UploadPlanAttachmentsResponse.decode(value),
+    },
     createProjectFromPlan: {
         path: "/core.v1.PlanService/CreateProjectFromPlan",
         requestStream: false,
@@ -1619,6 +1778,12 @@ export const ModelServiceService = {
     },
 };
 export const ModelServiceClient = makeGenericClientConstructor(ModelServiceService, "core.v1.ModelService");
+function bytesFromBase64(b64) {
+    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
+}
+function base64FromBytes(arr) {
+    return globalThis.Buffer.from(arr).toString("base64");
+}
 function isSet(value) {
     return value !== null && value !== undefined;
 }

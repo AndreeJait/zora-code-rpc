@@ -31,6 +31,7 @@ export interface PlanMessage {
     content: string;
     taskId: string;
     timestamps?: Timestamps | undefined;
+    attachmentUrls: string[];
 }
 /**
  * Model is a provider-bound model registry entry managed independently of
@@ -70,6 +71,7 @@ export interface ListPlansResponse {
 export interface SendPlanMessageRequest {
     planId: string;
     content: string;
+    attachmentUrls: string[];
 }
 export interface CreateProjectFromPlanRequest {
     planId: string;
@@ -84,6 +86,13 @@ export interface GeneratePlanSpecsRequest {
 export interface CreateFirstTaskFromPlanRequest {
     planId: string;
     prompt: string;
+}
+export interface UploadPlanAttachmentsRequest {
+    files: Buffer[];
+    fileNames: string[];
+}
+export interface UploadPlanAttachmentsResponse {
+    attachmentUrls: string[];
 }
 export interface ListModelsRequest {
     providerId: string;
@@ -120,6 +129,8 @@ export declare const SendPlanMessageRequest: MessageFns<SendPlanMessageRequest>;
 export declare const CreateProjectFromPlanRequest: MessageFns<CreateProjectFromPlanRequest>;
 export declare const GeneratePlanSpecsRequest: MessageFns<GeneratePlanSpecsRequest>;
 export declare const CreateFirstTaskFromPlanRequest: MessageFns<CreateFirstTaskFromPlanRequest>;
+export declare const UploadPlanAttachmentsRequest: MessageFns<UploadPlanAttachmentsRequest>;
+export declare const UploadPlanAttachmentsResponse: MessageFns<UploadPlanAttachmentsResponse>;
 export declare const ListModelsRequest: MessageFns<ListModelsRequest>;
 export declare const ListModelsResponse: MessageFns<ListModelsResponse>;
 export declare const GetModelRequest: MessageFns<GetModelRequest>;
@@ -182,6 +193,15 @@ export declare const PlanServiceService: {
         readonly responseSerialize: (value: PlanMessage) => Buffer;
         readonly responseDeserialize: (value: Buffer) => PlanMessage;
     };
+    readonly uploadPlanAttachments: {
+        readonly path: "/core.v1.PlanService/UploadPlanAttachments";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: UploadPlanAttachmentsRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => UploadPlanAttachmentsRequest;
+        readonly responseSerialize: (value: UploadPlanAttachmentsResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => UploadPlanAttachmentsResponse;
+    };
     readonly createProjectFromPlan: {
         readonly path: "/core.v1.PlanService/CreateProjectFromPlan";
         readonly requestStream: false;
@@ -217,6 +237,7 @@ export interface PlanServiceServer extends UntypedServiceImplementation {
     getPlan: handleUnaryCall<GetPlanRequest, Plan>;
     listPlans: handleUnaryCall<ListPlansRequest, ListPlansResponse>;
     sendPlanMessage: handleUnaryCall<SendPlanMessageRequest, PlanMessage>;
+    uploadPlanAttachments: handleUnaryCall<UploadPlanAttachmentsRequest, UploadPlanAttachmentsResponse>;
     createProjectFromPlan: handleUnaryCall<CreateProjectFromPlanRequest, Project>;
     generatePlanSpecs: handleUnaryCall<GeneratePlanSpecsRequest, Plan>;
     createFirstTaskFromPlan: handleUnaryCall<CreateFirstTaskFromPlanRequest, Task>;
@@ -240,6 +261,9 @@ export interface PlanServiceClient extends Client {
     sendPlanMessage(request: SendPlanMessageRequest, callback: (error: ServiceError | null, response: PlanMessage) => void): ClientUnaryCall;
     sendPlanMessage(request: SendPlanMessageRequest, metadata: Metadata, callback: (error: ServiceError | null, response: PlanMessage) => void): ClientUnaryCall;
     sendPlanMessage(request: SendPlanMessageRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: PlanMessage) => void): ClientUnaryCall;
+    uploadPlanAttachments(request: UploadPlanAttachmentsRequest, callback: (error: ServiceError | null, response: UploadPlanAttachmentsResponse) => void): ClientUnaryCall;
+    uploadPlanAttachments(request: UploadPlanAttachmentsRequest, metadata: Metadata, callback: (error: ServiceError | null, response: UploadPlanAttachmentsResponse) => void): ClientUnaryCall;
+    uploadPlanAttachments(request: UploadPlanAttachmentsRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: UploadPlanAttachmentsResponse) => void): ClientUnaryCall;
     createProjectFromPlan(request: CreateProjectFromPlanRequest, callback: (error: ServiceError | null, response: Project) => void): ClientUnaryCall;
     createProjectFromPlan(request: CreateProjectFromPlanRequest, metadata: Metadata, callback: (error: ServiceError | null, response: Project) => void): ClientUnaryCall;
     createProjectFromPlan(request: CreateProjectFromPlanRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: Project) => void): ClientUnaryCall;
