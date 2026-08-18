@@ -54,3 +54,12 @@ export {
   type BotConfigServiceServer,
 } from "./config.js";
 
+export {
+  BotContact,
+  SearchContactsRequest,
+  SearchContactsResponse,
+  ContactServiceService,
+  ContactServiceClient,
+  type ContactServiceServer,
+} from "./contact.js";
+
