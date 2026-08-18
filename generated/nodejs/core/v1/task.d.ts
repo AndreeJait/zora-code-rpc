@@ -18,6 +18,7 @@ export interface Task {
     createdAt?: Date | undefined;
     updatedAt?: Date | undefined;
     imageUrls: string[];
+    fileUrls: string[];
 }
 export interface ListTasksRequest {
     projectId: string;
@@ -38,6 +39,7 @@ export interface CreateTaskRequest {
     model: string;
     linkedTaskId: string;
     imageUrls: string[];
+    fileUrls: string[];
 }
 export interface UpdateTaskRequest {
     id: string;
@@ -46,6 +48,7 @@ export interface UpdateTaskRequest {
     prompt?: string | undefined;
     model?: string | undefined;
     imageUrls: string[];
+    fileUrls: string[];
 }
 export interface DeleteTaskRequest {
     id: string;
@@ -72,6 +75,13 @@ export interface UploadTaskImagesRequest {
 export interface UploadTaskImagesResponse {
     imageUrls: string[];
 }
+export interface UploadTaskFilesRequest {
+    files: Buffer[];
+    fileNames: string[];
+}
+export interface UploadTaskFilesResponse {
+    fileUrls: string[];
+}
 export declare const Task: MessageFns<Task>;
 export declare const ListTasksRequest: MessageFns<ListTasksRequest>;
 export declare const ListTasksResponse: MessageFns<ListTasksResponse>;
@@ -86,6 +96,8 @@ export declare const RerunTaskRequest: MessageFns<RerunTaskRequest>;
 export declare const RerunTaskResponse: MessageFns<RerunTaskResponse>;
 export declare const UploadTaskImagesRequest: MessageFns<UploadTaskImagesRequest>;
 export declare const UploadTaskImagesResponse: MessageFns<UploadTaskImagesResponse>;
+export declare const UploadTaskFilesRequest: MessageFns<UploadTaskFilesRequest>;
+export declare const UploadTaskFilesResponse: MessageFns<UploadTaskFilesResponse>;
 export type TaskServiceService = typeof TaskServiceService;
 export declare const TaskServiceService: {
     readonly listTasks: {
@@ -169,6 +181,15 @@ export declare const TaskServiceService: {
         readonly responseSerialize: (value: UploadTaskImagesResponse) => Buffer;
         readonly responseDeserialize: (value: Buffer) => UploadTaskImagesResponse;
     };
+    readonly uploadTaskFiles: {
+        readonly path: "/core.v1.TaskService/UploadTaskFiles";
+        readonly requestStream: false;
+        readonly responseStream: false;
+        readonly requestSerialize: (value: UploadTaskFilesRequest) => Buffer;
+        readonly requestDeserialize: (value: Buffer) => UploadTaskFilesRequest;
+        readonly responseSerialize: (value: UploadTaskFilesResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => UploadTaskFilesResponse;
+    };
 };
 export interface TaskServiceServer extends UntypedServiceImplementation {
     listTasks: handleUnaryCall<ListTasksRequest, ListTasksResponse>;
@@ -180,6 +201,7 @@ export interface TaskServiceServer extends UntypedServiceImplementation {
     cancelTask: handleUnaryCall<CancelTaskRequest, CancelTaskResponse>;
     rerunTask: handleUnaryCall<RerunTaskRequest, RerunTaskResponse>;
     uploadTaskImages: handleUnaryCall<UploadTaskImagesRequest, UploadTaskImagesResponse>;
+    uploadTaskFiles: handleUnaryCall<UploadTaskFilesRequest, UploadTaskFilesResponse>;
 }
 export interface TaskServiceClient extends Client {
     listTasks(request: ListTasksRequest, callback: (error: ServiceError | null, response: ListTasksResponse) => void): ClientUnaryCall;
@@ -209,6 +231,9 @@ export interface TaskServiceClient extends Client {
     uploadTaskImages(request: UploadTaskImagesRequest, callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void): ClientUnaryCall;
     uploadTaskImages(request: UploadTaskImagesRequest, metadata: Metadata, callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void): ClientUnaryCall;
     uploadTaskImages(request: UploadTaskImagesRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void): ClientUnaryCall;
+    uploadTaskFiles(request: UploadTaskFilesRequest, callback: (error: ServiceError | null, response: UploadTaskFilesResponse) => void): ClientUnaryCall;
+    uploadTaskFiles(request: UploadTaskFilesRequest, metadata: Metadata, callback: (error: ServiceError | null, response: UploadTaskFilesResponse) => void): ClientUnaryCall;
+    uploadTaskFiles(request: UploadTaskFilesRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: UploadTaskFilesResponse) => void): ClientUnaryCall;
 }
 export declare const TaskServiceClient: {
     new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): TaskServiceClient;

@@ -29,6 +29,7 @@ const (
 	TaskService_CancelTask_FullMethodName       = "/core.v1.TaskService/CancelTask"
 	TaskService_RerunTask_FullMethodName        = "/core.v1.TaskService/RerunTask"
 	TaskService_UploadTaskImages_FullMethodName = "/core.v1.TaskService/UploadTaskImages"
+	TaskService_UploadTaskFiles_FullMethodName  = "/core.v1.TaskService/UploadTaskFiles"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -44,6 +45,7 @@ type TaskServiceClient interface {
 	CancelTask(ctx context.Context, in *CancelTaskRequest, opts ...grpc.CallOption) (*CancelTaskResponse, error)
 	RerunTask(ctx context.Context, in *RerunTaskRequest, opts ...grpc.CallOption) (*RerunTaskResponse, error)
 	UploadTaskImages(ctx context.Context, in *UploadTaskImagesRequest, opts ...grpc.CallOption) (*UploadTaskImagesResponse, error)
+	UploadTaskFiles(ctx context.Context, in *UploadTaskFilesRequest, opts ...grpc.CallOption) (*UploadTaskFilesResponse, error)
 }
 
 type taskServiceClient struct {
@@ -144,6 +146,16 @@ func (c *taskServiceClient) UploadTaskImages(ctx context.Context, in *UploadTask
 	return out, nil
 }
 
+func (c *taskServiceClient) UploadTaskFiles(ctx context.Context, in *UploadTaskFilesRequest, opts ...grpc.CallOption) (*UploadTaskFilesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UploadTaskFilesResponse)
+	err := c.cc.Invoke(ctx, TaskService_UploadTaskFiles_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskServiceServer is the server API for TaskService service.
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility.
@@ -157,6 +169,7 @@ type TaskServiceServer interface {
 	CancelTask(context.Context, *CancelTaskRequest) (*CancelTaskResponse, error)
 	RerunTask(context.Context, *RerunTaskRequest) (*RerunTaskResponse, error)
 	UploadTaskImages(context.Context, *UploadTaskImagesRequest) (*UploadTaskImagesResponse, error)
+	UploadTaskFiles(context.Context, *UploadTaskFilesRequest) (*UploadTaskFilesResponse, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -193,6 +206,9 @@ func (UnimplementedTaskServiceServer) RerunTask(context.Context, *RerunTaskReque
 }
 func (UnimplementedTaskServiceServer) UploadTaskImages(context.Context, *UploadTaskImagesRequest) (*UploadTaskImagesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UploadTaskImages not implemented")
+}
+func (UnimplementedTaskServiceServer) UploadTaskFiles(context.Context, *UploadTaskFilesRequest) (*UploadTaskFilesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UploadTaskFiles not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 func (UnimplementedTaskServiceServer) testEmbeddedByValue()                     {}
@@ -377,6 +393,24 @@ func _TaskService_UploadTaskImages_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_UploadTaskFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadTaskFilesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).UploadTaskFiles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_UploadTaskFiles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).UploadTaskFiles(ctx, req.(*UploadTaskFilesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaskService_ServiceDesc is the grpc.ServiceDesc for TaskService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -419,6 +453,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadTaskImages",
 			Handler:    _TaskService_UploadTaskImages_Handler,
+		},
+		{
+			MethodName: "UploadTaskFiles",
+			Handler:    _TaskService_UploadTaskFiles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

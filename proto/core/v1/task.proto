@@ -25,6 +25,7 @@ message Task {
   google.protobuf.Timestamp created_at = 12;
   google.protobuf.Timestamp updated_at = 13;
   repeated string image_urls = 14;
+  repeated string file_urls = 15;
 }
 
 message ListTasksRequest {
@@ -49,6 +50,7 @@ message CreateTaskRequest {
   string model = 5;
   string linked_task_id = 6;
   repeated string image_urls = 7;
+  repeated string file_urls = 8;
 }
 
 message UpdateTaskRequest {
@@ -58,6 +60,7 @@ message UpdateTaskRequest {
   optional string prompt = 4;
   optional string model = 5;
   repeated string image_urls = 6;
+  repeated string file_urls = 7;
 }
 
 message DeleteTaskRequest {
@@ -93,6 +96,15 @@ message UploadTaskImagesResponse {
   repeated string image_urls = 1;
 }
 
+message UploadTaskFilesRequest {
+  repeated bytes files = 1;
+  repeated string file_names = 2;
+}
+
+message UploadTaskFilesResponse {
+  repeated string file_urls = 1;
+}
+
 service TaskService {
   rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
   rpc GetTask(GetTaskRequest) returns (Task);
@@ -103,4 +115,5 @@ service TaskService {
   rpc CancelTask(CancelTaskRequest) returns (CancelTaskResponse);
   rpc RerunTask(RerunTaskRequest) returns (RerunTaskResponse);
   rpc UploadTaskImages(UploadTaskImagesRequest) returns (UploadTaskImagesResponse);
+  rpc UploadTaskFiles(UploadTaskFilesRequest) returns (UploadTaskFilesResponse);
 }

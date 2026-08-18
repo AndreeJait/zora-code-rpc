@@ -40,6 +40,7 @@ type Task struct {
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	ImageUrls     []string               `protobuf:"bytes,14,rep,name=image_urls,json=imageUrls,proto3" json:"image_urls,omitempty"`
+	FileUrls      []string               `protobuf:"bytes,15,rep,name=file_urls,json=fileUrls,proto3" json:"file_urls,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -168,6 +169,13 @@ func (x *Task) GetUpdatedAt() *timestamppb.Timestamp {
 func (x *Task) GetImageUrls() []string {
 	if x != nil {
 		return x.ImageUrls
+	}
+	return nil
+}
+
+func (x *Task) GetFileUrls() []string {
+	if x != nil {
+		return x.FileUrls
 	}
 	return nil
 }
@@ -329,6 +337,7 @@ type CreateTaskRequest struct {
 	Model         string                 `protobuf:"bytes,5,opt,name=model,proto3" json:"model,omitempty"`
 	LinkedTaskId  string                 `protobuf:"bytes,6,opt,name=linked_task_id,json=linkedTaskId,proto3" json:"linked_task_id,omitempty"`
 	ImageUrls     []string               `protobuf:"bytes,7,rep,name=image_urls,json=imageUrls,proto3" json:"image_urls,omitempty"`
+	FileUrls      []string               `protobuf:"bytes,8,rep,name=file_urls,json=fileUrls,proto3" json:"file_urls,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -412,6 +421,13 @@ func (x *CreateTaskRequest) GetImageUrls() []string {
 	return nil
 }
 
+func (x *CreateTaskRequest) GetFileUrls() []string {
+	if x != nil {
+		return x.FileUrls
+	}
+	return nil
+}
+
 type UpdateTaskRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -420,6 +436,7 @@ type UpdateTaskRequest struct {
 	Prompt        *string                `protobuf:"bytes,4,opt,name=prompt,proto3,oneof" json:"prompt,omitempty"`
 	Model         *string                `protobuf:"bytes,5,opt,name=model,proto3,oneof" json:"model,omitempty"`
 	ImageUrls     []string               `protobuf:"bytes,6,rep,name=image_urls,json=imageUrls,proto3" json:"image_urls,omitempty"`
+	FileUrls      []string               `protobuf:"bytes,7,rep,name=file_urls,json=fileUrls,proto3" json:"file_urls,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -492,6 +509,13 @@ func (x *UpdateTaskRequest) GetModel() string {
 func (x *UpdateTaskRequest) GetImageUrls() []string {
 	if x != nil {
 		return x.ImageUrls
+	}
+	return nil
+}
+
+func (x *UpdateTaskRequest) GetFileUrls() []string {
+	if x != nil {
+		return x.FileUrls
 	}
 	return nil
 }
@@ -856,11 +880,107 @@ func (x *UploadTaskImagesResponse) GetImageUrls() []string {
 	return nil
 }
 
+type UploadTaskFilesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Files         [][]byte               `protobuf:"bytes,1,rep,name=files,proto3" json:"files,omitempty"`
+	FileNames     []string               `protobuf:"bytes,2,rep,name=file_names,json=fileNames,proto3" json:"file_names,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadTaskFilesRequest) Reset() {
+	*x = UploadTaskFilesRequest{}
+	mi := &file_core_v1_task_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadTaskFilesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadTaskFilesRequest) ProtoMessage() {}
+
+func (x *UploadTaskFilesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_task_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadTaskFilesRequest.ProtoReflect.Descriptor instead.
+func (*UploadTaskFilesRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_task_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *UploadTaskFilesRequest) GetFiles() [][]byte {
+	if x != nil {
+		return x.Files
+	}
+	return nil
+}
+
+func (x *UploadTaskFilesRequest) GetFileNames() []string {
+	if x != nil {
+		return x.FileNames
+	}
+	return nil
+}
+
+type UploadTaskFilesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FileUrls      []string               `protobuf:"bytes,1,rep,name=file_urls,json=fileUrls,proto3" json:"file_urls,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadTaskFilesResponse) Reset() {
+	*x = UploadTaskFilesResponse{}
+	mi := &file_core_v1_task_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadTaskFilesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadTaskFilesResponse) ProtoMessage() {}
+
+func (x *UploadTaskFilesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_task_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadTaskFilesResponse.ProtoReflect.Descriptor instead.
+func (*UploadTaskFilesResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_task_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *UploadTaskFilesResponse) GetFileUrls() []string {
+	if x != nil {
+		return x.FileUrls
+	}
+	return nil
+}
+
 var File_core_v1_task_proto protoreflect.FileDescriptor
 
 const file_core_v1_task_proto_rawDesc = "" +
 	"\n" +
-	"\x12core/v1/task.proto\x12\acore.v1\x1a\x15common/v1/types.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x91\x04\n" +
+	"\x12core/v1/task.proto\x12\acore.v1\x1a\x15common/v1/types.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xae\x04\n" +
 	"\x04Task\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -881,7 +1001,8 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
 	"\n" +
-	"image_urls\x18\x0e \x03(\tR\timageUrls\"h\n" +
+	"image_urls\x18\x0e \x03(\tR\timageUrls\x12\x1b\n" +
+	"\tfile_urls\x18\x0f \x03(\tR\bfileUrls\"h\n" +
 	"\x10ListTasksRequest\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x125\n" +
@@ -892,7 +1013,7 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\x05tasks\x18\x01 \x03(\v2\r.core.v1.TaskR\x05tasks\x120\n" +
 	"\tpage_info\x18\x02 \x01(\v2\x13.common.v1.PageInfoR\bpageInfo\" \n" +
 	"\x0eGetTaskRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\xdb\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xf8\x01\n" +
 	"\x11CreateTaskRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
@@ -902,7 +1023,8 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\x05model\x18\x05 \x01(\tR\x05model\x12$\n" +
 	"\x0elinked_task_id\x18\x06 \x01(\tR\flinkedTaskId\x12\x1d\n" +
 	"\n" +
-	"image_urls\x18\a \x03(\tR\timageUrls\"\xe8\x01\n" +
+	"image_urls\x18\a \x03(\tR\timageUrls\x12\x1b\n" +
+	"\tfile_urls\x18\b \x03(\tR\bfileUrls\"\x85\x02\n" +
 	"\x11UpdateTaskRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12%\n" +
@@ -910,7 +1032,8 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\x06prompt\x18\x04 \x01(\tH\x02R\x06prompt\x88\x01\x01\x12\x19\n" +
 	"\x05model\x18\x05 \x01(\tH\x03R\x05model\x88\x01\x01\x12\x1d\n" +
 	"\n" +
-	"image_urls\x18\x06 \x03(\tR\timageUrlsB\a\n" +
+	"image_urls\x18\x06 \x03(\tR\timageUrls\x12\x1b\n" +
+	"\tfile_urls\x18\a \x03(\tR\bfileUrlsB\a\n" +
 	"\x05_nameB\x0e\n" +
 	"\f_descriptionB\t\n" +
 	"\a_promptB\b\n" +
@@ -933,7 +1056,13 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"file_names\x18\x02 \x03(\tR\tfileNames\"9\n" +
 	"\x18UploadTaskImagesResponse\x12\x1d\n" +
 	"\n" +
-	"image_urls\x18\x01 \x03(\tR\timageUrls2\xd6\x04\n" +
+	"image_urls\x18\x01 \x03(\tR\timageUrls\"M\n" +
+	"\x16UploadTaskFilesRequest\x12\x14\n" +
+	"\x05files\x18\x01 \x03(\fR\x05files\x12\x1d\n" +
+	"\n" +
+	"file_names\x18\x02 \x03(\tR\tfileNames\"6\n" +
+	"\x17UploadTaskFilesResponse\x12\x1b\n" +
+	"\tfile_urls\x18\x01 \x03(\tR\bfileUrls2\xac\x05\n" +
 	"\vTaskService\x12B\n" +
 	"\tListTasks\x12\x19.core.v1.ListTasksRequest\x1a\x1a.core.v1.ListTasksResponse\x121\n" +
 	"\aGetTask\x12\x17.core.v1.GetTaskRequest\x1a\r.core.v1.Task\x127\n" +
@@ -947,7 +1076,8 @@ const file_core_v1_task_proto_rawDesc = "" +
 	"\n" +
 	"CancelTask\x12\x1a.core.v1.CancelTaskRequest\x1a\x1b.core.v1.CancelTaskResponse\x12B\n" +
 	"\tRerunTask\x12\x19.core.v1.RerunTaskRequest\x1a\x1a.core.v1.RerunTaskResponse\x12W\n" +
-	"\x10UploadTaskImages\x12 .core.v1.UploadTaskImagesRequest\x1a!.core.v1.UploadTaskImagesResponseBZP\x01Z?github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
+	"\x10UploadTaskImages\x12 .core.v1.UploadTaskImagesRequest\x1a!.core.v1.UploadTaskImagesResponse\x12T\n" +
+	"\x0fUploadTaskFiles\x12\x1f.core.v1.UploadTaskFilesRequest\x1a .core.v1.UploadTaskFilesResponseBZP\x01Z?github.com/AndreeJait/zora-code-rpc/generated/go/core/v1;corev1\xaa\x02\x14ZoraCode.Rpc.Core.V1b\x06proto3"
 
 var (
 	file_core_v1_task_proto_rawDescOnce sync.Once
@@ -961,7 +1091,7 @@ func file_core_v1_task_proto_rawDescGZIP() []byte {
 	return file_core_v1_task_proto_rawDescData
 }
 
-var file_core_v1_task_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_core_v1_task_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_core_v1_task_proto_goTypes = []any{
 	(*Task)(nil),                     // 0: core.v1.Task
 	(*ListTasksRequest)(nil),         // 1: core.v1.ListTasksRequest
@@ -977,21 +1107,23 @@ var file_core_v1_task_proto_goTypes = []any{
 	(*RerunTaskResponse)(nil),        // 11: core.v1.RerunTaskResponse
 	(*UploadTaskImagesRequest)(nil),  // 12: core.v1.UploadTaskImagesRequest
 	(*UploadTaskImagesResponse)(nil), // 13: core.v1.UploadTaskImagesResponse
-	(v1.Status)(0),                   // 14: common.v1.Status
-	(*timestamppb.Timestamp)(nil),    // 15: google.protobuf.Timestamp
-	(*v1.Pagination)(nil),            // 16: common.v1.Pagination
-	(*v1.PageInfo)(nil),              // 17: common.v1.PageInfo
-	(*v1.DeleteResponse)(nil),        // 18: common.v1.DeleteResponse
+	(*UploadTaskFilesRequest)(nil),   // 14: core.v1.UploadTaskFilesRequest
+	(*UploadTaskFilesResponse)(nil),  // 15: core.v1.UploadTaskFilesResponse
+	(v1.Status)(0),                   // 16: common.v1.Status
+	(*timestamppb.Timestamp)(nil),    // 17: google.protobuf.Timestamp
+	(*v1.Pagination)(nil),            // 18: common.v1.Pagination
+	(*v1.PageInfo)(nil),              // 19: common.v1.PageInfo
+	(*v1.DeleteResponse)(nil),        // 20: common.v1.DeleteResponse
 }
 var file_core_v1_task_proto_depIdxs = []int32{
-	14, // 0: core.v1.Task.status:type_name -> common.v1.Status
-	15, // 1: core.v1.Task.started_at:type_name -> google.protobuf.Timestamp
-	15, // 2: core.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
-	15, // 3: core.v1.Task.created_at:type_name -> google.protobuf.Timestamp
-	15, // 4: core.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
-	16, // 5: core.v1.ListTasksRequest.pagination:type_name -> common.v1.Pagination
+	16, // 0: core.v1.Task.status:type_name -> common.v1.Status
+	17, // 1: core.v1.Task.started_at:type_name -> google.protobuf.Timestamp
+	17, // 2: core.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
+	17, // 3: core.v1.Task.created_at:type_name -> google.protobuf.Timestamp
+	17, // 4: core.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
+	18, // 5: core.v1.ListTasksRequest.pagination:type_name -> common.v1.Pagination
 	0,  // 6: core.v1.ListTasksResponse.tasks:type_name -> core.v1.Task
-	17, // 7: core.v1.ListTasksResponse.page_info:type_name -> common.v1.PageInfo
+	19, // 7: core.v1.ListTasksResponse.page_info:type_name -> common.v1.PageInfo
 	0,  // 8: core.v1.CancelTaskResponse.task:type_name -> core.v1.Task
 	0,  // 9: core.v1.RerunTaskResponse.task:type_name -> core.v1.Task
 	1,  // 10: core.v1.TaskService.ListTasks:input_type -> core.v1.ListTasksRequest
@@ -1003,17 +1135,19 @@ var file_core_v1_task_proto_depIdxs = []int32{
 	8,  // 16: core.v1.TaskService.CancelTask:input_type -> core.v1.CancelTaskRequest
 	10, // 17: core.v1.TaskService.RerunTask:input_type -> core.v1.RerunTaskRequest
 	12, // 18: core.v1.TaskService.UploadTaskImages:input_type -> core.v1.UploadTaskImagesRequest
-	2,  // 19: core.v1.TaskService.ListTasks:output_type -> core.v1.ListTasksResponse
-	0,  // 20: core.v1.TaskService.GetTask:output_type -> core.v1.Task
-	0,  // 21: core.v1.TaskService.CreateTask:output_type -> core.v1.Task
-	0,  // 22: core.v1.TaskService.UpdateTask:output_type -> core.v1.Task
-	18, // 23: core.v1.TaskService.DeleteTask:output_type -> common.v1.DeleteResponse
-	0,  // 24: core.v1.TaskService.CloneTask:output_type -> core.v1.Task
-	9,  // 25: core.v1.TaskService.CancelTask:output_type -> core.v1.CancelTaskResponse
-	11, // 26: core.v1.TaskService.RerunTask:output_type -> core.v1.RerunTaskResponse
-	13, // 27: core.v1.TaskService.UploadTaskImages:output_type -> core.v1.UploadTaskImagesResponse
-	19, // [19:28] is the sub-list for method output_type
-	10, // [10:19] is the sub-list for method input_type
+	14, // 19: core.v1.TaskService.UploadTaskFiles:input_type -> core.v1.UploadTaskFilesRequest
+	2,  // 20: core.v1.TaskService.ListTasks:output_type -> core.v1.ListTasksResponse
+	0,  // 21: core.v1.TaskService.GetTask:output_type -> core.v1.Task
+	0,  // 22: core.v1.TaskService.CreateTask:output_type -> core.v1.Task
+	0,  // 23: core.v1.TaskService.UpdateTask:output_type -> core.v1.Task
+	20, // 24: core.v1.TaskService.DeleteTask:output_type -> common.v1.DeleteResponse
+	0,  // 25: core.v1.TaskService.CloneTask:output_type -> core.v1.Task
+	9,  // 26: core.v1.TaskService.CancelTask:output_type -> core.v1.CancelTaskResponse
+	11, // 27: core.v1.TaskService.RerunTask:output_type -> core.v1.RerunTaskResponse
+	13, // 28: core.v1.TaskService.UploadTaskImages:output_type -> core.v1.UploadTaskImagesResponse
+	15, // 29: core.v1.TaskService.UploadTaskFiles:output_type -> core.v1.UploadTaskFilesResponse
+	20, // [20:30] is the sub-list for method output_type
+	10, // [10:20] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
 	10, // [10:10] is the sub-list for extension extendee
 	0,  // [0:10] is the sub-list for field type_name
@@ -1031,7 +1165,7 @@ func file_core_v1_task_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_task_proto_rawDesc), len(file_core_v1_task_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

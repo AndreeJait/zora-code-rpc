@@ -25,6 +25,7 @@ function createBaseTask() {
         createdAt: undefined,
         updatedAt: undefined,
         imageUrls: [],
+        fileUrls: [],
     };
 }
 export const Task = {
@@ -70,6 +71,9 @@ export const Task = {
         }
         for (const v of message.imageUrls) {
             writer.uint32(114).string(v);
+        }
+        for (const v of message.fileUrls) {
+            writer.uint32(122).string(v);
         }
         return writer;
     },
@@ -178,6 +182,13 @@ export const Task = {
                     message.imageUrls.push(reader.string());
                     continue;
                 }
+                case 15: {
+                    if (tag !== 122) {
+                        break;
+                    }
+                    message.fileUrls.push(reader.string());
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -230,6 +241,11 @@ export const Task = {
                 : globalThis.Array.isArray(object?.image_urls)
                     ? object.image_urls.map((e) => globalThis.String(e))
                     : [],
+            fileUrls: globalThis.Array.isArray(object?.fileUrls)
+                ? object.fileUrls.map((e) => globalThis.String(e))
+                : globalThis.Array.isArray(object?.file_urls)
+                    ? object.file_urls.map((e) => globalThis.String(e))
+                    : [],
         };
     },
     toJSON(message) {
@@ -275,6 +291,9 @@ export const Task = {
         }
         if (message.imageUrls?.length) {
             obj.imageUrls = message.imageUrls;
+        }
+        if (message.fileUrls?.length) {
+            obj.fileUrls = message.fileUrls;
         }
         return obj;
     },
@@ -449,7 +468,16 @@ export const GetTaskRequest = {
     },
 };
 function createBaseCreateTaskRequest() {
-    return { name: "", description: "", projectId: "", prompt: "", model: "", linkedTaskId: "", imageUrls: [] };
+    return {
+        name: "",
+        description: "",
+        projectId: "",
+        prompt: "",
+        model: "",
+        linkedTaskId: "",
+        imageUrls: [],
+        fileUrls: [],
+    };
 }
 export const CreateTaskRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -473,6 +501,9 @@ export const CreateTaskRequest = {
         }
         for (const v of message.imageUrls) {
             writer.uint32(58).string(v);
+        }
+        for (const v of message.fileUrls) {
+            writer.uint32(66).string(v);
         }
         return writer;
     },
@@ -532,6 +563,13 @@ export const CreateTaskRequest = {
                     message.imageUrls.push(reader.string());
                     continue;
                 }
+                case 8: {
+                    if (tag !== 66) {
+                        break;
+                    }
+                    message.fileUrls.push(reader.string());
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -561,6 +599,11 @@ export const CreateTaskRequest = {
                 : globalThis.Array.isArray(object?.image_urls)
                     ? object.image_urls.map((e) => globalThis.String(e))
                     : [],
+            fileUrls: globalThis.Array.isArray(object?.fileUrls)
+                ? object.fileUrls.map((e) => globalThis.String(e))
+                : globalThis.Array.isArray(object?.file_urls)
+                    ? object.file_urls.map((e) => globalThis.String(e))
+                    : [],
         };
     },
     toJSON(message) {
@@ -586,11 +629,22 @@ export const CreateTaskRequest = {
         if (message.imageUrls?.length) {
             obj.imageUrls = message.imageUrls;
         }
+        if (message.fileUrls?.length) {
+            obj.fileUrls = message.fileUrls;
+        }
         return obj;
     },
 };
 function createBaseUpdateTaskRequest() {
-    return { id: "", name: undefined, description: undefined, prompt: undefined, model: undefined, imageUrls: [] };
+    return {
+        id: "",
+        name: undefined,
+        description: undefined,
+        prompt: undefined,
+        model: undefined,
+        imageUrls: [],
+        fileUrls: [],
+    };
 }
 export const UpdateTaskRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -611,6 +665,9 @@ export const UpdateTaskRequest = {
         }
         for (const v of message.imageUrls) {
             writer.uint32(50).string(v);
+        }
+        for (const v of message.fileUrls) {
+            writer.uint32(58).string(v);
         }
         return writer;
     },
@@ -663,6 +720,13 @@ export const UpdateTaskRequest = {
                     message.imageUrls.push(reader.string());
                     continue;
                 }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.fileUrls.push(reader.string());
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -682,6 +746,11 @@ export const UpdateTaskRequest = {
                 ? object.imageUrls.map((e) => globalThis.String(e))
                 : globalThis.Array.isArray(object?.image_urls)
                     ? object.image_urls.map((e) => globalThis.String(e))
+                    : [],
+            fileUrls: globalThis.Array.isArray(object?.fileUrls)
+                ? object.fileUrls.map((e) => globalThis.String(e))
+                : globalThis.Array.isArray(object?.file_urls)
+                    ? object.file_urls.map((e) => globalThis.String(e))
                     : [],
         };
     },
@@ -704,6 +773,9 @@ export const UpdateTaskRequest = {
         }
         if (message.imageUrls?.length) {
             obj.imageUrls = message.imageUrls;
+        }
+        if (message.fileUrls?.length) {
+            obj.fileUrls = message.fileUrls;
         }
         return obj;
     },
@@ -1080,6 +1152,120 @@ export const UploadTaskImagesResponse = {
         return obj;
     },
 };
+function createBaseUploadTaskFilesRequest() {
+    return { files: [], fileNames: [] };
+}
+export const UploadTaskFilesRequest = {
+    encode(message, writer = new BinaryWriter()) {
+        for (const v of message.files) {
+            writer.uint32(10).bytes(v);
+        }
+        for (const v of message.fileNames) {
+            writer.uint32(18).string(v);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseUploadTaskFilesRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.files.push(Buffer.from(reader.bytes()));
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.fileNames.push(reader.string());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            files: globalThis.Array.isArray(object?.files)
+                ? object.files.map((e) => Buffer.from(bytesFromBase64(e)))
+                : [],
+            fileNames: globalThis.Array.isArray(object?.fileNames)
+                ? object.fileNames.map((e) => globalThis.String(e))
+                : globalThis.Array.isArray(object?.file_names)
+                    ? object.file_names.map((e) => globalThis.String(e))
+                    : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.files?.length) {
+            obj.files = message.files.map((e) => base64FromBytes(e));
+        }
+        if (message.fileNames?.length) {
+            obj.fileNames = message.fileNames;
+        }
+        return obj;
+    },
+};
+function createBaseUploadTaskFilesResponse() {
+    return { fileUrls: [] };
+}
+export const UploadTaskFilesResponse = {
+    encode(message, writer = new BinaryWriter()) {
+        for (const v of message.fileUrls) {
+            writer.uint32(10).string(v);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+        const end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseUploadTaskFilesResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.fileUrls.push(reader.string());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            fileUrls: globalThis.Array.isArray(object?.fileUrls)
+                ? object.fileUrls.map((e) => globalThis.String(e))
+                : globalThis.Array.isArray(object?.file_urls)
+                    ? object.file_urls.map((e) => globalThis.String(e))
+                    : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.fileUrls?.length) {
+            obj.fileUrls = message.fileUrls;
+        }
+        return obj;
+    },
+};
 export const TaskServiceService = {
     listTasks: {
         path: "/core.v1.TaskService/ListTasks",
@@ -1161,6 +1347,15 @@ export const TaskServiceService = {
         requestDeserialize: (value) => UploadTaskImagesRequest.decode(value),
         responseSerialize: (value) => Buffer.from(UploadTaskImagesResponse.encode(value).finish()),
         responseDeserialize: (value) => UploadTaskImagesResponse.decode(value),
+    },
+    uploadTaskFiles: {
+        path: "/core.v1.TaskService/UploadTaskFiles",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(UploadTaskFilesRequest.encode(value).finish()),
+        requestDeserialize: (value) => UploadTaskFilesRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(UploadTaskFilesResponse.encode(value).finish()),
+        responseDeserialize: (value) => UploadTaskFilesResponse.decode(value),
     },
 };
 export const TaskServiceClient = makeGenericClientConstructor(TaskServiceService, "core.v1.TaskService");

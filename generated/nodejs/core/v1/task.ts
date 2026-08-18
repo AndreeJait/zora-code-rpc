@@ -39,6 +39,7 @@ export interface Task {
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
   imageUrls: string[];
+  fileUrls: string[];
 }
 
 export interface ListTasksRequest {
@@ -63,6 +64,7 @@ export interface CreateTaskRequest {
   model: string;
   linkedTaskId: string;
   imageUrls: string[];
+  fileUrls: string[];
 }
 
 export interface UpdateTaskRequest {
@@ -72,6 +74,7 @@ export interface UpdateTaskRequest {
   prompt?: string | undefined;
   model?: string | undefined;
   imageUrls: string[];
+  fileUrls: string[];
 }
 
 export interface DeleteTaskRequest {
@@ -107,6 +110,15 @@ export interface UploadTaskImagesResponse {
   imageUrls: string[];
 }
 
+export interface UploadTaskFilesRequest {
+  files: Buffer[];
+  fileNames: string[];
+}
+
+export interface UploadTaskFilesResponse {
+  fileUrls: string[];
+}
+
 function createBaseTask(): Task {
   return {
     id: "",
@@ -123,6 +135,7 @@ function createBaseTask(): Task {
     createdAt: undefined,
     updatedAt: undefined,
     imageUrls: [],
+    fileUrls: [],
   };
 }
 
@@ -169,6 +182,9 @@ export const Task: MessageFns<Task> = {
     }
     for (const v of message.imageUrls) {
       writer.uint32(114).string(v!);
+    }
+    for (const v of message.fileUrls) {
+      writer.uint32(122).string(v!);
     }
     return writer;
   },
@@ -292,6 +308,14 @@ export const Task: MessageFns<Task> = {
           message.imageUrls.push(reader.string());
           continue;
         }
+        case 15: {
+          if (tag !== 122) {
+            break;
+          }
+
+          message.fileUrls.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -345,6 +369,11 @@ export const Task: MessageFns<Task> = {
         : globalThis.Array.isArray(object?.image_urls)
         ? object.image_urls.map((e: any) => globalThis.String(e))
         : [],
+      fileUrls: globalThis.Array.isArray(object?.fileUrls)
+        ? object.fileUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.file_urls)
+        ? object.file_urls.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -391,6 +420,9 @@ export const Task: MessageFns<Task> = {
     }
     if (message.imageUrls?.length) {
       obj.imageUrls = message.imageUrls;
+    }
+    if (message.fileUrls?.length) {
+      obj.fileUrls = message.fileUrls;
     }
     return obj;
   },
@@ -586,7 +618,16 @@ export const GetTaskRequest: MessageFns<GetTaskRequest> = {
 };
 
 function createBaseCreateTaskRequest(): CreateTaskRequest {
-  return { name: "", description: "", projectId: "", prompt: "", model: "", linkedTaskId: "", imageUrls: [] };
+  return {
+    name: "",
+    description: "",
+    projectId: "",
+    prompt: "",
+    model: "",
+    linkedTaskId: "",
+    imageUrls: [],
+    fileUrls: [],
+  };
 }
 
 export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
@@ -611,6 +652,9 @@ export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
     }
     for (const v of message.imageUrls) {
       writer.uint32(58).string(v!);
+    }
+    for (const v of message.fileUrls) {
+      writer.uint32(66).string(v!);
     }
     return writer;
   },
@@ -678,6 +722,14 @@ export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
           message.imageUrls.push(reader.string());
           continue;
         }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.fileUrls.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -708,6 +760,11 @@ export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
         : globalThis.Array.isArray(object?.image_urls)
         ? object.image_urls.map((e: any) => globalThis.String(e))
         : [],
+      fileUrls: globalThis.Array.isArray(object?.fileUrls)
+        ? object.fileUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.file_urls)
+        ? object.file_urls.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -734,12 +791,23 @@ export const CreateTaskRequest: MessageFns<CreateTaskRequest> = {
     if (message.imageUrls?.length) {
       obj.imageUrls = message.imageUrls;
     }
+    if (message.fileUrls?.length) {
+      obj.fileUrls = message.fileUrls;
+    }
     return obj;
   },
 };
 
 function createBaseUpdateTaskRequest(): UpdateTaskRequest {
-  return { id: "", name: undefined, description: undefined, prompt: undefined, model: undefined, imageUrls: [] };
+  return {
+    id: "",
+    name: undefined,
+    description: undefined,
+    prompt: undefined,
+    model: undefined,
+    imageUrls: [],
+    fileUrls: [],
+  };
 }
 
 export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
@@ -761,6 +829,9 @@ export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
     }
     for (const v of message.imageUrls) {
       writer.uint32(50).string(v!);
+    }
+    for (const v of message.fileUrls) {
+      writer.uint32(58).string(v!);
     }
     return writer;
   },
@@ -820,6 +891,14 @@ export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
           message.imageUrls.push(reader.string());
           continue;
         }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.fileUrls.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -840,6 +919,11 @@ export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
         ? object.imageUrls.map((e: any) => globalThis.String(e))
         : globalThis.Array.isArray(object?.image_urls)
         ? object.image_urls.map((e: any) => globalThis.String(e))
+        : [],
+      fileUrls: globalThis.Array.isArray(object?.fileUrls)
+        ? object.fileUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.file_urls)
+        ? object.file_urls.map((e: any) => globalThis.String(e))
         : [],
     };
   },
@@ -863,6 +947,9 @@ export const UpdateTaskRequest: MessageFns<UpdateTaskRequest> = {
     }
     if (message.imageUrls?.length) {
       obj.imageUrls = message.imageUrls;
+    }
+    if (message.fileUrls?.length) {
+      obj.fileUrls = message.fileUrls;
     }
     return obj;
   },
@@ -1289,6 +1376,133 @@ export const UploadTaskImagesResponse: MessageFns<UploadTaskImagesResponse> = {
   },
 };
 
+function createBaseUploadTaskFilesRequest(): UploadTaskFilesRequest {
+  return { files: [], fileNames: [] };
+}
+
+export const UploadTaskFilesRequest: MessageFns<UploadTaskFilesRequest> = {
+  encode(message: UploadTaskFilesRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.files) {
+      writer.uint32(10).bytes(v!);
+    }
+    for (const v of message.fileNames) {
+      writer.uint32(18).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UploadTaskFilesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUploadTaskFilesRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.files.push(Buffer.from(reader.bytes()));
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.fileNames.push(reader.string());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): UploadTaskFilesRequest {
+    return {
+      files: globalThis.Array.isArray(object?.files)
+        ? object.files.map((e: any) => Buffer.from(bytesFromBase64(e)))
+        : [],
+      fileNames: globalThis.Array.isArray(object?.fileNames)
+        ? object.fileNames.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.file_names)
+        ? object.file_names.map((e: any) => globalThis.String(e))
+        : [],
+    };
+  },
+
+  toJSON(message: UploadTaskFilesRequest): unknown {
+    const obj: any = {};
+    if (message.files?.length) {
+      obj.files = message.files.map((e) => base64FromBytes(e));
+    }
+    if (message.fileNames?.length) {
+      obj.fileNames = message.fileNames;
+    }
+    return obj;
+  },
+};
+
+function createBaseUploadTaskFilesResponse(): UploadTaskFilesResponse {
+  return { fileUrls: [] };
+}
+
+export const UploadTaskFilesResponse: MessageFns<UploadTaskFilesResponse> = {
+  encode(message: UploadTaskFilesResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.fileUrls) {
+      writer.uint32(10).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UploadTaskFilesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUploadTaskFilesResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.fileUrls.push(reader.string());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): UploadTaskFilesResponse {
+    return {
+      fileUrls: globalThis.Array.isArray(object?.fileUrls)
+        ? object.fileUrls.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.file_urls)
+        ? object.file_urls.map((e: any) => globalThis.String(e))
+        : [],
+    };
+  },
+
+  toJSON(message: UploadTaskFilesResponse): unknown {
+    const obj: any = {};
+    if (message.fileUrls?.length) {
+      obj.fileUrls = message.fileUrls;
+    }
+    return obj;
+  },
+};
+
 export type TaskServiceService = typeof TaskServiceService;
 export const TaskServiceService = {
   listTasks: {
@@ -1374,6 +1588,17 @@ export const TaskServiceService = {
       Buffer.from(UploadTaskImagesResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer): UploadTaskImagesResponse => UploadTaskImagesResponse.decode(value),
   },
+  uploadTaskFiles: {
+    path: "/core.v1.TaskService/UploadTaskFiles" as const,
+    requestStream: false as const,
+    responseStream: false as const,
+    requestSerialize: (value: UploadTaskFilesRequest): Buffer =>
+      Buffer.from(UploadTaskFilesRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): UploadTaskFilesRequest => UploadTaskFilesRequest.decode(value),
+    responseSerialize: (value: UploadTaskFilesResponse): Buffer =>
+      Buffer.from(UploadTaskFilesResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer): UploadTaskFilesResponse => UploadTaskFilesResponse.decode(value),
+  },
 } as const;
 
 export interface TaskServiceServer extends UntypedServiceImplementation {
@@ -1386,6 +1611,7 @@ export interface TaskServiceServer extends UntypedServiceImplementation {
   cancelTask: handleUnaryCall<CancelTaskRequest, CancelTaskResponse>;
   rerunTask: handleUnaryCall<RerunTaskRequest, RerunTaskResponse>;
   uploadTaskImages: handleUnaryCall<UploadTaskImagesRequest, UploadTaskImagesResponse>;
+  uploadTaskFiles: handleUnaryCall<UploadTaskFilesRequest, UploadTaskFilesResponse>;
 }
 
 export interface TaskServiceClient extends Client {
@@ -1517,6 +1743,21 @@ export interface TaskServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: UploadTaskImagesResponse) => void,
+  ): ClientUnaryCall;
+  uploadTaskFiles(
+    request: UploadTaskFilesRequest,
+    callback: (error: ServiceError | null, response: UploadTaskFilesResponse) => void,
+  ): ClientUnaryCall;
+  uploadTaskFiles(
+    request: UploadTaskFilesRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: UploadTaskFilesResponse) => void,
+  ): ClientUnaryCall;
+  uploadTaskFiles(
+    request: UploadTaskFilesRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: UploadTaskFilesResponse) => void,
   ): ClientUnaryCall;
 }
 
