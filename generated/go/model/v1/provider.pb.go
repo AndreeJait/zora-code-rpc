@@ -33,6 +33,7 @@ type Provider struct {
 	AllowedModels []string               `protobuf:"bytes,6,rep,name=allowed_models,json=allowedModels,proto3" json:"allowed_models,omitempty"`
 	IsHealthy     bool                   `protobuf:"varint,7,opt,name=is_healthy,json=isHealthy,proto3" json:"is_healthy,omitempty"`
 	Timestamps    *v1.Timestamps         `protobuf:"bytes,8,opt,name=timestamps,proto3" json:"timestamps,omitempty"`
+	Capabilities  []string               `protobuf:"bytes,9,rep,name=capabilities,proto3" json:"capabilities,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -119,6 +120,13 @@ func (x *Provider) GetIsHealthy() bool {
 func (x *Provider) GetTimestamps() *v1.Timestamps {
 	if x != nil {
 		return x.Timestamps
+	}
+	return nil
+}
+
+func (x *Provider) GetCapabilities() []string {
+	if x != nil {
+		return x.Capabilities
 	}
 	return nil
 }
@@ -254,6 +262,7 @@ type CreateProviderRequest struct {
 	Url           string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
 	ApiKey        string                 `protobuf:"bytes,4,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
 	AllowedModels []string               `protobuf:"bytes,5,rep,name=allowed_models,json=allowedModels,proto3" json:"allowed_models,omitempty"`
+	Capabilities  []string               `protobuf:"bytes,6,rep,name=capabilities,proto3" json:"capabilities,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -323,6 +332,13 @@ func (x *CreateProviderRequest) GetAllowedModels() []string {
 	return nil
 }
 
+func (x *CreateProviderRequest) GetCapabilities() []string {
+	if x != nil {
+		return x.Capabilities
+	}
+	return nil
+}
+
 type UpdateProviderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -331,6 +347,7 @@ type UpdateProviderRequest struct {
 	Url           *string                `protobuf:"bytes,4,opt,name=url,proto3,oneof" json:"url,omitempty"`
 	ApiKey        *string                `protobuf:"bytes,5,opt,name=api_key,json=apiKey,proto3,oneof" json:"api_key,omitempty"`
 	AllowedModels []string               `protobuf:"bytes,6,rep,name=allowed_models,json=allowedModels,proto3" json:"allowed_models,omitempty"`
+	Capabilities  []string               `protobuf:"bytes,7,rep,name=capabilities,proto3" json:"capabilities,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -407,6 +424,13 @@ func (x *UpdateProviderRequest) GetAllowedModels() []string {
 	return nil
 }
 
+func (x *UpdateProviderRequest) GetCapabilities() []string {
+	if x != nil {
+		return x.Capabilities
+	}
+	return nil
+}
+
 type DeleteProviderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -455,7 +479,7 @@ var File_model_v1_provider_proto protoreflect.FileDescriptor
 
 const file_model_v1_provider_proto_rawDesc = "" +
 	"\n" +
-	"\x17model/v1/provider.proto\x12\bmodel.v1\x1a\x15common/v1/types.proto\"\xf8\x01\n" +
+	"\x17model/v1/provider.proto\x12\bmodel.v1\x1a\x15common/v1/types.proto\"\x9c\x02\n" +
 	"\bProvider\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -467,25 +491,28 @@ const file_model_v1_provider_proto_rawDesc = "" +
 	"is_healthy\x18\a \x01(\bR\tisHealthy\x125\n" +
 	"\n" +
 	"timestamps\x18\b \x01(\v2\x15.common.v1.TimestampsR\n" +
-	"timestamps\"\x16\n" +
+	"timestamps\x12\"\n" +
+	"\fcapabilities\x18\t \x03(\tR\fcapabilities\"\x16\n" +
 	"\x14ListProvidersRequest\"I\n" +
 	"\x15ListProvidersResponse\x120\n" +
 	"\tproviders\x18\x01 \x03(\v2\x12.model.v1.ProviderR\tproviders\"$\n" +
 	"\x12GetProviderRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\x9f\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xc3\x01\n" +
 	"\x15CreateProviderRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x17\n" +
 	"\aapi_key\x18\x04 \x01(\tR\x06apiKey\x12%\n" +
-	"\x0eallowed_models\x18\x05 \x03(\tR\rallowedModels\"\xf0\x01\n" +
+	"\x0eallowed_models\x18\x05 \x03(\tR\rallowedModels\x12\"\n" +
+	"\fcapabilities\x18\x06 \x03(\tR\fcapabilities\"\x94\x02\n" +
 	"\x15UpdateProviderRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12%\n" +
 	"\vdescription\x18\x03 \x01(\tH\x01R\vdescription\x88\x01\x01\x12\x15\n" +
 	"\x03url\x18\x04 \x01(\tH\x02R\x03url\x88\x01\x01\x12\x1c\n" +
 	"\aapi_key\x18\x05 \x01(\tH\x03R\x06apiKey\x88\x01\x01\x12%\n" +
-	"\x0eallowed_models\x18\x06 \x03(\tR\rallowedModelsB\a\n" +
+	"\x0eallowed_models\x18\x06 \x03(\tR\rallowedModels\x12\"\n" +
+	"\fcapabilities\x18\a \x03(\tR\fcapabilitiesB\a\n" +
 	"\x05_nameB\x0e\n" +
 	"\f_descriptionB\x06\n" +
 	"\x04_urlB\n" +

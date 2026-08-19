@@ -3,9 +3,22 @@ import { type CallOptions, type ChannelCredentials, Client, type ClientOptions, 
 export declare const protobufPackage = "bot.v1";
 export interface BotConfig {
     commandPrefix: string;
+    /** Deprecated: use per-capacity fields below. */
     defaultModel: string;
+    /** Deprecated: use tts_voice below. */
     defaultVoice: string;
+    /** Deprecated: use chat_provider_id / image_provider_id / tts_provider_id. */
     providerId: string;
+    chatProviderId: string;
+    chatModel: string;
+    chatMaxTokens: number;
+    imageProviderId: string;
+    imageModel: string;
+    imageMaxTokens: number;
+    ttsProviderId: string;
+    ttsModel: string;
+    ttsVoice: string;
+    ttsMaxTokens: number;
 }
 export interface GetConfigRequest {
 }
@@ -14,6 +27,16 @@ export interface UpdateConfigRequest {
     defaultModel: string;
     defaultVoice: string;
     providerId: string;
+    chatProviderId: string;
+    chatModel: string;
+    chatMaxTokens: number;
+    imageProviderId: string;
+    imageModel: string;
+    imageMaxTokens: number;
+    ttsProviderId: string;
+    ttsModel: string;
+    ttsVoice: string;
+    ttsMaxTokens: number;
 }
 export declare const BotConfig: MessageFns<BotConfig>;
 export declare const GetConfigRequest: MessageFns<GetConfigRequest>;

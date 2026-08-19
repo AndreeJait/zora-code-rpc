@@ -8,9 +8,25 @@ option csharp_namespace = "ZoraCode.Rpc.Bot.V1";
 
 message BotConfig {
   string command_prefix = 1;
+  // Deprecated: use per-capacity fields below.
   string default_model = 2;
+  // Deprecated: use tts_voice below.
   string default_voice = 3;
+  // Deprecated: use chat_provider_id / image_provider_id / tts_provider_id.
   string provider_id = 4;
+
+  string chat_provider_id = 5;
+  string chat_model = 6;
+  int32 chat_max_tokens = 7;
+
+  string image_provider_id = 8;
+  string image_model = 9;
+  int32 image_max_tokens = 10;
+
+  string tts_provider_id = 11;
+  string tts_model = 12;
+  string tts_voice = 13;
+  int32 tts_max_tokens = 14;
 }
 
 message GetConfigRequest {}
@@ -20,6 +36,19 @@ message UpdateConfigRequest {
   string default_model = 2;
   string default_voice = 3;
   string provider_id = 4;
+
+  string chat_provider_id = 5;
+  string chat_model = 6;
+  int32 chat_max_tokens = 7;
+
+  string image_provider_id = 8;
+  string image_model = 9;
+  int32 image_max_tokens = 10;
+
+  string tts_provider_id = 11;
+  string tts_model = 12;
+  string tts_voice = 13;
+  int32 tts_max_tokens = 14;
 }
 
 service BotConfigService {

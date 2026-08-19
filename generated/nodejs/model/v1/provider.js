@@ -18,6 +18,7 @@ function createBaseProvider() {
         allowedModels: [],
         isHealthy: false,
         timestamps: undefined,
+        capabilities: [],
     };
 }
 export const Provider = {
@@ -45,6 +46,9 @@ export const Provider = {
         }
         if (message.timestamps !== undefined) {
             Timestamps.encode(message.timestamps, writer.uint32(66).fork()).join();
+        }
+        for (const v of message.capabilities) {
+            writer.uint32(74).string(v);
         }
         return writer;
     },
@@ -111,6 +115,13 @@ export const Provider = {
                     message.timestamps = Timestamps.decode(reader, reader.uint32());
                     continue;
                 }
+                case 9: {
+                    if (tag !== 74) {
+                        break;
+                    }
+                    message.capabilities.push(reader.string());
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -141,6 +152,9 @@ export const Provider = {
                     ? globalThis.Boolean(object.is_healthy)
                     : false,
             timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+            capabilities: globalThis.Array.isArray(object?.capabilities)
+                ? object.capabilities.map((e) => globalThis.String(e))
+                : [],
         };
     },
     toJSON(message) {
@@ -168,6 +182,9 @@ export const Provider = {
         }
         if (message.timestamps !== undefined) {
             obj.timestamps = Timestamps.toJSON(message.timestamps);
+        }
+        if (message.capabilities?.length) {
+            obj.capabilities = message.capabilities;
         }
         return obj;
     },
@@ -293,7 +310,7 @@ export const GetProviderRequest = {
     },
 };
 function createBaseCreateProviderRequest() {
-    return { name: "", description: "", url: "", apiKey: "", allowedModels: [] };
+    return { name: "", description: "", url: "", apiKey: "", allowedModels: [], capabilities: [] };
 }
 export const CreateProviderRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -311,6 +328,9 @@ export const CreateProviderRequest = {
         }
         for (const v of message.allowedModels) {
             writer.uint32(42).string(v);
+        }
+        for (const v of message.capabilities) {
+            writer.uint32(50).string(v);
         }
         return writer;
     },
@@ -356,6 +376,13 @@ export const CreateProviderRequest = {
                     message.allowedModels.push(reader.string());
                     continue;
                 }
+                case 6: {
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.capabilities.push(reader.string());
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -379,6 +406,9 @@ export const CreateProviderRequest = {
                 : globalThis.Array.isArray(object?.allowed_models)
                     ? object.allowed_models.map((e) => globalThis.String(e))
                     : [],
+            capabilities: globalThis.Array.isArray(object?.capabilities)
+                ? object.capabilities.map((e) => globalThis.String(e))
+                : [],
         };
     },
     toJSON(message) {
@@ -398,11 +428,22 @@ export const CreateProviderRequest = {
         if (message.allowedModels?.length) {
             obj.allowedModels = message.allowedModels;
         }
+        if (message.capabilities?.length) {
+            obj.capabilities = message.capabilities;
+        }
         return obj;
     },
 };
 function createBaseUpdateProviderRequest() {
-    return { id: "", name: undefined, description: undefined, url: undefined, apiKey: undefined, allowedModels: [] };
+    return {
+        id: "",
+        name: undefined,
+        description: undefined,
+        url: undefined,
+        apiKey: undefined,
+        allowedModels: [],
+        capabilities: [],
+    };
 }
 export const UpdateProviderRequest = {
     encode(message, writer = new BinaryWriter()) {
@@ -423,6 +464,9 @@ export const UpdateProviderRequest = {
         }
         for (const v of message.allowedModels) {
             writer.uint32(50).string(v);
+        }
+        for (const v of message.capabilities) {
+            writer.uint32(58).string(v);
         }
         return writer;
     },
@@ -475,6 +519,13 @@ export const UpdateProviderRequest = {
                     message.allowedModels.push(reader.string());
                     continue;
                 }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.capabilities.push(reader.string());
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -499,6 +550,9 @@ export const UpdateProviderRequest = {
                 : globalThis.Array.isArray(object?.allowed_models)
                     ? object.allowed_models.map((e) => globalThis.String(e))
                     : [],
+            capabilities: globalThis.Array.isArray(object?.capabilities)
+                ? object.capabilities.map((e) => globalThis.String(e))
+                : [],
         };
     },
     toJSON(message) {
@@ -520,6 +574,9 @@ export const UpdateProviderRequest = {
         }
         if (message.allowedModels?.length) {
             obj.allowedModels = message.allowedModels;
+        }
+        if (message.capabilities?.length) {
+            obj.capabilities = message.capabilities;
         }
         return obj;
     },

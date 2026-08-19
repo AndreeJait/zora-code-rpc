@@ -24,11 +24,24 @@ const (
 type BotConfig struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CommandPrefix string                 `protobuf:"bytes,1,opt,name=command_prefix,json=commandPrefix,proto3" json:"command_prefix,omitempty"`
-	DefaultModel  string                 `protobuf:"bytes,2,opt,name=default_model,json=defaultModel,proto3" json:"default_model,omitempty"`
-	DefaultVoice  string                 `protobuf:"bytes,3,opt,name=default_voice,json=defaultVoice,proto3" json:"default_voice,omitempty"`
-	ProviderId    string                 `protobuf:"bytes,4,opt,name=provider_id,json=providerId,proto3" json:"provider_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// Deprecated: use per-capacity fields below.
+	DefaultModel string `protobuf:"bytes,2,opt,name=default_model,json=defaultModel,proto3" json:"default_model,omitempty"`
+	// Deprecated: use tts_voice below.
+	DefaultVoice string `protobuf:"bytes,3,opt,name=default_voice,json=defaultVoice,proto3" json:"default_voice,omitempty"`
+	// Deprecated: use chat_provider_id / image_provider_id / tts_provider_id.
+	ProviderId      string `protobuf:"bytes,4,opt,name=provider_id,json=providerId,proto3" json:"provider_id,omitempty"`
+	ChatProviderId  string `protobuf:"bytes,5,opt,name=chat_provider_id,json=chatProviderId,proto3" json:"chat_provider_id,omitempty"`
+	ChatModel       string `protobuf:"bytes,6,opt,name=chat_model,json=chatModel,proto3" json:"chat_model,omitempty"`
+	ChatMaxTokens   int32  `protobuf:"varint,7,opt,name=chat_max_tokens,json=chatMaxTokens,proto3" json:"chat_max_tokens,omitempty"`
+	ImageProviderId string `protobuf:"bytes,8,opt,name=image_provider_id,json=imageProviderId,proto3" json:"image_provider_id,omitempty"`
+	ImageModel      string `protobuf:"bytes,9,opt,name=image_model,json=imageModel,proto3" json:"image_model,omitempty"`
+	ImageMaxTokens  int32  `protobuf:"varint,10,opt,name=image_max_tokens,json=imageMaxTokens,proto3" json:"image_max_tokens,omitempty"`
+	TtsProviderId   string `protobuf:"bytes,11,opt,name=tts_provider_id,json=ttsProviderId,proto3" json:"tts_provider_id,omitempty"`
+	TtsModel        string `protobuf:"bytes,12,opt,name=tts_model,json=ttsModel,proto3" json:"tts_model,omitempty"`
+	TtsVoice        string `protobuf:"bytes,13,opt,name=tts_voice,json=ttsVoice,proto3" json:"tts_voice,omitempty"`
+	TtsMaxTokens    int32  `protobuf:"varint,14,opt,name=tts_max_tokens,json=ttsMaxTokens,proto3" json:"tts_max_tokens,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *BotConfig) Reset() {
@@ -89,6 +102,76 @@ func (x *BotConfig) GetProviderId() string {
 	return ""
 }
 
+func (x *BotConfig) GetChatProviderId() string {
+	if x != nil {
+		return x.ChatProviderId
+	}
+	return ""
+}
+
+func (x *BotConfig) GetChatModel() string {
+	if x != nil {
+		return x.ChatModel
+	}
+	return ""
+}
+
+func (x *BotConfig) GetChatMaxTokens() int32 {
+	if x != nil {
+		return x.ChatMaxTokens
+	}
+	return 0
+}
+
+func (x *BotConfig) GetImageProviderId() string {
+	if x != nil {
+		return x.ImageProviderId
+	}
+	return ""
+}
+
+func (x *BotConfig) GetImageModel() string {
+	if x != nil {
+		return x.ImageModel
+	}
+	return ""
+}
+
+func (x *BotConfig) GetImageMaxTokens() int32 {
+	if x != nil {
+		return x.ImageMaxTokens
+	}
+	return 0
+}
+
+func (x *BotConfig) GetTtsProviderId() string {
+	if x != nil {
+		return x.TtsProviderId
+	}
+	return ""
+}
+
+func (x *BotConfig) GetTtsModel() string {
+	if x != nil {
+		return x.TtsModel
+	}
+	return ""
+}
+
+func (x *BotConfig) GetTtsVoice() string {
+	if x != nil {
+		return x.TtsVoice
+	}
+	return ""
+}
+
+func (x *BotConfig) GetTtsMaxTokens() int32 {
+	if x != nil {
+		return x.TtsMaxTokens
+	}
+	return 0
+}
+
 type GetConfigRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -126,13 +209,23 @@ func (*GetConfigRequest) Descriptor() ([]byte, []int) {
 }
 
 type UpdateConfigRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	CommandPrefix string                 `protobuf:"bytes,1,opt,name=command_prefix,json=commandPrefix,proto3" json:"command_prefix,omitempty"`
-	DefaultModel  string                 `protobuf:"bytes,2,opt,name=default_model,json=defaultModel,proto3" json:"default_model,omitempty"`
-	DefaultVoice  string                 `protobuf:"bytes,3,opt,name=default_voice,json=defaultVoice,proto3" json:"default_voice,omitempty"`
-	ProviderId    string                 `protobuf:"bytes,4,opt,name=provider_id,json=providerId,proto3" json:"provider_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	CommandPrefix   string                 `protobuf:"bytes,1,opt,name=command_prefix,json=commandPrefix,proto3" json:"command_prefix,omitempty"`
+	DefaultModel    string                 `protobuf:"bytes,2,opt,name=default_model,json=defaultModel,proto3" json:"default_model,omitempty"`
+	DefaultVoice    string                 `protobuf:"bytes,3,opt,name=default_voice,json=defaultVoice,proto3" json:"default_voice,omitempty"`
+	ProviderId      string                 `protobuf:"bytes,4,opt,name=provider_id,json=providerId,proto3" json:"provider_id,omitempty"`
+	ChatProviderId  string                 `protobuf:"bytes,5,opt,name=chat_provider_id,json=chatProviderId,proto3" json:"chat_provider_id,omitempty"`
+	ChatModel       string                 `protobuf:"bytes,6,opt,name=chat_model,json=chatModel,proto3" json:"chat_model,omitempty"`
+	ChatMaxTokens   int32                  `protobuf:"varint,7,opt,name=chat_max_tokens,json=chatMaxTokens,proto3" json:"chat_max_tokens,omitempty"`
+	ImageProviderId string                 `protobuf:"bytes,8,opt,name=image_provider_id,json=imageProviderId,proto3" json:"image_provider_id,omitempty"`
+	ImageModel      string                 `protobuf:"bytes,9,opt,name=image_model,json=imageModel,proto3" json:"image_model,omitempty"`
+	ImageMaxTokens  int32                  `protobuf:"varint,10,opt,name=image_max_tokens,json=imageMaxTokens,proto3" json:"image_max_tokens,omitempty"`
+	TtsProviderId   string                 `protobuf:"bytes,11,opt,name=tts_provider_id,json=ttsProviderId,proto3" json:"tts_provider_id,omitempty"`
+	TtsModel        string                 `protobuf:"bytes,12,opt,name=tts_model,json=ttsModel,proto3" json:"tts_model,omitempty"`
+	TtsVoice        string                 `protobuf:"bytes,13,opt,name=tts_voice,json=ttsVoice,proto3" json:"tts_voice,omitempty"`
+	TtsMaxTokens    int32                  `protobuf:"varint,14,opt,name=tts_max_tokens,json=ttsMaxTokens,proto3" json:"tts_max_tokens,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *UpdateConfigRequest) Reset() {
@@ -193,24 +286,120 @@ func (x *UpdateConfigRequest) GetProviderId() string {
 	return ""
 }
 
+func (x *UpdateConfigRequest) GetChatProviderId() string {
+	if x != nil {
+		return x.ChatProviderId
+	}
+	return ""
+}
+
+func (x *UpdateConfigRequest) GetChatModel() string {
+	if x != nil {
+		return x.ChatModel
+	}
+	return ""
+}
+
+func (x *UpdateConfigRequest) GetChatMaxTokens() int32 {
+	if x != nil {
+		return x.ChatMaxTokens
+	}
+	return 0
+}
+
+func (x *UpdateConfigRequest) GetImageProviderId() string {
+	if x != nil {
+		return x.ImageProviderId
+	}
+	return ""
+}
+
+func (x *UpdateConfigRequest) GetImageModel() string {
+	if x != nil {
+		return x.ImageModel
+	}
+	return ""
+}
+
+func (x *UpdateConfigRequest) GetImageMaxTokens() int32 {
+	if x != nil {
+		return x.ImageMaxTokens
+	}
+	return 0
+}
+
+func (x *UpdateConfigRequest) GetTtsProviderId() string {
+	if x != nil {
+		return x.TtsProviderId
+	}
+	return ""
+}
+
+func (x *UpdateConfigRequest) GetTtsModel() string {
+	if x != nil {
+		return x.TtsModel
+	}
+	return ""
+}
+
+func (x *UpdateConfigRequest) GetTtsVoice() string {
+	if x != nil {
+		return x.TtsVoice
+	}
+	return ""
+}
+
+func (x *UpdateConfigRequest) GetTtsMaxTokens() int32 {
+	if x != nil {
+		return x.TtsMaxTokens
+	}
+	return 0
+}
+
 var File_bot_v1_config_proto protoreflect.FileDescriptor
 
 const file_bot_v1_config_proto_rawDesc = "" +
 	"\n" +
-	"\x13bot/v1/config.proto\x12\x06bot.v1\"\x9d\x01\n" +
+	"\x13bot/v1/config.proto\x12\x06bot.v1\"\x8d\x04\n" +
 	"\tBotConfig\x12%\n" +
 	"\x0ecommand_prefix\x18\x01 \x01(\tR\rcommandPrefix\x12#\n" +
 	"\rdefault_model\x18\x02 \x01(\tR\fdefaultModel\x12#\n" +
 	"\rdefault_voice\x18\x03 \x01(\tR\fdefaultVoice\x12\x1f\n" +
 	"\vprovider_id\x18\x04 \x01(\tR\n" +
-	"providerId\"\x12\n" +
-	"\x10GetConfigRequest\"\xa7\x01\n" +
+	"providerId\x12(\n" +
+	"\x10chat_provider_id\x18\x05 \x01(\tR\x0echatProviderId\x12\x1d\n" +
+	"\n" +
+	"chat_model\x18\x06 \x01(\tR\tchatModel\x12&\n" +
+	"\x0fchat_max_tokens\x18\a \x01(\x05R\rchatMaxTokens\x12*\n" +
+	"\x11image_provider_id\x18\b \x01(\tR\x0fimageProviderId\x12\x1f\n" +
+	"\vimage_model\x18\t \x01(\tR\n" +
+	"imageModel\x12(\n" +
+	"\x10image_max_tokens\x18\n" +
+	" \x01(\x05R\x0eimageMaxTokens\x12&\n" +
+	"\x0ftts_provider_id\x18\v \x01(\tR\rttsProviderId\x12\x1b\n" +
+	"\ttts_model\x18\f \x01(\tR\bttsModel\x12\x1b\n" +
+	"\ttts_voice\x18\r \x01(\tR\bttsVoice\x12$\n" +
+	"\x0etts_max_tokens\x18\x0e \x01(\x05R\fttsMaxTokens\"\x12\n" +
+	"\x10GetConfigRequest\"\x97\x04\n" +
 	"\x13UpdateConfigRequest\x12%\n" +
 	"\x0ecommand_prefix\x18\x01 \x01(\tR\rcommandPrefix\x12#\n" +
 	"\rdefault_model\x18\x02 \x01(\tR\fdefaultModel\x12#\n" +
 	"\rdefault_voice\x18\x03 \x01(\tR\fdefaultVoice\x12\x1f\n" +
 	"\vprovider_id\x18\x04 \x01(\tR\n" +
-	"providerId2\x8c\x01\n" +
+	"providerId\x12(\n" +
+	"\x10chat_provider_id\x18\x05 \x01(\tR\x0echatProviderId\x12\x1d\n" +
+	"\n" +
+	"chat_model\x18\x06 \x01(\tR\tchatModel\x12&\n" +
+	"\x0fchat_max_tokens\x18\a \x01(\x05R\rchatMaxTokens\x12*\n" +
+	"\x11image_provider_id\x18\b \x01(\tR\x0fimageProviderId\x12\x1f\n" +
+	"\vimage_model\x18\t \x01(\tR\n" +
+	"imageModel\x12(\n" +
+	"\x10image_max_tokens\x18\n" +
+	" \x01(\x05R\x0eimageMaxTokens\x12&\n" +
+	"\x0ftts_provider_id\x18\v \x01(\tR\rttsProviderId\x12\x1b\n" +
+	"\ttts_model\x18\f \x01(\tR\bttsModel\x12\x1b\n" +
+	"\ttts_voice\x18\r \x01(\tR\bttsVoice\x12$\n" +
+	"\x0etts_max_tokens\x18\x0e \x01(\x05R\fttsMaxTokens2\x8c\x01\n" +
 	"\x10BotConfigService\x128\n" +
 	"\tGetConfig\x12\x18.bot.v1.GetConfigRequest\x1a\x11.bot.v1.BotConfig\x12>\n" +
 	"\fUpdateConfig\x12\x1b.bot.v1.UpdateConfigRequest\x1a\x11.bot.v1.BotConfigBWP\x01Z=github.com/AndreeJait/zora-code-rpc/generated/go/bot/v1;botv1\xaa\x02\x13ZoraCode.Rpc.Bot.V1b\x06proto3"

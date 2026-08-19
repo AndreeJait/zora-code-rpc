@@ -23,9 +23,22 @@ export const protobufPackage = "bot.v1";
 
 export interface BotConfig {
   commandPrefix: string;
+  /** Deprecated: use per-capacity fields below. */
   defaultModel: string;
+  /** Deprecated: use tts_voice below. */
   defaultVoice: string;
+  /** Deprecated: use chat_provider_id / image_provider_id / tts_provider_id. */
   providerId: string;
+  chatProviderId: string;
+  chatModel: string;
+  chatMaxTokens: number;
+  imageProviderId: string;
+  imageModel: string;
+  imageMaxTokens: number;
+  ttsProviderId: string;
+  ttsModel: string;
+  ttsVoice: string;
+  ttsMaxTokens: number;
 }
 
 export interface GetConfigRequest {
@@ -36,10 +49,35 @@ export interface UpdateConfigRequest {
   defaultModel: string;
   defaultVoice: string;
   providerId: string;
+  chatProviderId: string;
+  chatModel: string;
+  chatMaxTokens: number;
+  imageProviderId: string;
+  imageModel: string;
+  imageMaxTokens: number;
+  ttsProviderId: string;
+  ttsModel: string;
+  ttsVoice: string;
+  ttsMaxTokens: number;
 }
 
 function createBaseBotConfig(): BotConfig {
-  return { commandPrefix: "", defaultModel: "", defaultVoice: "", providerId: "" };
+  return {
+    commandPrefix: "",
+    defaultModel: "",
+    defaultVoice: "",
+    providerId: "",
+    chatProviderId: "",
+    chatModel: "",
+    chatMaxTokens: 0,
+    imageProviderId: "",
+    imageModel: "",
+    imageMaxTokens: 0,
+    ttsProviderId: "",
+    ttsModel: "",
+    ttsVoice: "",
+    ttsMaxTokens: 0,
+  };
 }
 
 export const BotConfig: MessageFns<BotConfig> = {
@@ -55,6 +93,36 @@ export const BotConfig: MessageFns<BotConfig> = {
     }
     if (message.providerId !== "") {
       writer.uint32(34).string(message.providerId);
+    }
+    if (message.chatProviderId !== "") {
+      writer.uint32(42).string(message.chatProviderId);
+    }
+    if (message.chatModel !== "") {
+      writer.uint32(50).string(message.chatModel);
+    }
+    if (message.chatMaxTokens !== 0) {
+      writer.uint32(56).int32(message.chatMaxTokens);
+    }
+    if (message.imageProviderId !== "") {
+      writer.uint32(66).string(message.imageProviderId);
+    }
+    if (message.imageModel !== "") {
+      writer.uint32(74).string(message.imageModel);
+    }
+    if (message.imageMaxTokens !== 0) {
+      writer.uint32(80).int32(message.imageMaxTokens);
+    }
+    if (message.ttsProviderId !== "") {
+      writer.uint32(90).string(message.ttsProviderId);
+    }
+    if (message.ttsModel !== "") {
+      writer.uint32(98).string(message.ttsModel);
+    }
+    if (message.ttsVoice !== "") {
+      writer.uint32(106).string(message.ttsVoice);
+    }
+    if (message.ttsMaxTokens !== 0) {
+      writer.uint32(112).int32(message.ttsMaxTokens);
     }
     return writer;
   },
@@ -98,6 +166,86 @@ export const BotConfig: MessageFns<BotConfig> = {
           message.providerId = reader.string();
           continue;
         }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.chatProviderId = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.chatModel = reader.string();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.chatMaxTokens = reader.int32();
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.imageProviderId = reader.string();
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.imageModel = reader.string();
+          continue;
+        }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.imageMaxTokens = reader.int32();
+          continue;
+        }
+        case 11: {
+          if (tag !== 90) {
+            break;
+          }
+
+          message.ttsProviderId = reader.string();
+          continue;
+        }
+        case 12: {
+          if (tag !== 98) {
+            break;
+          }
+
+          message.ttsModel = reader.string();
+          continue;
+        }
+        case 13: {
+          if (tag !== 106) {
+            break;
+          }
+
+          message.ttsVoice = reader.string();
+          continue;
+        }
+        case 14: {
+          if (tag !== 112) {
+            break;
+          }
+
+          message.ttsMaxTokens = reader.int32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -129,6 +277,56 @@ export const BotConfig: MessageFns<BotConfig> = {
         : isSet(object.provider_id)
         ? globalThis.String(object.provider_id)
         : "",
+      chatProviderId: isSet(object.chatProviderId)
+        ? globalThis.String(object.chatProviderId)
+        : isSet(object.chat_provider_id)
+        ? globalThis.String(object.chat_provider_id)
+        : "",
+      chatModel: isSet(object.chatModel)
+        ? globalThis.String(object.chatModel)
+        : isSet(object.chat_model)
+        ? globalThis.String(object.chat_model)
+        : "",
+      chatMaxTokens: isSet(object.chatMaxTokens)
+        ? globalThis.Number(object.chatMaxTokens)
+        : isSet(object.chat_max_tokens)
+        ? globalThis.Number(object.chat_max_tokens)
+        : 0,
+      imageProviderId: isSet(object.imageProviderId)
+        ? globalThis.String(object.imageProviderId)
+        : isSet(object.image_provider_id)
+        ? globalThis.String(object.image_provider_id)
+        : "",
+      imageModel: isSet(object.imageModel)
+        ? globalThis.String(object.imageModel)
+        : isSet(object.image_model)
+        ? globalThis.String(object.image_model)
+        : "",
+      imageMaxTokens: isSet(object.imageMaxTokens)
+        ? globalThis.Number(object.imageMaxTokens)
+        : isSet(object.image_max_tokens)
+        ? globalThis.Number(object.image_max_tokens)
+        : 0,
+      ttsProviderId: isSet(object.ttsProviderId)
+        ? globalThis.String(object.ttsProviderId)
+        : isSet(object.tts_provider_id)
+        ? globalThis.String(object.tts_provider_id)
+        : "",
+      ttsModel: isSet(object.ttsModel)
+        ? globalThis.String(object.ttsModel)
+        : isSet(object.tts_model)
+        ? globalThis.String(object.tts_model)
+        : "",
+      ttsVoice: isSet(object.ttsVoice)
+        ? globalThis.String(object.ttsVoice)
+        : isSet(object.tts_voice)
+        ? globalThis.String(object.tts_voice)
+        : "",
+      ttsMaxTokens: isSet(object.ttsMaxTokens)
+        ? globalThis.Number(object.ttsMaxTokens)
+        : isSet(object.tts_max_tokens)
+        ? globalThis.Number(object.tts_max_tokens)
+        : 0,
     };
   },
 
@@ -145,6 +343,36 @@ export const BotConfig: MessageFns<BotConfig> = {
     }
     if (message.providerId !== "") {
       obj.providerId = message.providerId;
+    }
+    if (message.chatProviderId !== "") {
+      obj.chatProviderId = message.chatProviderId;
+    }
+    if (message.chatModel !== "") {
+      obj.chatModel = message.chatModel;
+    }
+    if (message.chatMaxTokens !== 0) {
+      obj.chatMaxTokens = Math.round(message.chatMaxTokens);
+    }
+    if (message.imageProviderId !== "") {
+      obj.imageProviderId = message.imageProviderId;
+    }
+    if (message.imageModel !== "") {
+      obj.imageModel = message.imageModel;
+    }
+    if (message.imageMaxTokens !== 0) {
+      obj.imageMaxTokens = Math.round(message.imageMaxTokens);
+    }
+    if (message.ttsProviderId !== "") {
+      obj.ttsProviderId = message.ttsProviderId;
+    }
+    if (message.ttsModel !== "") {
+      obj.ttsModel = message.ttsModel;
+    }
+    if (message.ttsVoice !== "") {
+      obj.ttsVoice = message.ttsVoice;
+    }
+    if (message.ttsMaxTokens !== 0) {
+      obj.ttsMaxTokens = Math.round(message.ttsMaxTokens);
     }
     return obj;
   },
@@ -186,7 +414,22 @@ export const GetConfigRequest: MessageFns<GetConfigRequest> = {
 };
 
 function createBaseUpdateConfigRequest(): UpdateConfigRequest {
-  return { commandPrefix: "", defaultModel: "", defaultVoice: "", providerId: "" };
+  return {
+    commandPrefix: "",
+    defaultModel: "",
+    defaultVoice: "",
+    providerId: "",
+    chatProviderId: "",
+    chatModel: "",
+    chatMaxTokens: 0,
+    imageProviderId: "",
+    imageModel: "",
+    imageMaxTokens: 0,
+    ttsProviderId: "",
+    ttsModel: "",
+    ttsVoice: "",
+    ttsMaxTokens: 0,
+  };
 }
 
 export const UpdateConfigRequest: MessageFns<UpdateConfigRequest> = {
@@ -202,6 +445,36 @@ export const UpdateConfigRequest: MessageFns<UpdateConfigRequest> = {
     }
     if (message.providerId !== "") {
       writer.uint32(34).string(message.providerId);
+    }
+    if (message.chatProviderId !== "") {
+      writer.uint32(42).string(message.chatProviderId);
+    }
+    if (message.chatModel !== "") {
+      writer.uint32(50).string(message.chatModel);
+    }
+    if (message.chatMaxTokens !== 0) {
+      writer.uint32(56).int32(message.chatMaxTokens);
+    }
+    if (message.imageProviderId !== "") {
+      writer.uint32(66).string(message.imageProviderId);
+    }
+    if (message.imageModel !== "") {
+      writer.uint32(74).string(message.imageModel);
+    }
+    if (message.imageMaxTokens !== 0) {
+      writer.uint32(80).int32(message.imageMaxTokens);
+    }
+    if (message.ttsProviderId !== "") {
+      writer.uint32(90).string(message.ttsProviderId);
+    }
+    if (message.ttsModel !== "") {
+      writer.uint32(98).string(message.ttsModel);
+    }
+    if (message.ttsVoice !== "") {
+      writer.uint32(106).string(message.ttsVoice);
+    }
+    if (message.ttsMaxTokens !== 0) {
+      writer.uint32(112).int32(message.ttsMaxTokens);
     }
     return writer;
   },
@@ -245,6 +518,86 @@ export const UpdateConfigRequest: MessageFns<UpdateConfigRequest> = {
           message.providerId = reader.string();
           continue;
         }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.chatProviderId = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.chatModel = reader.string();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.chatMaxTokens = reader.int32();
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.imageProviderId = reader.string();
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.imageModel = reader.string();
+          continue;
+        }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.imageMaxTokens = reader.int32();
+          continue;
+        }
+        case 11: {
+          if (tag !== 90) {
+            break;
+          }
+
+          message.ttsProviderId = reader.string();
+          continue;
+        }
+        case 12: {
+          if (tag !== 98) {
+            break;
+          }
+
+          message.ttsModel = reader.string();
+          continue;
+        }
+        case 13: {
+          if (tag !== 106) {
+            break;
+          }
+
+          message.ttsVoice = reader.string();
+          continue;
+        }
+        case 14: {
+          if (tag !== 112) {
+            break;
+          }
+
+          message.ttsMaxTokens = reader.int32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -276,6 +629,56 @@ export const UpdateConfigRequest: MessageFns<UpdateConfigRequest> = {
         : isSet(object.provider_id)
         ? globalThis.String(object.provider_id)
         : "",
+      chatProviderId: isSet(object.chatProviderId)
+        ? globalThis.String(object.chatProviderId)
+        : isSet(object.chat_provider_id)
+        ? globalThis.String(object.chat_provider_id)
+        : "",
+      chatModel: isSet(object.chatModel)
+        ? globalThis.String(object.chatModel)
+        : isSet(object.chat_model)
+        ? globalThis.String(object.chat_model)
+        : "",
+      chatMaxTokens: isSet(object.chatMaxTokens)
+        ? globalThis.Number(object.chatMaxTokens)
+        : isSet(object.chat_max_tokens)
+        ? globalThis.Number(object.chat_max_tokens)
+        : 0,
+      imageProviderId: isSet(object.imageProviderId)
+        ? globalThis.String(object.imageProviderId)
+        : isSet(object.image_provider_id)
+        ? globalThis.String(object.image_provider_id)
+        : "",
+      imageModel: isSet(object.imageModel)
+        ? globalThis.String(object.imageModel)
+        : isSet(object.image_model)
+        ? globalThis.String(object.image_model)
+        : "",
+      imageMaxTokens: isSet(object.imageMaxTokens)
+        ? globalThis.Number(object.imageMaxTokens)
+        : isSet(object.image_max_tokens)
+        ? globalThis.Number(object.image_max_tokens)
+        : 0,
+      ttsProviderId: isSet(object.ttsProviderId)
+        ? globalThis.String(object.ttsProviderId)
+        : isSet(object.tts_provider_id)
+        ? globalThis.String(object.tts_provider_id)
+        : "",
+      ttsModel: isSet(object.ttsModel)
+        ? globalThis.String(object.ttsModel)
+        : isSet(object.tts_model)
+        ? globalThis.String(object.tts_model)
+        : "",
+      ttsVoice: isSet(object.ttsVoice)
+        ? globalThis.String(object.ttsVoice)
+        : isSet(object.tts_voice)
+        ? globalThis.String(object.tts_voice)
+        : "",
+      ttsMaxTokens: isSet(object.ttsMaxTokens)
+        ? globalThis.Number(object.ttsMaxTokens)
+        : isSet(object.tts_max_tokens)
+        ? globalThis.Number(object.tts_max_tokens)
+        : 0,
     };
   },
 
@@ -292,6 +695,36 @@ export const UpdateConfigRequest: MessageFns<UpdateConfigRequest> = {
     }
     if (message.providerId !== "") {
       obj.providerId = message.providerId;
+    }
+    if (message.chatProviderId !== "") {
+      obj.chatProviderId = message.chatProviderId;
+    }
+    if (message.chatModel !== "") {
+      obj.chatModel = message.chatModel;
+    }
+    if (message.chatMaxTokens !== 0) {
+      obj.chatMaxTokens = Math.round(message.chatMaxTokens);
+    }
+    if (message.imageProviderId !== "") {
+      obj.imageProviderId = message.imageProviderId;
+    }
+    if (message.imageModel !== "") {
+      obj.imageModel = message.imageModel;
+    }
+    if (message.imageMaxTokens !== 0) {
+      obj.imageMaxTokens = Math.round(message.imageMaxTokens);
+    }
+    if (message.ttsProviderId !== "") {
+      obj.ttsProviderId = message.ttsProviderId;
+    }
+    if (message.ttsModel !== "") {
+      obj.ttsModel = message.ttsModel;
+    }
+    if (message.ttsVoice !== "") {
+      obj.ttsVoice = message.ttsVoice;
+    }
+    if (message.ttsMaxTokens !== 0) {
+      obj.ttsMaxTokens = Math.round(message.ttsMaxTokens);
     }
     return obj;
   },

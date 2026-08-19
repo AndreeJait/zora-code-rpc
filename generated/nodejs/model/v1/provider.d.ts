@@ -13,6 +13,7 @@ export interface Provider {
     allowedModels: string[];
     isHealthy: boolean;
     timestamps?: Timestamps | undefined;
+    capabilities: string[];
 }
 export interface ListProvidersRequest {
 }
@@ -28,6 +29,7 @@ export interface CreateProviderRequest {
     url: string;
     apiKey: string;
     allowedModels: string[];
+    capabilities: string[];
 }
 export interface UpdateProviderRequest {
     id: string;
@@ -36,6 +38,7 @@ export interface UpdateProviderRequest {
     url?: string | undefined;
     apiKey?: string | undefined;
     allowedModels: string[];
+    capabilities: string[];
 }
 export interface DeleteProviderRequest {
     id: string;

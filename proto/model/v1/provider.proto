@@ -18,6 +18,7 @@ message Provider {
   repeated string allowed_models = 6;
   bool is_healthy = 7;
   common.v1.Timestamps timestamps = 8;
+  repeated string capabilities = 9;
 }
 
 message ListProvidersRequest {}
@@ -36,6 +37,7 @@ message CreateProviderRequest {
   string url = 3;
   string api_key = 4;
   repeated string allowed_models = 5;
+  repeated string capabilities = 6;
 }
 
 message UpdateProviderRequest {
@@ -45,6 +47,7 @@ message UpdateProviderRequest {
   optional string url = 4;
   optional string api_key = 5;
   repeated string allowed_models = 6;
+  repeated string capabilities = 7;
 }
 
 message DeleteProviderRequest {

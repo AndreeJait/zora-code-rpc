@@ -4,4 +4,5 @@ export { RuleScope, ruleScopeFromJSON, ruleScopeToJSON, RuleAction, ruleActionFr
 export { BotProfile, ListProfilesRequest, ListProfilesResponse, GetProfileRequest, GetProfileByParticipantRequest, CreateProfileRequest, UpdateProfileRequest, DeleteProfileRequest, ProfileServiceService, ProfileServiceClient, } from "./profile.js";
 export { BotIncomingMedia, ListIncomingMediaRequest, ListIncomingMediaResponse, GetIncomingMediaRequest, DeleteIncomingMediaRequest, MediaServiceService, MediaServiceClient, } from "./media.js";
 export { BotConfig, GetConfigRequest, UpdateConfigRequest, BotConfigServiceService, BotConfigServiceClient, } from "./config.js";
+export { BotContact, SearchContactsRequest, SearchContactsResponse, ContactServiceService, ContactServiceClient, } from "./contact.js";
 //# sourceMappingURL=index.js.map

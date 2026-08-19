@@ -33,6 +33,7 @@ export interface Provider {
   allowedModels: string[];
   isHealthy: boolean;
   timestamps?: Timestamps | undefined;
+  capabilities: string[];
 }
 
 export interface ListProvidersRequest {
@@ -52,6 +53,7 @@ export interface CreateProviderRequest {
   url: string;
   apiKey: string;
   allowedModels: string[];
+  capabilities: string[];
 }
 
 export interface UpdateProviderRequest {
@@ -61,6 +63,7 @@ export interface UpdateProviderRequest {
   url?: string | undefined;
   apiKey?: string | undefined;
   allowedModels: string[];
+  capabilities: string[];
 }
 
 export interface DeleteProviderRequest {
@@ -77,6 +80,7 @@ function createBaseProvider(): Provider {
     allowedModels: [],
     isHealthy: false,
     timestamps: undefined,
+    capabilities: [],
   };
 }
 
@@ -105,6 +109,9 @@ export const Provider: MessageFns<Provider> = {
     }
     if (message.timestamps !== undefined) {
       Timestamps.encode(message.timestamps, writer.uint32(66).fork()).join();
+    }
+    for (const v of message.capabilities) {
+      writer.uint32(74).string(v!);
     }
     return writer;
   },
@@ -180,6 +187,14 @@ export const Provider: MessageFns<Provider> = {
           message.timestamps = Timestamps.decode(reader, reader.uint32());
           continue;
         }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.capabilities.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -211,6 +226,9 @@ export const Provider: MessageFns<Provider> = {
         ? globalThis.Boolean(object.is_healthy)
         : false,
       timestamps: isSet(object.timestamps) ? Timestamps.fromJSON(object.timestamps) : undefined,
+      capabilities: globalThis.Array.isArray(object?.capabilities)
+        ? object.capabilities.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -239,6 +257,9 @@ export const Provider: MessageFns<Provider> = {
     }
     if (message.timestamps !== undefined) {
       obj.timestamps = Timestamps.toJSON(message.timestamps);
+    }
+    if (message.capabilities?.length) {
+      obj.capabilities = message.capabilities;
     }
     return obj;
   },
@@ -382,7 +403,7 @@ export const GetProviderRequest: MessageFns<GetProviderRequest> = {
 };
 
 function createBaseCreateProviderRequest(): CreateProviderRequest {
-  return { name: "", description: "", url: "", apiKey: "", allowedModels: [] };
+  return { name: "", description: "", url: "", apiKey: "", allowedModels: [], capabilities: [] };
 }
 
 export const CreateProviderRequest: MessageFns<CreateProviderRequest> = {
@@ -401,6 +422,9 @@ export const CreateProviderRequest: MessageFns<CreateProviderRequest> = {
     }
     for (const v of message.allowedModels) {
       writer.uint32(42).string(v!);
+    }
+    for (const v of message.capabilities) {
+      writer.uint32(50).string(v!);
     }
     return writer;
   },
@@ -452,6 +476,14 @@ export const CreateProviderRequest: MessageFns<CreateProviderRequest> = {
           message.allowedModels.push(reader.string());
           continue;
         }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.capabilities.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -476,6 +508,9 @@ export const CreateProviderRequest: MessageFns<CreateProviderRequest> = {
         : globalThis.Array.isArray(object?.allowed_models)
         ? object.allowed_models.map((e: any) => globalThis.String(e))
         : [],
+      capabilities: globalThis.Array.isArray(object?.capabilities)
+        ? object.capabilities.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -496,12 +531,23 @@ export const CreateProviderRequest: MessageFns<CreateProviderRequest> = {
     if (message.allowedModels?.length) {
       obj.allowedModels = message.allowedModels;
     }
+    if (message.capabilities?.length) {
+      obj.capabilities = message.capabilities;
+    }
     return obj;
   },
 };
 
 function createBaseUpdateProviderRequest(): UpdateProviderRequest {
-  return { id: "", name: undefined, description: undefined, url: undefined, apiKey: undefined, allowedModels: [] };
+  return {
+    id: "",
+    name: undefined,
+    description: undefined,
+    url: undefined,
+    apiKey: undefined,
+    allowedModels: [],
+    capabilities: [],
+  };
 }
 
 export const UpdateProviderRequest: MessageFns<UpdateProviderRequest> = {
@@ -523,6 +569,9 @@ export const UpdateProviderRequest: MessageFns<UpdateProviderRequest> = {
     }
     for (const v of message.allowedModels) {
       writer.uint32(50).string(v!);
+    }
+    for (const v of message.capabilities) {
+      writer.uint32(58).string(v!);
     }
     return writer;
   },
@@ -582,6 +631,14 @@ export const UpdateProviderRequest: MessageFns<UpdateProviderRequest> = {
           message.allowedModels.push(reader.string());
           continue;
         }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.capabilities.push(reader.string());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -607,6 +664,9 @@ export const UpdateProviderRequest: MessageFns<UpdateProviderRequest> = {
         : globalThis.Array.isArray(object?.allowed_models)
         ? object.allowed_models.map((e: any) => globalThis.String(e))
         : [],
+      capabilities: globalThis.Array.isArray(object?.capabilities)
+        ? object.capabilities.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -629,6 +689,9 @@ export const UpdateProviderRequest: MessageFns<UpdateProviderRequest> = {
     }
     if (message.allowedModels?.length) {
       obj.allowedModels = message.allowedModels;
+    }
+    if (message.capabilities?.length) {
+      obj.capabilities = message.capabilities;
     }
     return obj;
   },
